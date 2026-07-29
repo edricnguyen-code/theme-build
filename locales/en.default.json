@@ -1,0 +1,15 @@
+{
+  "general": {
+    "skip_to_content": "Skip to content",
+    "continue_shopping": "Continue shopping"
+  },
+  "password": {
+    "heading": "Opening soon",
+    "message": "Be the first to know when we launch."
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Your gift card"
+    }
+  }
+}
