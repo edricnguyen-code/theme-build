@@ -2,7 +2,7 @@
   {
     "name": "theme_info",
     "theme_name": "Pebble Slider Build",
-    "theme_version": "1.0.0",
+    "theme_version": "1.1.0",
     "theme_author": "Edric Nguyen",
     "theme_documentation_url": "https://github.com/edricnguyen-code/theme-build",
     "theme_support_url": "https://github.com/edricnguyen-code/theme-build/issues"
@@ -21,6 +21,73 @@
         "id": "color_text",
         "label": "Text",
         "default": "#111111"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "label": "Background",
+            "default": "#ffffff"
+          },
+          {
+            "type": "color_background",
+            "id": "background_gradient",
+            "label": "Background gradient"
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "label": "Text",
+            "default": "#111111"
+          },
+          {
+            "type": "color",
+            "id": "button",
+            "label": "Button background",
+            "default": "#ffffff"
+          },
+          {
+            "type": "color",
+            "id": "button_label",
+            "label": "Button label",
+            "default": "#111111"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label",
+            "label": "Secondary button",
+            "default": "#ffffff"
+          },
+          {
+            "type": "color",
+            "id": "shadow",
+            "label": "Shadow",
+            "default": "#111111"
+          }
+        ],
+        "role": {
+          "text": "text",
+          "background": {
+            "solid": "background",
+            "gradient": "background_gradient"
+          },
+          "links": "secondary_button_label",
+          "icons": "text",
+          "primary_button": "button",
+          "on_primary_button": "button_label",
+          "primary_button_border": "button",
+          "secondary_button": "background",
+          "on_secondary_button": "secondary_button_label",
+          "secondary_button_border": "secondary_button_label"
+        }
       }
     ]
   }
