@@ -7,7 +7,7 @@
         "height": "adapt",
         "content_position": "inside",
         "enable_header_overlay": true,
-        "next_section_overlap": false,
+        "next_section_overlap": true,
         "auto_rotate": true,
         "change_slides_every": 5,
         "control_type": "default",
@@ -20,6 +20,7 @@
         "image_slide_1": {
           "type": "image-slide",
           "settings": {
+            "default_media": "pebble-1",
             "media_overlay": false,
             "overlay_color": "#000000",
             "position": "middle-left",
@@ -32,8 +33,8 @@
               "settings": {
                 "alignment": "left",
                 "alignment_mobile": "center",
-                "row_gap": 12,
-                "row_gap_mobile": 8,
+                "row_gap": 0,
+                "row_gap_mobile": 0,
                 "width": "fit",
                 "custom_width": 40,
                 "inherit_color_scheme": true,
@@ -53,10 +54,10 @@
                   "settings": {
                     "text": "<p>New campaign</p>",
                     "style": "eyebrow",
-                    "font_size": 12,
-                    "font_size_mobile": 10,
+                    "font_size": 15,
+                    "font_size_mobile": 15,
                     "font_weight": "700",
-                    "line_height": 100,
+                    "line_height": 160,
                     "letter_spacing": 0,
                     "max_width": 30
                   }
@@ -66,11 +67,11 @@
                   "settings": {
                     "text": "<p>Softness<br>in Comfort</p>",
                     "style": "display",
-                    "font_size": 72,
-                    "font_size_mobile": 42,
+                    "font_size": 68,
+                    "font_size_mobile": 38,
                     "font_weight": "700",
-                    "line_height": 95,
-                    "letter_spacing": -6,
+                    "line_height": 120,
+                    "letter_spacing": 0,
                     "max_width": 18
                   }
                 },
@@ -93,6 +94,7 @@
         "image_slide_2": {
           "type": "image-slide",
           "settings": {
+            "default_media": "pebble-2",
             "media_overlay": false,
             "overlay_color": "#000000",
             "position": "middle-left",
@@ -105,8 +107,8 @@
               "settings": {
                 "alignment": "left",
                 "alignment_mobile": "center",
-                "row_gap": 12,
-                "row_gap_mobile": 8,
+                "row_gap": 0,
+                "row_gap_mobile": 0,
                 "width": "fit",
                 "custom_width": 40,
                 "inherit_color_scheme": true,
@@ -126,10 +128,10 @@
                   "settings": {
                     "text": "<p>Little moments</p>",
                     "style": "eyebrow",
-                    "font_size": 12,
-                    "font_size_mobile": 10,
+                    "font_size": 15,
+                    "font_size_mobile": 15,
                     "font_weight": "700",
-                    "line_height": 100,
+                    "line_height": 160,
                     "letter_spacing": 0,
                     "max_width": 30
                   }
@@ -139,11 +141,11 @@
                   "settings": {
                     "text": "<p>Wrapped<br>in Warmth</p>",
                     "style": "display",
-                    "font_size": 72,
-                    "font_size_mobile": 42,
+                    "font_size": 68,
+                    "font_size_mobile": 38,
                     "font_weight": "700",
-                    "line_height": 95,
-                    "letter_spacing": -6,
+                    "line_height": 120,
+                    "letter_spacing": 0,
                     "max_width": 18
                   }
                 },
@@ -166,6 +168,7 @@
         "image_slide_3": {
           "type": "image-slide",
           "settings": {
+            "default_media": "pebble-1",
             "media_overlay": false,
             "overlay_color": "#000000",
             "position": "middle-left",
@@ -178,8 +181,8 @@
               "settings": {
                 "alignment": "left",
                 "alignment_mobile": "center",
-                "row_gap": 12,
-                "row_gap_mobile": 8,
+                "row_gap": 0,
+                "row_gap_mobile": 0,
                 "width": "fit",
                 "custom_width": 40,
                 "inherit_color_scheme": true,
@@ -199,10 +202,10 @@
                   "settings": {
                     "text": "<p>Made for play</p>",
                     "style": "eyebrow",
-                    "font_size": 12,
-                    "font_size_mobile": 10,
+                    "font_size": 15,
+                    "font_size_mobile": 15,
                     "font_weight": "700",
-                    "line_height": 100,
+                    "line_height": 160,
                     "letter_spacing": 0,
                     "max_width": 30
                   }
@@ -212,11 +215,11 @@
                   "settings": {
                     "text": "<p>Every layer<br>tells a story</p>",
                     "style": "display",
-                    "font_size": 72,
-                    "font_size_mobile": 42,
+                    "font_size": 68,
+                    "font_size_mobile": 38,
                     "font_weight": "700",
-                    "line_height": 95,
-                    "letter_spacing": -6,
+                    "line_height": 120,
+                    "letter_spacing": 0,
                     "max_width": 18
                   }
                 },

@@ -13,9 +13,16 @@
   {% endif %}
   {{ block.shopify_attributes }}
 >
-  <span>{{ block.settings.label | escape }}</span>
+  <span class="pebble-button__text">{{ block.settings.label | escape }}</span>
   {% if block.settings.show_arrow %}
-    <span class="pebble-button__icon" aria-hidden="true">→</span>
+    <span class="pebble-button__hover" aria-hidden="true">
+      <span class="pebble-button__hover-text">{{ block.settings.label | escape }}</span>
+      <span class="pebble-button__icon">
+        <svg viewBox="0 0 20 20" focusable="false">
+          <path d="M7.5 3.75 13.75 10 7.5 16.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </svg>
+      </span>
+    </span>
   {% endif %}
 </{{ button_tag }}>
 

@@ -1,8 +1,8 @@
 {% liquid
   assign slide_count = section.blocks.size
   assign first_slide = section.blocks.first
-  assign desktop_ratio = 1.7778
-  assign mobile_ratio = 0.6667
+  assign desktop_ratio = 1.92
+  assign mobile_ratio = 0.6465517241
 
   if first_slide.settings.image != blank
     assign desktop_ratio = first_slide.settings.image.aspect_ratio
@@ -50,10 +50,10 @@
       {% if slide_count > 1 %}
         <div class="pebble-slider__controls" aria-label="{{ 'sections.slideshow.controls' | t }}">
           <div class="pebble-slider__status" aria-live="polite">
-            <span data-current-slide>01</span>
+            <span data-current-slide>1</span>
             <span class="pebble-slider__status-separator" data-default-separator>/</span>
             <span class="pebble-slider__status-separator" data-progress-separator>{{ 'sections.slideshow.of' | t }}</span>
-            <span data-total-slides>{{ slide_count | prepend: '0' | slice: -2, 2 }}</span>
+            <span data-total-slides>{{ slide_count }}</span>
           </div>
 
           <div class="pebble-slider__progress" aria-hidden="true">
@@ -67,7 +67,9 @@
               aria-label="{{ 'sections.slideshow.previous_slide' | t }}"
               data-previous
             >
-              ‹
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="M12.5 3.75 6.25 10l6.25 6.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              </svg>
             </button>
             <button
               class="pebble-slider__arrow pebble-slider__arrow--next"
@@ -75,7 +77,9 @@
               aria-label="{{ 'sections.slideshow.next_slide' | t }}"
               data-next
             >
-              ›
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="M7.5 3.75 13.75 10 7.5 16.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              </svg>
             </button>
           </div>
         </div>
@@ -85,6 +89,22 @@
 </section>
 
 {% style %}
+  @font-face {
+    font-display: swap;
+    font-family: 'Bricolage Grotesque';
+    font-style: normal;
+    font-weight: 500;
+    src: url('{{ 'pebble-bricolage-500.woff2' | asset_url }}') format('woff2');
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: 'Bricolage Grotesque';
+    font-style: normal;
+    font-weight: 700;
+    src: url('{{ 'pebble-bricolage-700.woff2' | asset_url }}') format('woff2');
+  }
+
   #shopify-section-{{ section.id }}:has(.pebble-slider--next-overlap) + .shopify-section {
     border-radius: 1.25rem 1.25rem 0 0;
     margin-top: -1.5rem;
@@ -93,15 +113,25 @@
     z-index: 3;
   }
 
-  body:has(#MainContent > #shopify-section-{{ section.id }}:first-child .pebble-slider--header-overlay) .site-header {
-    background: transparent;
-    border: 0;
-    color: #ffffff;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 20;
+  @media screen and (min-width: 750px) {
+    body:has(#MainContent > #shopify-section-{{ section.id }}:first-child .pebble-slider--header-overlay) .site-header {
+      background: #ffffff;
+      border: 0;
+      border-radius: 0.5rem;
+      color: #111111;
+      left: 50%;
+      min-height: 5rem;
+      position: absolute;
+      top: 1.875rem;
+      transform: translateX(-50%);
+      width: min(calc(100% - 2rem), 77.375rem);
+      z-index: 20;
+    }
+
+    body:has(#MainContent > #shopify-section-{{ section.id }}:first-child .pebble-slider--header-overlay) .site-header__inner {
+      min-height: 5rem;
+      padding-inline: 1.875rem;
+    }
   }
 
   #PebbleSlider-{{ section.id }} {
@@ -111,9 +141,22 @@
 
 {% stylesheet %}
   .pebble-slider {
-    overflow: hidden;
+    --pebble-content-width: 78.1875rem;
+    --pebble-page-padding: max(2.5rem, calc((100% - var(--pebble-content-width)) / 2));
+    color: #ffffff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.6;
+    overflow: clip;
     padding-top: var(--pebble-padding-top);
     position: relative;
+  }
+
+  .pebble-slider *,
+  .pebble-slider *::before,
+  .pebble-slider *::after {
+    box-sizing: border-box;
   }
 
   .pebble-slider__frame {
@@ -125,8 +168,8 @@
   }
 
   .pebble-slider--container-fixed .pebble-slider__frame {
-    border-radius: 1rem;
-    max-width: 90rem;
+    border-radius: 0.5rem;
+    max-width: 77.375rem;
     width: calc(100% - 2rem);
   }
 
@@ -134,19 +177,18 @@
     aspect-ratio: var(--pebble-desktop-ratio);
     height: auto;
     max-height: 100svh;
-    min-height: 34rem;
   }
 
   .pebble-slider--height-small .pebble-slider__frame {
-    height: 34rem;
+    height: 35.625rem;
   }
 
   .pebble-slider--height-medium .pebble-slider__frame {
-    height: 45rem;
+    height: 41.25rem;
   }
 
   .pebble-slider--height-large .pebble-slider__frame {
-    height: 54rem;
+    height: 46.875rem;
   }
 
   .pebble-slider--height-full .pebble-slider__frame {
@@ -171,8 +213,7 @@
   .pebble-slider__image,
   .pebble-slider__video,
   .pebble-slider__placeholder,
-  .pebble-slider__overlay,
-  .pebble-slider__content-position {
+  .pebble-slider__overlay {
     height: 100%;
     inset: 0;
     position: absolute;
@@ -184,6 +225,7 @@
   .pebble-slider__placeholder {
     display: block;
     object-fit: cover;
+    object-position: center;
   }
 
   .pebble-slider__image--mobile {
@@ -203,10 +245,19 @@
   }
 
   .pebble-slider__content-position {
+    bottom: 5.25rem;
     display: flex;
-    padding: clamp(2rem, 6vw, 7rem);
+    left: 0;
+    padding: 2.5rem var(--pebble-page-padding);
     pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
     z-index: 2;
+  }
+
+  .pebble-slider--header-overlay .pebble-slider__content-position {
+    top: 6.875rem;
   }
 
   .pebble-slider__content-position--top-left {
@@ -325,16 +376,18 @@
   }
 
   .pebble-text--eyebrow {
+    margin-bottom: 1rem;
     text-transform: uppercase;
   }
 
   .pebble-text--display {
-    font-family: var(--font-heading-family, Arial, Helvetica, sans-serif);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    margin-bottom: 2rem;
   }
 
   .pebble-heading {
     color: inherit;
-    font-family: var(--font-heading-family, Arial, Helvetica, sans-serif);
+    font-family: 'Bricolage Grotesque', sans-serif;
     font-size: var(--heading-size);
     font-weight: var(--heading-weight);
     letter-spacing: var(--heading-letter-spacing);
@@ -349,17 +402,27 @@
   }
 
   .pebble-button {
+    --pebble-button-end-padding: 0.625rem;
+    --pebble-icon-radius: 0.9375rem;
     align-items: center;
     border: 1px solid transparent;
-    border-radius: 999px;
+    border-radius: 3.75rem;
     display: inline-flex;
-    font-size: 0.75rem;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 0.9375rem;
     font-weight: 700;
-    gap: 0.75rem;
-    justify-content: space-between;
-    min-height: 2.5rem;
-    padding: 0.25rem 0.3rem 0.25rem 1.15rem;
+    gap: 0.5rem;
+    height: 3.125rem;
+    justify-content: center;
+    line-height: 1.5rem;
+    overflow: hidden;
+    padding: 0.625rem 3rem 0.625rem 1.5rem;
+    position: relative;
     text-decoration: none;
+    text-transform: capitalize;
+    transition: background-color 350ms, color 350ms, border-color 350ms, opacity 350ms, transform 350ms;
+    white-space: nowrap;
+    z-index: 0;
   }
 
   .pebble-button--primary {
@@ -383,16 +446,45 @@
     width: 100%;
   }
 
+  .pebble-button__text,
+  .pebble-button__hover-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pebble-button__hover {
+    align-items: center;
+    background: var(--slide-button-label, #111111);
+    clip-path: circle(var(--pebble-icon-radius) at calc(100% - var(--pebble-icon-radius) - var(--pebble-button-end-padding)) 50%);
+    color: var(--slide-button, #ffffff);
+    display: flex;
+    gap: 0.5rem;
+    height: 100%;
+    inset: 0 auto 0 0;
+    justify-content: space-between;
+    overflow: hidden;
+    padding-inline: 1.5rem var(--pebble-button-end-padding);
+    position: absolute;
+    transition: clip-path 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    z-index: 2;
+  }
+
   .pebble-button__icon {
     align-items: center;
-    background: currentColor;
     border-radius: 50%;
-    color: var(--slide-button, #ffffff);
-    display: inline-flex;
-    font-size: 1rem;
-    height: 1.75rem;
+    display: flex;
+    flex: 0 0 auto;
+    height: calc(var(--pebble-icon-radius) * 2);
     justify-content: center;
-    width: 1.75rem;
+    overflow: hidden;
+    width: calc(var(--pebble-icon-radius) * 2);
+  }
+
+  .pebble-button__icon svg {
+    height: 1.25rem;
+    width: 1.25rem;
   }
 
   .pebble-spacer {
@@ -417,49 +509,54 @@
 
   .pebble-slider--content-outside .pebble-slider__content-position {
     background: var(--slide-background);
+    bottom: auto;
     grid-row: 2;
     min-height: 10rem;
     padding-block: 2rem;
     position: relative;
+    top: auto;
   }
 
   .pebble-slider__controls {
     align-items: center;
-    bottom: clamp(1.5rem, 3vw, 3rem);
+    bottom: 3.75rem;
     color: #ffffff;
     display: flex;
-    gap: 0.9rem;
+    gap: 0.75rem;
+    left: var(--pebble-page-padding);
     position: absolute;
+    right: var(--pebble-page-padding);
     z-index: 5;
   }
 
   .pebble-slider--controls-left .pebble-slider__controls {
-    left: clamp(1.5rem, 6vw, 7rem);
+    justify-content: flex-start;
   }
 
   .pebble-slider--controls-center .pebble-slider__controls {
-    left: 50%;
-    transform: translateX(-50%);
+    justify-content: center;
   }
 
   .pebble-slider--controls-right .pebble-slider__controls {
-    right: clamp(1.5rem, 6vw, 7rem);
+    justify-content: flex-end;
   }
 
   .pebble-slider__status {
     display: flex;
-    font-size: 0.7rem;
-    font-weight: 700;
-    gap: 0.2rem;
-    text-transform: uppercase;
+    flex: 0 0 auto;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    gap: 0.25rem;
+    line-height: 1.5rem;
     white-space: nowrap;
   }
 
   .pebble-slider__progress {
-    background: color-mix(in srgb, currentColor 35%, transparent);
-    height: 1px;
+    background: rgb(255 255 255 / 10%);
+    height: 2px;
     overflow: hidden;
-    width: 3rem;
+    position: relative;
+    width: 8.75rem;
   }
 
   .pebble-slider__progress span {
@@ -473,17 +570,26 @@
 
   .pebble-slider__buttons {
     display: flex;
+    flex: 0 0 auto;
     gap: 0.5rem;
   }
 
   .pebble-slider__arrow {
+    align-items: center;
     background: transparent;
     border: 0;
     color: inherit;
     cursor: pointer;
-    font-size: 1.5rem;
-    line-height: 1;
+    display: flex;
+    height: 1rem;
+    justify-content: center;
     padding: 0;
+    width: 1rem;
+  }
+
+  .pebble-slider__arrow svg {
+    height: 1rem;
+    width: 1rem;
   }
 
   .pebble-slider[data-control-type='default'] [data-progress-separator],
@@ -491,32 +597,45 @@
     display: none;
   }
 
+  .pebble-slider--animations .swiper-slide-active .pebble-slider__media {
+    animation: pebble-media-enter 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
   .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-fade-in > .pebble-content-block {
-    animation: pebble-fade-in 700ms ease both;
+    animation: pebble-fade-in 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
   .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-fade-up > .pebble-content-block {
-    animation: pebble-fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: pebble-fade-up 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
   .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-slide-left > .pebble-content-block {
-    animation: pebble-slide-left 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: pebble-slide-left 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
   .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-slide-right > .pebble-content-block {
-    animation: pebble-slide-right 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: pebble-slide-right 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block:nth-child(1) {
+    animation-delay: 50ms;
   }
 
   .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block:nth-child(2) {
-    animation-delay: 90ms;
+    animation-delay: 150ms;
   }
 
   .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block:nth-child(3) {
-    animation-delay: 180ms;
+    animation-delay: 250ms;
   }
 
   .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block:nth-child(4) {
-    animation-delay: 270ms;
+    animation-delay: 350ms;
+  }
+
+  @keyframes pebble-media-enter {
+    from { transform: scale(1.15); }
+    to { transform: scale(1); }
   }
 
   @keyframes pebble-fade-in {
@@ -525,35 +644,65 @@
   }
 
   @keyframes pebble-fade-up {
-    from { opacity: 0; transform: translateY(1.2rem); }
+    from { opacity: 0; transform: translateY(2.5rem); }
     to { opacity: 1; transform: translateY(0); }
   }
 
   @keyframes pebble-slide-left {
-    from { opacity: 0; transform: translateX(1.5rem); }
+    from { opacity: 0; transform: translateX(2.5rem); }
     to { opacity: 1; transform: translateX(0); }
   }
 
   @keyframes pebble-slide-right {
-    from { opacity: 0; transform: translateX(-1.5rem); }
+    from { opacity: 0; transform: translateX(-2.5rem); }
     to { opacity: 1; transform: translateX(0); }
   }
 
-  @media screen and (max-width: 749px) {
+  @keyframes pebble-arrow-loop {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(1.25rem); }
+    50.001% { transform: translateX(-1.25rem); }
+    100% { transform: translateX(0); }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .pebble-button:hover .pebble-button__hover {
+      clip-path: circle(150% at calc(100% - var(--pebble-icon-radius) - var(--pebble-button-end-padding)) 50%);
+    }
+
+    .pebble-button:hover .pebble-button__icon svg {
+      animation: pebble-arrow-loop 1s ease infinite;
+    }
+
+    .pebble-slider__arrow {
+      transition: opacity 200ms, transform 200ms;
+    }
+
+    .pebble-slider__arrow:hover {
+      opacity: 0.65;
+      transform: scale(1.12);
+    }
+  }
+
+  @media screen and (max-width: 767.98px) {
+    .pebble-slider {
+      --pebble-page-padding: 1rem;
+    }
+
     .pebble-slider--container-fixed .pebble-slider__frame {
-      border-radius: 0.65rem;
-      width: calc(100% - 0.75rem);
+      border-radius: 0;
+      width: 100%;
     }
 
     .pebble-slider--height-adapt .pebble-slider__frame {
       aspect-ratio: var(--pebble-mobile-ratio);
-      min-height: 34rem;
+      max-height: none;
     }
 
     .pebble-slider--height-small .pebble-slider__frame,
     .pebble-slider--height-medium .pebble-slider__frame,
     .pebble-slider--height-large .pebble-slider__frame {
-      height: 42rem;
+      height: 36.25rem;
     }
 
     .pebble-slider__media--has-mobile .pebble-slider__image--desktop {
@@ -564,8 +713,11 @@
       display: block;
     }
 
-    .pebble-slider__content-position {
-      padding: 2rem 0.75rem 4.5rem;
+    .pebble-slider__content-position,
+    .pebble-slider--header-overlay .pebble-slider__content-position {
+      bottom: 4rem;
+      padding: 1.5rem 1rem;
+      top: 0;
     }
 
     .pebble-slider__content-position--mobile-top {
@@ -582,7 +734,7 @@
 
     .pebble-slide-content {
       gap: var(--content-row-gap-mobile);
-      max-width: min(100%, 24rem);
+      max-width: 100%;
     }
 
     .pebble-slide-content--mobile-align-left {
@@ -604,6 +756,14 @@
       font-size: var(--text-size-mobile);
     }
 
+    .pebble-text--eyebrow {
+      margin-bottom: 1rem;
+    }
+
+    .pebble-text--display {
+      margin-bottom: 1.5rem;
+    }
+
     .pebble-heading {
       font-size: var(--heading-size-mobile);
     }
@@ -613,47 +773,37 @@
     }
 
     .pebble-button {
-      font-size: 0.625rem;
-      min-height: 2.1rem;
-      padding-left: 0.85rem;
-    }
-
-    .pebble-button__icon {
-      height: 1.45rem;
-      width: 1.45rem;
+      width: 100%;
     }
 
     .pebble-spacer {
       height: var(--spacer-height-mobile);
     }
 
-    .pebble-slider__controls,
-    .pebble-slider--controls-left .pebble-slider__controls,
-    .pebble-slider--controls-center .pebble-slider__controls,
-    .pebble-slider--controls-right .pebble-slider__controls {
-      bottom: 1.25rem;
+    .pebble-slider__controls {
+      bottom: 2.5rem;
       left: 1rem;
       right: 1rem;
-      transform: none;
     }
 
     .pebble-slider__progress {
-      flex: 1;
+      flex: 1 1 auto;
       width: auto;
     }
 
-    .pebble-slider__status {
-      font-size: 0.6rem;
-    }
-
-    .pebble-slider__arrow {
-      font-size: 1.25rem;
+    .pebble-slider--content-outside .pebble-slider__content-position {
+      bottom: auto;
+      top: auto;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block {
+    .pebble-slider--animations .swiper-slide-active .pebble-slider__media,
+    .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block,
+    .pebble-button__hover,
+    .pebble-button__icon svg {
       animation: none;
+      transition: none;
     }
   }
 {% endstylesheet %}
@@ -676,10 +826,6 @@
       return window.PebbleSwiperPromise;
     }
 
-    function formatNumber(number) {
-      return String(number).padStart(2, '0');
-    }
-
     function initializeSlider(root) {
       if (!root || root.dataset.initialized === 'true') return;
 
@@ -693,6 +839,7 @@
       }
 
       var autoplayEnabled = root.dataset.autoplay === 'true';
+      var autoplayDelay = Number(root.dataset.delay);
       var previousButton = root.querySelector('[data-previous]');
       var nextButton = root.querySelector('[data-next]');
       var currentSlide = root.querySelector('[data-current-slide]');
@@ -702,8 +849,26 @@
       root.dataset.initialized = 'true';
 
       function updateStatus(swiper) {
-        if (currentSlide) currentSlide.textContent = formatNumber(swiper.realIndex + 1);
-        if (totalSlides) totalSlides.textContent = formatNumber(slides.length);
+        if (currentSlide) currentSlide.textContent = String(swiper.realIndex + 1);
+        if (totalSlides) totalSlides.textContent = String(slides.length);
+      }
+
+      function restartProgress() {
+        if (!progressBar) return;
+
+        progressBar.style.transition = 'none';
+        progressBar.style.transform = 'scaleX(0)';
+        progressBar.offsetWidth;
+
+        if (!autoplayEnabled) {
+          progressBar.style.transform = 'scaleX(1)';
+          return;
+        }
+
+        requestAnimationFrame(function () {
+          progressBar.style.transition = 'transform ' + autoplayDelay + 'ms linear';
+          progressBar.style.transform = 'scaleX(1)';
+        });
       }
 
       root.pebbleSwiper = new Swiper(container, {
@@ -714,9 +879,8 @@
         },
         autoplay: autoplayEnabled
           ? {
-              delay: Number(root.dataset.delay),
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true
+              delay: autoplayDelay,
+              disableOnInteraction: false
             }
           : false,
         effect: 'fade',
@@ -728,16 +892,18 @@
           nextEl: nextButton,
           prevEl: previousButton
         },
-        speed: 700,
+        speed: 300,
         watchOverflow: true,
         on: {
-          afterInit: updateStatus,
-          realIndexChange: updateStatus,
-          autoplayTimeLeft: function (swiper, time, progress) {
-            if (progressBar && autoplayEnabled) {
-              progressBar.style.transform = 'scaleX(' + (1 - progress) + ')';
-            }
-          }
+          afterInit: function (swiper) {
+            updateStatus(swiper);
+            restartProgress();
+          },
+          realIndexChange: function (swiper) {
+            updateStatus(swiper);
+            restartProgress();
+          },
+          autoplayResume: restartProgress
         }
       });
     }
@@ -850,7 +1016,7 @@
       "type": "checkbox",
       "id": "next_section_overlap",
       "label": "Allow the next section to overlap",
-      "default": false
+      "default": true
     },
     {
       "type": "header",
@@ -931,10 +1097,14 @@
   "presets": [
     {
       "name": "Slideshow: Minimal",
+      "settings": {
+        "next_section_overlap": true
+      },
       "blocks": [
         {
           "type": "image-slide",
           "settings": {
+            "default_media": "pebble-1",
             "position": "middle-left",
             "position_mobile": "bottom",
             "color_scheme": "scheme-2"
@@ -945,8 +1115,8 @@
               "settings": {
                 "alignment": "left",
                 "alignment_mobile": "center",
-                "row_gap": 12,
-                "row_gap_mobile": 8,
+                "row_gap": 0,
+                "row_gap_mobile": 0,
                 "width": "fit",
                 "inherit_color_scheme": true,
                 "transparent_background": true,
@@ -958,10 +1128,10 @@
                   "settings": {
                     "text": "<p>New campaign</p>",
                     "style": "eyebrow",
-                    "font_size": 12,
-                    "font_size_mobile": 10,
+                    "font_size": 15,
+                    "font_size_mobile": 15,
                     "font_weight": "700",
-                    "line_height": 100,
+                    "line_height": 160,
                     "letter_spacing": 0,
                     "max_width": 30
                   }
@@ -971,11 +1141,11 @@
                   "settings": {
                     "text": "<p>Softness<br>in Comfort</p>",
                     "style": "display",
-                    "font_size": 72,
-                    "font_size_mobile": 42,
+                    "font_size": 68,
+                    "font_size_mobile": 38,
                     "font_weight": "700",
-                    "line_height": 95,
-                    "letter_spacing": -6,
+                    "line_height": 120,
+                    "letter_spacing": 0,
                     "max_width": 18
                   }
                 },
@@ -995,6 +1165,7 @@
         {
           "type": "image-slide",
           "settings": {
+            "default_media": "pebble-2",
             "position": "middle-left",
             "position_mobile": "bottom",
             "color_scheme": "scheme-2"
@@ -1005,8 +1176,8 @@
               "settings": {
                 "alignment": "left",
                 "alignment_mobile": "center",
-                "row_gap": 12,
-                "row_gap_mobile": 8,
+                "row_gap": 0,
+                "row_gap_mobile": 0,
                 "width": "fit",
                 "inherit_color_scheme": true,
                 "transparent_background": true,
@@ -1018,10 +1189,10 @@
                   "settings": {
                     "text": "<p>Little moments</p>",
                     "style": "eyebrow",
-                    "font_size": 12,
-                    "font_size_mobile": 10,
+                    "font_size": 15,
+                    "font_size_mobile": 15,
                     "font_weight": "700",
-                    "line_height": 100,
+                    "line_height": 160,
                     "letter_spacing": 0,
                     "max_width": 30
                   }
@@ -1031,11 +1202,11 @@
                   "settings": {
                     "text": "<p>Wrapped<br>in Warmth</p>",
                     "style": "display",
-                    "font_size": 72,
-                    "font_size_mobile": 42,
+                    "font_size": 68,
+                    "font_size_mobile": 38,
                     "font_weight": "700",
-                    "line_height": 95,
-                    "letter_spacing": -6,
+                    "line_height": 120,
+                    "letter_spacing": 0,
                     "max_width": 18
                   }
                 },
@@ -1055,6 +1226,7 @@
         {
           "type": "image-slide",
           "settings": {
+            "default_media": "pebble-1",
             "position": "middle-left",
             "position_mobile": "bottom",
             "color_scheme": "scheme-2"
@@ -1065,8 +1237,8 @@
               "settings": {
                 "alignment": "left",
                 "alignment_mobile": "center",
-                "row_gap": 12,
-                "row_gap_mobile": 8,
+                "row_gap": 0,
+                "row_gap_mobile": 0,
                 "width": "fit",
                 "inherit_color_scheme": true,
                 "transparent_background": true,
@@ -1078,10 +1250,10 @@
                   "settings": {
                     "text": "<p>Made for play</p>",
                     "style": "eyebrow",
-                    "font_size": 12,
-                    "font_size_mobile": 10,
+                    "font_size": 15,
+                    "font_size_mobile": 15,
                     "font_weight": "700",
-                    "line_height": 100,
+                    "line_height": 160,
                     "letter_spacing": 0,
                     "max_width": 30
                   }
@@ -1091,11 +1263,11 @@
                   "settings": {
                     "text": "<p>Every layer<br>tells a story</p>",
                     "style": "display",
-                    "font_size": 72,
-                    "font_size_mobile": 42,
+                    "font_size": 68,
+                    "font_size_mobile": 38,
                     "font_weight": "700",
-                    "line_height": 95,
-                    "letter_spacing": -6,
+                    "line_height": 120,
+                    "letter_spacing": 0,
                     "max_width": 18
                   }
                 },

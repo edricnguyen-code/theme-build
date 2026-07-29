@@ -2,6 +2,13 @@
   assign slide_scheme = block.settings.color_scheme
   assign desktop_image = block.settings.image
   assign mobile_image = block.settings.image_mobile
+  assign fallback_desktop = 'pebble-slide-1.webp'
+  assign fallback_mobile = 'pebble-slide-1-mobile.webp'
+
+  if block.settings.default_media == 'pebble-2'
+    assign fallback_desktop = 'pebble-slide-2.webp'
+    assign fallback_mobile = 'pebble-slide-2-mobile.webp'
+  endif
 %}
 
 <article
@@ -17,7 +24,7 @@
   "
   {{ block.shopify_attributes }}
 >
-  <div class="pebble-slider__media{% if mobile_image != blank %} pebble-slider__media--has-mobile{% endif %}">
+  <div class="pebble-slider__media{% if mobile_image != blank or desktop_image == blank %} pebble-slider__media--has-mobile{% endif %}">
     {% if desktop_image != blank %}
       {{
         desktop_image
@@ -29,7 +36,14 @@
           loading: 'eager'
       }}
     {% else %}
-      {{ 'lifestyle-1' | placeholder_svg_tag: 'pebble-slider__placeholder pebble-slider__image--desktop' }}
+      <img
+        class="pebble-slider__image pebble-slider__image--desktop"
+        src="{{ fallback_desktop | asset_url }}"
+        width="1680"
+        height="875"
+        loading="eager"
+        alt=""
+      >
     {% endif %}
 
     {% if mobile_image != blank %}
@@ -42,6 +56,15 @@
           sizes: '100vw',
           loading: 'eager'
       }}
+    {% elsif desktop_image == blank %}
+      <img
+        class="pebble-slider__image pebble-slider__image--mobile"
+        src="{{ fallback_mobile | asset_url }}"
+        width="480"
+        height="743"
+        loading="eager"
+        alt=""
+      >
     {% endif %}
   </div>
 
@@ -77,6 +100,17 @@
       "type": "image_picker",
       "id": "image_mobile",
       "label": "Image mobile"
+    },
+    {
+      "type": "select",
+      "id": "default_media",
+      "label": "Placeholder media",
+      "info": "Used until custom desktop and mobile images are selected.",
+      "options": [
+        { "value": "pebble-1", "label": "Pebble pink" },
+        { "value": "pebble-2", "label": "Pebble green" }
+      ],
+      "default": "pebble-1"
     },
     {
       "type": "checkbox",
@@ -137,22 +171,41 @@
   "presets": [
     {
       "name": "Image slide",
+      "settings": {
+        "default_media": "pebble-1"
+      },
       "blocks": [
         {
           "type": "slide-content",
+          "settings": {
+            "row_gap": 0,
+            "row_gap_mobile": 0
+          },
           "blocks": [
             {
               "type": "text",
               "settings": {
                 "text": "<p>New campaign</p>",
-                "style": "eyebrow"
+                "style": "eyebrow",
+                "font_size": 15,
+                "font_size_mobile": 15,
+                "font_weight": "700",
+                "line_height": 160,
+                "letter_spacing": 0,
+                "max_width": 30
               }
             },
             {
               "type": "text",
               "settings": {
                 "text": "<p>Softness<br>in Comfort</p>",
-                "style": "display"
+                "style": "display",
+                "font_size": 68,
+                "font_size_mobile": 38,
+                "font_weight": "700",
+                "line_height": 120,
+                "letter_spacing": 0,
+                "max_width": 18
               }
             },
             {
