@@ -1,0 +1,1119 @@
+{% liquid
+  assign slide_count = section.blocks.size
+  assign first_slide = section.blocks.first
+  assign desktop_ratio = 1.7778
+  assign mobile_ratio = 0.6667
+
+  if first_slide.settings.image != blank
+    assign desktop_ratio = first_slide.settings.image.aspect_ratio
+  endif
+
+  if first_slide.settings.image_mobile != blank
+    assign mobile_ratio = first_slide.settings.image_mobile.aspect_ratio
+  elsif first_slide.settings.image != blank
+    assign mobile_ratio = first_slide.settings.image.aspect_ratio
+  endif
+%}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<section
+  id="PebbleSlider-{{ section.id }}"
+  class="
+    pebble-slider
+    pebble-slider--container-{{ section.settings.container }}
+    pebble-slider--height-{{ section.settings.height }}
+    pebble-slider--content-{{ section.settings.content_position }}
+    pebble-slider--controls-{{ section.settings.control_alignment }}
+    {% if section.settings.enable_header_overlay %}pebble-slider--header-overlay{% endif %}
+    {% if section.settings.next_section_overlap %}pebble-slider--next-overlap{% endif %}
+    {% if section.settings.enable_animations %}pebble-slider--animations{% endif %}
+  "
+  data-pebble-slider
+  data-autoplay="{{ section.settings.auto_rotate }}"
+  data-delay="{{ section.settings.change_slides_every | times: 1000 }}"
+  data-control-type="{{ section.settings.control_type }}"
+  data-previous-message="{{ 'sections.slideshow.previous_slide' | t | escape }}"
+  data-next-message="{{ 'sections.slideshow.next_slide' | t | escape }}"
+  style="
+    --pebble-desktop-ratio: {{ desktop_ratio }};
+    --pebble-mobile-ratio: {{ mobile_ratio }};
+    --pebble-padding-top: {{ section.settings.padding_top }}px;
+  "
+>
+  <div class="pebble-slider__frame">
+    <div class="pebble-slider__swiper swiper" aria-roledescription="carousel">
+      <div class="swiper-wrapper">
+        {% content_for 'blocks' %}
+      </div>
+
+      {% if slide_count > 1 %}
+        <div class="pebble-slider__controls" aria-label="{{ 'sections.slideshow.controls' | t }}">
+          <div class="pebble-slider__status" aria-live="polite">
+            <span data-current-slide>01</span>
+            <span class="pebble-slider__status-separator" data-default-separator>/</span>
+            <span class="pebble-slider__status-separator" data-progress-separator>{{ 'sections.slideshow.of' | t }}</span>
+            <span data-total-slides>{{ slide_count | prepend: '0' | slice: -2, 2 }}</span>
+          </div>
+
+          <div class="pebble-slider__progress" aria-hidden="true">
+            <span data-progress-bar></span>
+          </div>
+
+          <div class="pebble-slider__buttons">
+            <button
+              class="pebble-slider__arrow pebble-slider__arrow--previous"
+              type="button"
+              aria-label="{{ 'sections.slideshow.previous_slide' | t }}"
+              data-previous
+            >
+              ‹
+            </button>
+            <button
+              class="pebble-slider__arrow pebble-slider__arrow--next"
+              type="button"
+              aria-label="{{ 'sections.slideshow.next_slide' | t }}"
+              data-next
+            >
+              ›
+            </button>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% style %}
+  #shopify-section-{{ section.id }}:has(.pebble-slider--next-overlap) + .shopify-section {
+    border-radius: 1.25rem 1.25rem 0 0;
+    margin-top: -1.5rem;
+    overflow: hidden;
+    position: relative;
+    z-index: 3;
+  }
+
+  body:has(#MainContent > #shopify-section-{{ section.id }}:first-child .pebble-slider--header-overlay) .site-header {
+    background: transparent;
+    border: 0;
+    color: #ffffff;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 20;
+  }
+
+  #PebbleSlider-{{ section.id }} {
+    {{ section.settings.custom_css }}
+  }
+{% endstyle %}
+
+{% stylesheet %}
+  .pebble-slider {
+    overflow: hidden;
+    padding-top: var(--pebble-padding-top);
+    position: relative;
+  }
+
+  .pebble-slider__frame {
+    height: 45rem;
+    margin-inline: auto;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .pebble-slider--container-fixed .pebble-slider__frame {
+    border-radius: 1rem;
+    max-width: 90rem;
+    width: calc(100% - 2rem);
+  }
+
+  .pebble-slider--height-adapt .pebble-slider__frame {
+    aspect-ratio: var(--pebble-desktop-ratio);
+    height: auto;
+    max-height: 100svh;
+    min-height: 34rem;
+  }
+
+  .pebble-slider--height-small .pebble-slider__frame {
+    height: 34rem;
+  }
+
+  .pebble-slider--height-medium .pebble-slider__frame {
+    height: 45rem;
+  }
+
+  .pebble-slider--height-large .pebble-slider__frame {
+    height: 54rem;
+  }
+
+  .pebble-slider--height-full .pebble-slider__frame {
+    height: 100svh;
+  }
+
+  .pebble-slider__swiper,
+  .pebble-slider__swiper .swiper-wrapper,
+  .pebble-slider__slide {
+    height: 100%;
+  }
+
+  .pebble-slider__slide {
+    background: var(--slide-background, #a8b692);
+    color: var(--slide-text, #ffffff);
+    isolation: isolate;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .pebble-slider__media,
+  .pebble-slider__image,
+  .pebble-slider__video,
+  .pebble-slider__placeholder,
+  .pebble-slider__overlay,
+  .pebble-slider__content-position {
+    height: 100%;
+    inset: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  .pebble-slider__image,
+  .pebble-slider__video,
+  .pebble-slider__placeholder {
+    display: block;
+    object-fit: cover;
+  }
+
+  .pebble-slider__image--mobile {
+    display: none;
+  }
+
+  .pebble-slider__placeholder {
+    background: #bda18f;
+    fill: #d7c8b7;
+  }
+
+  .pebble-slider__overlay {
+    background: var(--slide-overlay-color, #000000);
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .pebble-slider__content-position {
+    display: flex;
+    padding: clamp(2rem, 6vw, 7rem);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .pebble-slider__content-position--top-left {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .pebble-slider__content-position--top-center {
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .pebble-slider__content-position--top-right {
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  .pebble-slider__content-position--middle-left {
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .pebble-slider__content-position--middle-center {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pebble-slider__content-position--middle-right {
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .pebble-slider__content-position--bottom-left {
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
+  .pebble-slider__content-position--bottom-center {
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .pebble-slider__content-position--bottom-right {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .pebble-slide-content {
+    align-items: flex-start;
+    background: var(--content-background);
+    border-radius: var(--content-radius);
+    color: var(--content-text);
+    display: flex;
+    flex-direction: column;
+    gap: var(--content-row-gap);
+    max-width: min(100%, 44rem);
+    padding: var(--content-padding-top) var(--content-padding-right) var(--content-padding-bottom) var(--content-padding-left);
+    pointer-events: auto;
+  }
+
+  .pebble-slide-content--inherit {
+    color: inherit;
+  }
+
+  .pebble-slide-content--transparent {
+    background: transparent;
+  }
+
+  .pebble-slide-content--border-solid {
+    border: 1px solid currentColor;
+  }
+
+  .pebble-slide-content--width-fit {
+    width: fit-content;
+  }
+
+  .pebble-slide-content--width-fill {
+    width: 100%;
+  }
+
+  .pebble-slide-content--width-custom {
+    width: var(--content-custom-width);
+  }
+
+  .pebble-slide-content--align-left {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .pebble-slide-content--align-center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .pebble-slide-content--align-right {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .pebble-content-block {
+    flex: 0 0 auto;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .pebble-content-block p {
+    margin: 0;
+  }
+
+  .pebble-text {
+    font-size: var(--text-size);
+    font-weight: var(--text-weight);
+    letter-spacing: var(--text-letter-spacing);
+    line-height: var(--text-line-height);
+    max-width: var(--text-max-width);
+  }
+
+  .pebble-text--eyebrow {
+    text-transform: uppercase;
+  }
+
+  .pebble-text--display {
+    font-family: var(--font-heading-family, Arial, Helvetica, sans-serif);
+  }
+
+  .pebble-heading {
+    color: inherit;
+    font-family: var(--font-heading-family, Arial, Helvetica, sans-serif);
+    font-size: var(--heading-size);
+    font-weight: var(--heading-weight);
+    letter-spacing: var(--heading-letter-spacing);
+    line-height: var(--heading-line-height);
+    max-width: var(--heading-max-width);
+  }
+
+  .pebble-subheading {
+    font-size: var(--subheading-size);
+    line-height: 1.35;
+    max-width: var(--subheading-max-width);
+  }
+
+  .pebble-button {
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    display: inline-flex;
+    font-size: 0.75rem;
+    font-weight: 700;
+    gap: 0.75rem;
+    justify-content: space-between;
+    min-height: 2.5rem;
+    padding: 0.25rem 0.3rem 0.25rem 1.15rem;
+    text-decoration: none;
+  }
+
+  .pebble-button--primary {
+    background: var(--slide-button, #ffffff);
+    color: var(--slide-button-label, #111111);
+  }
+
+  .pebble-button--secondary {
+    background: transparent;
+    border-color: currentColor;
+    color: inherit;
+  }
+
+  .pebble-button--text {
+    background: transparent;
+    color: inherit;
+    padding-left: 0;
+  }
+
+  .pebble-button--width-fill {
+    width: 100%;
+  }
+
+  .pebble-button__icon {
+    align-items: center;
+    background: currentColor;
+    border-radius: 50%;
+    color: var(--slide-button, #ffffff);
+    display: inline-flex;
+    font-size: 1rem;
+    height: 1.75rem;
+    justify-content: center;
+    width: 1.75rem;
+  }
+
+  .pebble-spacer {
+    height: var(--spacer-height);
+    width: 100%;
+  }
+
+  .pebble-slider--content-outside .pebble-slider__slide {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .pebble-slider--content-outside .pebble-slider__media {
+    grid-row: 1;
+    position: relative;
+  }
+
+  .pebble-slider--content-outside .pebble-slider__overlay {
+    bottom: auto;
+    height: calc(100% - 10rem);
+  }
+
+  .pebble-slider--content-outside .pebble-slider__content-position {
+    background: var(--slide-background);
+    grid-row: 2;
+    min-height: 10rem;
+    padding-block: 2rem;
+    position: relative;
+  }
+
+  .pebble-slider__controls {
+    align-items: center;
+    bottom: clamp(1.5rem, 3vw, 3rem);
+    color: #ffffff;
+    display: flex;
+    gap: 0.9rem;
+    position: absolute;
+    z-index: 5;
+  }
+
+  .pebble-slider--controls-left .pebble-slider__controls {
+    left: clamp(1.5rem, 6vw, 7rem);
+  }
+
+  .pebble-slider--controls-center .pebble-slider__controls {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .pebble-slider--controls-right .pebble-slider__controls {
+    right: clamp(1.5rem, 6vw, 7rem);
+  }
+
+  .pebble-slider__status {
+    display: flex;
+    font-size: 0.7rem;
+    font-weight: 700;
+    gap: 0.2rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .pebble-slider__progress {
+    background: color-mix(in srgb, currentColor 35%, transparent);
+    height: 1px;
+    overflow: hidden;
+    width: 3rem;
+  }
+
+  .pebble-slider__progress span {
+    background: currentColor;
+    display: block;
+    height: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
+    width: 100%;
+  }
+
+  .pebble-slider__buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .pebble-slider__arrow {
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .pebble-slider[data-control-type='default'] [data-progress-separator],
+  .pebble-slider[data-control-type='progress-text'] [data-default-separator] {
+    display: none;
+  }
+
+  .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-fade-in > .pebble-content-block {
+    animation: pebble-fade-in 700ms ease both;
+  }
+
+  .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-fade-up > .pebble-content-block {
+    animation: pebble-fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-slide-left > .pebble-content-block {
+    animation: pebble-slide-left 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-slide-right > .pebble-content-block {
+    animation: pebble-slide-right 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block:nth-child(2) {
+    animation-delay: 90ms;
+  }
+
+  .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block:nth-child(3) {
+    animation-delay: 180ms;
+  }
+
+  .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block:nth-child(4) {
+    animation-delay: 270ms;
+  }
+
+  @keyframes pebble-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes pebble-fade-up {
+    from { opacity: 0; transform: translateY(1.2rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pebble-slide-left {
+    from { opacity: 0; transform: translateX(1.5rem); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes pebble-slide-right {
+    from { opacity: 0; transform: translateX(-1.5rem); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @media screen and (max-width: 749px) {
+    .pebble-slider--container-fixed .pebble-slider__frame {
+      border-radius: 0.65rem;
+      width: calc(100% - 0.75rem);
+    }
+
+    .pebble-slider--height-adapt .pebble-slider__frame {
+      aspect-ratio: var(--pebble-mobile-ratio);
+      min-height: 34rem;
+    }
+
+    .pebble-slider--height-small .pebble-slider__frame,
+    .pebble-slider--height-medium .pebble-slider__frame,
+    .pebble-slider--height-large .pebble-slider__frame {
+      height: 42rem;
+    }
+
+    .pebble-slider__media--has-mobile .pebble-slider__image--desktop {
+      display: none;
+    }
+
+    .pebble-slider__media--has-mobile .pebble-slider__image--mobile {
+      display: block;
+    }
+
+    .pebble-slider__content-position {
+      padding: 2rem 0.75rem 4.5rem;
+    }
+
+    .pebble-slider__content-position--mobile-top {
+      align-items: flex-start;
+    }
+
+    .pebble-slider__content-position--mobile-middle {
+      align-items: center;
+    }
+
+    .pebble-slider__content-position--mobile-bottom {
+      align-items: flex-end;
+    }
+
+    .pebble-slide-content {
+      gap: var(--content-row-gap-mobile);
+      max-width: min(100%, 24rem);
+    }
+
+    .pebble-slide-content--mobile-align-left {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .pebble-slide-content--mobile-align-center {
+      align-items: center;
+      text-align: center;
+    }
+
+    .pebble-slide-content--mobile-align-right {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .pebble-text {
+      font-size: var(--text-size-mobile);
+    }
+
+    .pebble-heading {
+      font-size: var(--heading-size-mobile);
+    }
+
+    .pebble-subheading {
+      font-size: var(--subheading-size-mobile);
+    }
+
+    .pebble-button {
+      font-size: 0.625rem;
+      min-height: 2.1rem;
+      padding-left: 0.85rem;
+    }
+
+    .pebble-button__icon {
+      height: 1.45rem;
+      width: 1.45rem;
+    }
+
+    .pebble-spacer {
+      height: var(--spacer-height-mobile);
+    }
+
+    .pebble-slider__controls,
+    .pebble-slider--controls-left .pebble-slider__controls,
+    .pebble-slider--controls-center .pebble-slider__controls,
+    .pebble-slider--controls-right .pebble-slider__controls {
+      bottom: 1.25rem;
+      left: 1rem;
+      right: 1rem;
+      transform: none;
+    }
+
+    .pebble-slider__progress {
+      flex: 1;
+      width: auto;
+    }
+
+    .pebble-slider__status {
+      font-size: 0.6rem;
+    }
+
+    .pebble-slider__arrow {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block {
+      animation: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    function loadSwiper() {
+      if (window.Swiper) return Promise.resolve();
+      if (window.PebbleSwiperPromise) return window.PebbleSwiperPromise;
+
+      window.PebbleSwiperPromise = new Promise(function (resolve, reject) {
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+
+      return window.PebbleSwiperPromise;
+    }
+
+    function formatNumber(number) {
+      return String(number).padStart(2, '0');
+    }
+
+    function initializeSlider(root) {
+      if (!root || root.dataset.initialized === 'true') return;
+
+      var container = root.querySelector('.pebble-slider__swiper');
+      if (!container) return;
+
+      var slides = container.querySelectorAll('.swiper-wrapper > [data-slide-block]');
+      if (slides.length < 2) {
+        root.dataset.initialized = 'true';
+        return;
+      }
+
+      var autoplayEnabled = root.dataset.autoplay === 'true';
+      var previousButton = root.querySelector('[data-previous]');
+      var nextButton = root.querySelector('[data-next]');
+      var currentSlide = root.querySelector('[data-current-slide]');
+      var totalSlides = root.querySelector('[data-total-slides]');
+      var progressBar = root.querySelector('[data-progress-bar]');
+
+      root.dataset.initialized = 'true';
+
+      function updateStatus(swiper) {
+        if (currentSlide) currentSlide.textContent = formatNumber(swiper.realIndex + 1);
+        if (totalSlides) totalSlides.textContent = formatNumber(slides.length);
+      }
+
+      root.pebbleSwiper = new Swiper(container, {
+        a11y: {
+          enabled: true,
+          prevSlideMessage: root.dataset.previousMessage,
+          nextSlideMessage: root.dataset.nextMessage
+        },
+        autoplay: autoplayEnabled
+          ? {
+              delay: Number(root.dataset.delay),
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true
+            }
+          : false,
+        effect: 'fade',
+        fadeEffect: {
+          crossFade: true
+        },
+        loop: true,
+        navigation: {
+          nextEl: nextButton,
+          prevEl: previousButton
+        },
+        speed: 700,
+        watchOverflow: true,
+        on: {
+          afterInit: updateStatus,
+          realIndexChange: updateStatus,
+          autoplayTimeLeft: function (swiper, time, progress) {
+            if (progressBar && autoplayEnabled) {
+              progressBar.style.transform = 'scaleX(' + (1 - progress) + ')';
+            }
+          }
+        }
+      });
+    }
+
+    function initializeAll(scope) {
+      var roots = (scope || document).querySelectorAll('[data-pebble-slider]');
+
+      roots.forEach(function (root) {
+        loadSwiper().then(function () {
+          initializeSlider(root);
+        });
+      });
+    }
+
+    initializeAll();
+
+    document.addEventListener('shopify:section:load', function (event) {
+      initializeAll(event.target);
+    });
+
+    document.addEventListener('shopify:section:unload', function (event) {
+      var root = event.target.querySelector('[data-pebble-slider]');
+      if (root && root.pebbleSwiper) root.pebbleSwiper.destroy(true, true);
+    });
+
+    document.addEventListener('shopify:block:select', function (event) {
+      var slide = event.target.closest('[data-slide-block]');
+      var root = event.target.closest('[data-pebble-slider]');
+      if (!slide || !root || !root.pebbleSwiper) return;
+
+      var slides = Array.prototype.slice.call(root.querySelectorAll('.swiper-wrapper > [data-slide-block]:not(.swiper-slide-duplicate)'));
+      var index = slides.indexOf(slide);
+
+      if (index > -1) root.pebbleSwiper.slideToLoop(index);
+      if (root.pebbleSwiper.autoplay) root.pebbleSwiper.autoplay.stop();
+    });
+
+    document.addEventListener('shopify:block:deselect', function (event) {
+      var root = event.target.closest('[data-pebble-slider]');
+      if (root && root.pebbleSwiper && root.pebbleSwiper.autoplay && root.dataset.autoplay === 'true') {
+        root.pebbleSwiper.autoplay.start();
+      }
+    });
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Slideshow: Minimal",
+  "tag": "section",
+  "class": "section-slideshow-minimal",
+  "blocks": [
+    {
+      "type": "image-slide"
+    },
+    {
+      "type": "video-slide"
+    }
+  ],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Add image or video slides, then build each slide from nested content blocks."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Container",
+      "options": [
+        { "value": "full", "label": "Full" },
+        { "value": "fixed", "label": "Fixed" }
+      ],
+      "default": "full"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        { "value": "adapt", "label": "Adapt to image" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "full", "label": "Full screen" }
+      ],
+      "default": "adapt"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content position",
+      "options": [
+        { "value": "inside", "label": "Inside" },
+        { "value": "outside", "label": "Outside" }
+      ],
+      "default": "inside"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_header_overlay",
+      "label": "Enable header overlay",
+      "info": "Applies only on desktop and when this section is at the top of the page.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "next_section_overlap",
+      "label": "Allow the next section to overlap",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Carousel settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Auto-rotate content",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "change_slides_every",
+      "label": "Change slides every",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5,
+      "visible_if": "{{ section.settings.auto_rotate }}"
+    },
+    {
+      "type": "select",
+      "id": "control_type",
+      "label": "Control type",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "progress-text", "label": "Progress text" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "text_alignment",
+      "id": "control_alignment",
+      "label": "Control alignment",
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Theme settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animations",
+      "label": "Enable animations",
+      "info": "Enable scroll-triggered animations for sections and blocks.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Custom CSS"
+    },
+    {
+      "type": "paragraph",
+      "content": "Adds custom styles to this section only. Use selectors such as h2 or .pebble-button."
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "CSS"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slideshow: Minimal",
+      "blocks": [
+        {
+          "type": "image-slide",
+          "settings": {
+            "position": "middle-left",
+            "position_mobile": "bottom",
+            "color_scheme": "scheme-2"
+          },
+          "blocks": [
+            {
+              "type": "slide-content",
+              "settings": {
+                "alignment": "left",
+                "alignment_mobile": "center",
+                "row_gap": 12,
+                "row_gap_mobile": 8,
+                "width": "fit",
+                "inherit_color_scheme": true,
+                "transparent_background": true,
+                "animation": "fade-up"
+              },
+              "blocks": [
+                {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>New campaign</p>",
+                    "style": "eyebrow",
+                    "font_size": 12,
+                    "font_size_mobile": 10,
+                    "font_weight": "700",
+                    "line_height": 100,
+                    "letter_spacing": 0,
+                    "max_width": 30
+                  }
+                },
+                {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Softness<br>in Comfort</p>",
+                    "style": "display",
+                    "font_size": 72,
+                    "font_size_mobile": 42,
+                    "font_weight": "700",
+                    "line_height": 95,
+                    "letter_spacing": -6,
+                    "max_width": 18
+                  }
+                },
+                {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop collection",
+                    "style": "primary",
+                    "width": "fit",
+                    "show_arrow": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "image-slide",
+          "settings": {
+            "position": "middle-left",
+            "position_mobile": "bottom",
+            "color_scheme": "scheme-2"
+          },
+          "blocks": [
+            {
+              "type": "slide-content",
+              "settings": {
+                "alignment": "left",
+                "alignment_mobile": "center",
+                "row_gap": 12,
+                "row_gap_mobile": 8,
+                "width": "fit",
+                "inherit_color_scheme": true,
+                "transparent_background": true,
+                "animation": "fade-up"
+              },
+              "blocks": [
+                {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Little moments</p>",
+                    "style": "eyebrow",
+                    "font_size": 12,
+                    "font_size_mobile": 10,
+                    "font_weight": "700",
+                    "line_height": 100,
+                    "letter_spacing": 0,
+                    "max_width": 30
+                  }
+                },
+                {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Wrapped<br>in Warmth</p>",
+                    "style": "display",
+                    "font_size": 72,
+                    "font_size_mobile": 42,
+                    "font_weight": "700",
+                    "line_height": 95,
+                    "letter_spacing": -6,
+                    "max_width": 18
+                  }
+                },
+                {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop collection",
+                    "style": "primary",
+                    "width": "fit",
+                    "show_arrow": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "image-slide",
+          "settings": {
+            "position": "middle-left",
+            "position_mobile": "bottom",
+            "color_scheme": "scheme-2"
+          },
+          "blocks": [
+            {
+              "type": "slide-content",
+              "settings": {
+                "alignment": "left",
+                "alignment_mobile": "center",
+                "row_gap": 12,
+                "row_gap_mobile": 8,
+                "width": "fit",
+                "inherit_color_scheme": true,
+                "transparent_background": true,
+                "animation": "fade-up"
+              },
+              "blocks": [
+                {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Made for play</p>",
+                    "style": "eyebrow",
+                    "font_size": 12,
+                    "font_size_mobile": 10,
+                    "font_weight": "700",
+                    "line_height": 100,
+                    "letter_spacing": 0,
+                    "max_width": 30
+                  }
+                },
+                {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Every layer<br>tells a story</p>",
+                    "style": "display",
+                    "font_size": 72,
+                    "font_size_mobile": 42,
+                    "font_weight": "700",
+                    "line_height": 95,
+                    "letter_spacing": -6,
+                    "max_width": 18
+                  }
+                },
+                {
+                  "type": "button",
+                  "settings": {
+                    "label": "Discover more",
+                    "style": "primary",
+                    "width": "fit",
+                    "show_arrow": true
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
