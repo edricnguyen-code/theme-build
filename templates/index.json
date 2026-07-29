@@ -1,26 +1,20 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "slideshow_minimal": {
       "type": "slideshow-minimal",
-      "settings": {
-        "container": "full",
-        "height": "adapt",
-        "content_position": "inside",
-        "enable_header_overlay": true,
-        "next_section_overlap": true,
-        "auto_rotate": true,
-        "change_slides_every": 5,
-        "control_type": "default",
-        "control_alignment": "right",
-        "padding_top": 0,
-        "enable_animations": true,
-        "custom_css": ""
-      },
       "blocks": {
         "image_slide_1": {
           "type": "image-slide",
           "settings": {
-            "default_media": "pebble-1",
             "media_overlay": false,
             "overlay_color": "#000000",
             "position": "middle-left",
@@ -33,8 +27,8 @@
               "settings": {
                 "alignment": "left",
                 "alignment_mobile": "center",
-                "row_gap": 0,
-                "row_gap_mobile": 0,
+                "row_gap": 12,
+                "row_gap_mobile": 8,
                 "width": "fit",
                 "custom_width": 40,
                 "inherit_color_scheme": true,
@@ -54,47 +48,56 @@
                   "settings": {
                     "text": "<p>New campaign</p>",
                     "style": "eyebrow",
-                    "font_size": 15,
-                    "font_size_mobile": 15,
+                    "font_size": 12,
+                    "font_size_mobile": 10,
                     "font_weight": "700",
-                    "line_height": 160,
+                    "line_height": 100,
                     "letter_spacing": 0,
                     "max_width": 30
-                  }
+                  },
+                  "blocks": {}
                 },
                 "display_1": {
                   "type": "text",
                   "settings": {
                     "text": "<p>Softness<br>in Comfort</p>",
                     "style": "display",
-                    "font_size": 68,
-                    "font_size_mobile": 38,
+                    "font_size": 72,
+                    "font_size_mobile": 42,
                     "font_weight": "700",
-                    "line_height": 120,
-                    "letter_spacing": 0,
+                    "line_height": 95,
+                    "letter_spacing": -6,
                     "max_width": 18
-                  }
+                  },
+                  "blocks": {}
                 },
                 "button_1": {
                   "type": "button",
                   "settings": {
                     "label": "Shop collection",
+                    "link": "",
                     "style": "primary",
                     "width": "fit",
                     "show_arrow": true,
                     "open_new_tab": false
-                  }
+                  },
+                  "blocks": {}
                 }
               },
-              "block_order": ["eyebrow_1", "display_1", "button_1"]
+              "block_order": [
+                "eyebrow_1",
+                "display_1",
+                "button_1"
+              ]
             }
           },
-          "block_order": ["slide_content_1"]
+          "block_order": [
+            "slide_content_1"
+          ]
         },
         "image_slide_2": {
           "type": "image-slide",
           "settings": {
-            "default_media": "pebble-2",
             "media_overlay": false,
             "overlay_color": "#000000",
             "position": "middle-left",
@@ -107,8 +110,8 @@
               "settings": {
                 "alignment": "left",
                 "alignment_mobile": "center",
-                "row_gap": 0,
-                "row_gap_mobile": 0,
+                "row_gap": 12,
+                "row_gap_mobile": 8,
                 "width": "fit",
                 "custom_width": 40,
                 "inherit_color_scheme": true,
@@ -128,47 +131,56 @@
                   "settings": {
                     "text": "<p>Little moments</p>",
                     "style": "eyebrow",
-                    "font_size": 15,
-                    "font_size_mobile": 15,
+                    "font_size": 12,
+                    "font_size_mobile": 10,
                     "font_weight": "700",
-                    "line_height": 160,
+                    "line_height": 100,
                     "letter_spacing": 0,
                     "max_width": 30
-                  }
+                  },
+                  "blocks": {}
                 },
                 "display_2": {
                   "type": "text",
                   "settings": {
                     "text": "<p>Wrapped<br>in Warmth</p>",
                     "style": "display",
-                    "font_size": 68,
-                    "font_size_mobile": 38,
+                    "font_size": 72,
+                    "font_size_mobile": 42,
                     "font_weight": "700",
-                    "line_height": 120,
-                    "letter_spacing": 0,
+                    "line_height": 95,
+                    "letter_spacing": -6,
                     "max_width": 18
-                  }
+                  },
+                  "blocks": {}
                 },
                 "button_2": {
                   "type": "button",
                   "settings": {
                     "label": "Shop collection",
+                    "link": "",
                     "style": "primary",
                     "width": "fit",
                     "show_arrow": true,
                     "open_new_tab": false
-                  }
+                  },
+                  "blocks": {}
                 }
               },
-              "block_order": ["eyebrow_2", "display_2", "button_2"]
+              "block_order": [
+                "eyebrow_2",
+                "display_2",
+                "button_2"
+              ]
             }
           },
-          "block_order": ["slide_content_2"]
+          "block_order": [
+            "slide_content_2"
+          ]
         },
         "image_slide_3": {
           "type": "image-slide",
           "settings": {
-            "default_media": "pebble-1",
             "media_overlay": false,
             "overlay_color": "#000000",
             "position": "middle-left",
@@ -181,8 +193,8 @@
               "settings": {
                 "alignment": "left",
                 "alignment_mobile": "center",
-                "row_gap": 0,
-                "row_gap_mobile": 0,
+                "row_gap": 12,
+                "row_gap_mobile": 8,
                 "width": "fit",
                 "custom_width": 40,
                 "inherit_color_scheme": true,
@@ -202,46 +214,76 @@
                   "settings": {
                     "text": "<p>Made for play</p>",
                     "style": "eyebrow",
-                    "font_size": 15,
-                    "font_size_mobile": 15,
+                    "font_size": 12,
+                    "font_size_mobile": 10,
                     "font_weight": "700",
-                    "line_height": 160,
+                    "line_height": 100,
                     "letter_spacing": 0,
                     "max_width": 30
-                  }
+                  },
+                  "blocks": {}
                 },
                 "display_3": {
                   "type": "text",
                   "settings": {
                     "text": "<p>Every layer<br>tells a story</p>",
                     "style": "display",
-                    "font_size": 68,
-                    "font_size_mobile": 38,
+                    "font_size": 72,
+                    "font_size_mobile": 42,
                     "font_weight": "700",
-                    "line_height": 120,
-                    "letter_spacing": 0,
+                    "line_height": 95,
+                    "letter_spacing": -6,
                     "max_width": 18
-                  }
+                  },
+                  "blocks": {}
                 },
                 "button_3": {
                   "type": "button",
                   "settings": {
                     "label": "Discover more",
+                    "link": "",
                     "style": "primary",
                     "width": "fit",
                     "show_arrow": true,
                     "open_new_tab": false
-                  }
+                  },
+                  "blocks": {}
                 }
               },
-              "block_order": ["eyebrow_3", "display_3", "button_3"]
+              "block_order": [
+                "eyebrow_3",
+                "display_3",
+                "button_3"
+              ]
             }
           },
-          "block_order": ["slide_content_3"]
+          "block_order": [
+            "slide_content_3"
+          ]
         }
       },
-      "block_order": ["image_slide_1", "image_slide_2", "image_slide_3"]
+      "block_order": [
+        "image_slide_1",
+        "image_slide_2",
+        "image_slide_3"
+      ],
+      "settings": {
+        "container": "full",
+        "height": "adapt",
+        "content_position": "inside",
+        "enable_header_overlay": true,
+        "next_section_overlap": true,
+        "auto_rotate": true,
+        "change_slides_every": 5,
+        "control_type": "default",
+        "control_alignment": "right",
+        "padding_top": 0,
+        "enable_animations": true,
+        "custom_css": ""
+      }
     }
   },
-  "order": ["slideshow_minimal"]
+  "order": [
+    "slideshow_minimal"
+  ]
 }
