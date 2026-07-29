@@ -1,0 +1,76 @@
+<section class="main-content page-width">
+  {%- case request.page_type -%}
+    {%- when 'product' -%}
+      <h1>{{ product.title }}</h1>
+      <div>{{ product.description }}</div>
+
+    {%- when 'collection' -%}
+      <h1>{{ collection.title }}</h1>
+      <div>{{ collection.description }}</div>
+
+    {%- when 'list-collections' -%}
+      <h1>Collections</h1>
+      <ul>
+        {%- for collection in collections -%}
+          <li><a href="{{ collection.url }}">{{ collection.title }}</a></li>
+        {%- endfor -%}
+      </ul>
+
+    {%- when 'page' -%}
+      <h1>{{ page.title }}</h1>
+      <div>{{ page.content }}</div>
+
+    {%- when 'blog' -%}
+      <h1>{{ blog.title }}</h1>
+      {%- for article in blog.articles -%}
+        <article>
+          <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+          <p>{{ article.excerpt_or_content | strip_html | truncatewords: 30 }}</p>
+        </article>
+      {%- endfor -%}
+
+    {%- when 'article' -%}
+      <article>
+        <h1>{{ article.title }}</h1>
+        <div>{{ article.content }}</div>
+      </article>
+
+    {%- when 'cart' -%}
+      <h1>Cart</h1>
+      {%- if cart.empty? -%}
+        <p>Your cart is empty.</p>
+        <a href="{{ routes.all_products_collection_url }}">{{ 'general.continue_shopping' | t }}</a>
+      {%- else -%}
+        <form action="{{ routes.cart_url }}" method="post">
+          {%- for item in cart.items -%}
+            <p>{{ item.product.title }} &times; {{ item.quantity }}</p>
+          {%- endfor -%}
+          <button type="submit" name="checkout">Checkout</button>
+        </form>
+      {%- endif -%}
+
+    {%- when 'search' -%}
+      <h1>Search</h1>
+      <form action="{{ routes.search_url }}" method="get" role="search">
+        <input type="search" name="q" value="{{ search.terms | escape }}">
+        <button type="submit">Search</button>
+      </form>
+      {%- for item in search.results -%}
+        <p><a href="{{ item.url }}">{{ item.title }}</a></p>
+      {%- endfor -%}
+
+    {%- when '404' -%}
+      <h1>Page not found</h1>
+      <a href="{{ routes.root_url }}">Return home</a>
+
+    {%- else -%}
+      <h1>{{ page_title | default: shop.name }}</h1>
+  {%- endcase -%}
+</section>
+
+{% schema %}
+{
+  "name": "Main content",
+  "settings": []
+}
+{% endschema %}

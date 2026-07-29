@@ -1,0 +1,15 @@
+<header class="site-header">
+  <div class="site-header__inner page-width">
+    <a class="site-header__logo" href="{{ routes.root_url }}">{{ shop.name }}</a>
+    <nav aria-label="Primary navigation">
+      <a href="{{ routes.all_products_collection_url }}">Shop</a>
+    </nav>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": []
+}
+{% endschema %}
