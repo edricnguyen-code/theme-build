@@ -11,5 +11,13 @@
     "issued": {
       "title": "Your gift card"
     }
+  },
+  "sections": {
+    "slideshow": {
+      "controls": "Slideshow controls",
+      "previous_slide": "Previous slide",
+      "next_slide": "Next slide",
+      "of": "of"
+    }
   }
 }
