@@ -1,0 +1,23 @@
+{
+  "current": {
+    "color_background": "#ffffff",
+    "color_text": "#111111",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {}
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      }
+    },
+    "content_for_index": []
+  },
+  "presets": {
+    "Default": {
+      "color_background": "#ffffff",
+      "color_text": "#111111"
+    }
+  }
+}
