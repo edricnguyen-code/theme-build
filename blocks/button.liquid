@@ -1,0 +1,78 @@
+{% liquid
+  assign button_tag = 'span'
+  if block.settings.link != blank
+    assign button_tag = 'a'
+  endif
+%}
+
+<{{ button_tag }}
+  class="pebble-content-block pebble-button pebble-button--{{ block.settings.style }} pebble-button--width-{{ block.settings.width }}"
+  {% if block.settings.link != blank %}
+    href="{{ block.settings.link }}"
+    {% if block.settings.open_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+  {% endif %}
+  {{ block.shopify_attributes }}
+>
+  <span>{{ block.settings.label | escape }}</span>
+  {% if block.settings.show_arrow %}
+    <span class="pebble-button__icon" aria-hidden="true">→</span>
+  {% endif %}
+</{{ button_tag }}>
+
+{% schema %}
+{
+  "name": "Button",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button label",
+      "default": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" },
+        { "value": "text", "label": "Text" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "options": [
+        { "value": "fit", "label": "Fit" },
+        { "value": "fill", "label": "Fill" }
+      ],
+      "default": "fit"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrow",
+      "label": "Show arrow",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "open_new_tab",
+      "label": "Open in a new tab",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Button"
+    }
+  ]
+}
+{% endschema %}

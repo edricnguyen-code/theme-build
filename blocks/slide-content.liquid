@@ -1,0 +1,238 @@
+<div
+  class="
+    pebble-slide-content
+    pebble-slide-content--align-{{ block.settings.alignment }}
+    pebble-slide-content--mobile-align-{{ block.settings.alignment_mobile }}
+    pebble-slide-content--width-{{ block.settings.width }}
+    pebble-slide-content--border-{{ block.settings.border }}
+    pebble-slide-content--animation-{{ block.settings.animation }}
+    {% if block.settings.transparent_background %}pebble-slide-content--transparent{% endif %}
+    {% if block.settings.inherit_color_scheme %}pebble-slide-content--inherit{% endif %}
+    color-{{ block.settings.color_scheme.id }}
+  "
+  style="
+    --content-row-gap: {{ block.settings.row_gap }}px;
+    --content-row-gap-mobile: {{ block.settings.row_gap_mobile }}px;
+    --content-custom-width: {{ block.settings.custom_width }}%;
+    --content-radius: {{ block.settings.corner_radius }}px;
+    --content-padding-top: {{ block.settings.padding_top }}px;
+    --content-padding-bottom: {{ block.settings.padding_bottom }}px;
+    --content-padding-left: {{ block.settings.padding_left }}px;
+    --content-padding-right: {{ block.settings.padding_right }}px;
+    --content-background: {{ block.settings.color_scheme.settings.background }};
+    --content-text: {{ block.settings.color_scheme.settings.text }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {% content_for 'blocks' %}
+</div>
+
+{% schema %}
+{
+  "name": "Slide content",
+  "tag": null,
+  "blocks": [
+    { "type": "button" },
+    { "type": "heading" },
+    { "type": "subheading" },
+    { "type": "text" },
+    { "type": "spacer" }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "text_alignment",
+      "id": "alignment",
+      "label": "Alignment",
+      "default": "left"
+    },
+    {
+      "type": "text_alignment",
+      "id": "alignment_mobile",
+      "label": "Alignment mobile",
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "label": "Row gap",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "row_gap_mobile",
+      "label": "Row gap mobile",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Size"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "options": [
+        { "value": "fit", "label": "Fit" },
+        { "value": "fill", "label": "Fill" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "fit"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "label": "Custom width",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 40,
+      "visible_if": "{{ block.settings.width == 'custom' }}"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "checkbox",
+      "id": "inherit_color_scheme",
+      "label": "Inherit color scheme",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1",
+      "visible_if": "{{ block.settings.inherit_color_scheme == false }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent_background",
+      "label": "Transparent background",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "border",
+      "label": "Border",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "solid", "label": "Solid" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "select",
+      "id": "animation",
+      "label": "Type",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "fade-in", "label": "Fade in" },
+        { "value": "fade-up", "label": "Fade up" },
+        { "value": "slide-left", "label": "Slide left" },
+        { "value": "slide-right", "label": "Slide right" }
+      ],
+      "default": "fade-up"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slide content",
+      "blocks": [
+        {
+          "type": "text",
+          "settings": {
+            "text": "<p>New campaign</p>",
+            "style": "eyebrow"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "<p>Softness<br>in Comfort</p>",
+            "style": "display"
+          }
+        },
+        {
+          "type": "button",
+          "settings": {
+            "label": "Shop collection",
+            "show_arrow": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,107 @@
+<div
+  class="pebble-content-block pebble-text pebble-text--{{ block.settings.style }}"
+  style="
+    --text-size: {{ block.settings.font_size }}px;
+    --text-size-mobile: {{ block.settings.font_size_mobile }}px;
+    --text-weight: {{ block.settings.font_weight }};
+    --text-line-height: {{ block.settings.line_height | divided_by: 100.0 }};
+    --text-letter-spacing: {{ block.settings.letter_spacing | divided_by: 100.0 }}em;
+    --text-max-width: {{ block.settings.max_width }}ch;
+  "
+  {{ block.shopify_attributes }}
+>
+  {{ block.settings.text }}
+</div>
+
+{% schema %}
+{
+  "name": "Text",
+  "tag": null,
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Text</p>"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        { "value": "body", "label": "Text" },
+        { "value": "eyebrow", "label": "Eyebrow" },
+        { "value": "display", "label": "Display" }
+      ],
+      "default": "body"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Font size mobile",
+      "min": 10,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "label": "Line height",
+      "min": 80,
+      "max": 180,
+      "step": 5,
+      "unit": "%",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing",
+      "min": -10,
+      "max": 20,
+      "step": 1,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "ch",
+      "default": 30
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text"
+    }
+  ]
+}
+{% endschema %}

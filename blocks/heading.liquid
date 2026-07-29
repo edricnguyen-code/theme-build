@@ -1,0 +1,107 @@
+<{{ block.settings.heading_tag }}
+  class="pebble-content-block pebble-heading"
+  style="
+    --heading-size: {{ block.settings.font_size }}px;
+    --heading-size-mobile: {{ block.settings.font_size_mobile }}px;
+    --heading-weight: {{ block.settings.font_weight }};
+    --heading-line-height: {{ block.settings.line_height | divided_by: 100.0 }};
+    --heading-letter-spacing: {{ block.settings.letter_spacing | divided_by: 100.0 }}em;
+    --heading-max-width: {{ block.settings.max_width }}ch;
+  "
+  {{ block.shopify_attributes }}
+>
+  {{ block.settings.heading | escape | newline_to_br }}
+</{{ block.settings.heading_tag }}>
+
+{% schema %}
+{
+  "name": "Heading",
+  "tag": null,
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 24,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Font size mobile",
+      "min": 20,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 42
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "label": "Line height",
+      "min": 80,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "default": 95
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "%",
+      "default": -6
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "ch",
+      "default": 18
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heading"
+    }
+  ]
+}
+{% endschema %}

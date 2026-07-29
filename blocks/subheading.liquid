@@ -1,0 +1,61 @@
+<div
+  class="pebble-content-block pebble-subheading"
+  style="
+    --subheading-size: {{ block.settings.font_size }}px;
+    --subheading-size-mobile: {{ block.settings.font_size_mobile }}px;
+    --subheading-max-width: {{ block.settings.max_width }}ch;
+  "
+  {{ block.shopify_attributes }}
+>
+  {{ block.settings.text }}
+</div>
+
+{% schema %}
+{
+  "name": "Subheading",
+  "tag": null,
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Subheading</p>"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Font size mobile",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "ch",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Subheading"
+    }
+  ]
+}
+{% endschema %}
