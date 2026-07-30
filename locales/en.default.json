@@ -1,7 +1,20 @@
 {
   "general": {
     "skip_to_content": "Skip to content",
-    "continue_shopping": "Continue shopping"
+    "continue_shopping": "Continue shopping",
+    "header": {
+      "open_menu": "Open menu",
+      "primary_navigation": "Primary navigation",
+      "search": "Search",
+      "search_placeholder": "What are you looking for?",
+      "open_search": "Open search",
+      "account": "Account",
+      "cart": "Cart with {{ count }} items",
+      "shop": "Shop",
+      "collections": "Collections",
+      "pages": "Pages",
+      "features": "Features"
+    }
   },
   "password": {
     "heading": "Opening soon",
