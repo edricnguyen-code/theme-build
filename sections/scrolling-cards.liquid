@@ -783,7 +783,9 @@
             window.scrollTo(0, targetScroll);
             stopSmoothing();
           } else {
-            window.scrollTo(0, window.scrollY + distance * 0.16);
+            const easedStep = Math.sign(distance) * Math.max(Math.abs(distance) * 0.16, 1);
+            const nextStep = Math.abs(easedStep) > Math.abs(distance) ? distance : easedStep;
+            window.scrollTo(0, window.scrollY + nextStep);
           }
         }
 
