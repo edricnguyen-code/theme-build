@@ -384,7 +384,9 @@
             "card_1": {
               "type": "product-overlay-card",
               "settings": {
+                "product": "",
                 "product_aspect_ratio": "1 / 1",
+                "image": "shopify://shop_images/scrolling-card-3-v2.webp",
                 "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "color_scheme": "scheme-2",
@@ -396,7 +398,9 @@
             "card_2": {
               "type": "product-overlay-card",
               "settings": {
+                "product": "",
                 "product_aspect_ratio": "1 / 1",
+                "image": "shopify://shop_images/scrolling-card-2-v2.webp",
                 "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "color_scheme": "scheme-2",
@@ -408,7 +412,9 @@
             "card_3": {
               "type": "product-overlay-card",
               "settings": {
+                "product": "",
                 "product_aspect_ratio": "1 / 1",
+                "image": "shopify://shop_images/scrolling-card-1-v2.webp",
                 "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "color_scheme": "scheme-2",
@@ -420,7 +426,9 @@
             "card_4": {
               "type": "product-overlay-card",
               "settings": {
+                "product": "",
                 "product_aspect_ratio": "1 / 1",
+                "image": "shopify://shop_images/scrolling-card-4-v2.webp",
                 "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "color_scheme": "scheme-2",
@@ -432,7 +440,9 @@
             "card_5": {
               "type": "product-overlay-card",
               "settings": {
+                "product": "",
                 "product_aspect_ratio": "1 / 1",
+                "image": "shopify://shop_images/scrolling-card-5-v2.webp",
                 "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "color_scheme": "scheme-2",
@@ -444,7 +454,9 @@
             "card_6": {
               "type": "product-overlay-card",
               "settings": {
+                "product": "",
                 "product_aspect_ratio": "1 / 1",
+                "image": "shopify://shop_images/scrolling-card-6-v2.webp",
                 "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "color_scheme": "scheme-2",
@@ -477,7 +489,7 @@
                     "text": "<p>Soft & playful,<br>this <em>sweet lilac</em></p>",
                     "highlight_style": "solid-background",
                     "highlight_font_style": "normal",
-                    "highlight_color": "#DCD3FF",
+                    "highlight_color": "#dcd3ff",
                     "highlight_text_color": "#111111",
                     "font_size": 48,
                     "font_size_mobile": 34,
@@ -493,7 +505,7 @@
                     "text": "<p>Bright & airy,<br>this <em>light blue</em></p>",
                     "highlight_style": "solid-background",
                     "highlight_font_style": "normal",
-                    "highlight_color": "#BDE6EE",
+                    "highlight_color": "#bde6ee",
                     "highlight_text_color": "#111111",
                     "font_size": 48,
                     "font_size_mobile": 34,
@@ -509,7 +521,7 @@
                     "text": "<p>Warm & joyful,<br>this <em>sweet pink</em></p>",
                     "highlight_style": "solid-background",
                     "highlight_font_style": "normal",
-                    "highlight_color": "#FFD3D3",
+                    "highlight_color": "#ffd3d3",
                     "highlight_text_color": "#111111",
                     "font_size": 48,
                     "font_size_mobile": 34,
@@ -533,7 +545,8 @@
                 "font_size": 14,
                 "font_size_mobile": 14,
                 "max_width": 30,
-                "animation": "none"
+                "animation": "none",
+                "animation_delay": 0
               },
               "blocks": {}
             },
@@ -543,11 +556,23 @@
                 "text": "<p>Easy, breathable pieces designed for everyday play, made to feel light, comfy.</p>",
                 "highlight_style": "none",
                 "preset": "paragraph",
+                "font_family": "heading",
+                "font_weight": "inherit",
+                "font_size": 68,
+                "font_size_mobile": 38,
+                "line_height": "loose",
                 "color": "subtext",
+                "disable_line_break_mobile": false,
                 "width": "fit",
                 "width_mobile": "fill",
                 "max_width": 42,
-                "animation": "none"
+                "padding_top": 0,
+                "padding_bottom": 0,
+                "padding_left": 0,
+                "padding_right": 0,
+                "mobile_scale": 100,
+                "animation": "none",
+                "animation_delay": 0
               },
               "blocks": {}
             },
@@ -559,9 +584,11 @@
                 "style": "primary",
                 "size": "large",
                 "icon": "caret-right",
+                "icon_only": false,
                 "icon_style": "solid",
                 "full_width_mobile": false,
-                "animation": "none"
+                "animation": "none",
+                "animation_delay": 0
               },
               "blocks": {}
             }
