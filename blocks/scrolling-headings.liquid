@@ -1,0 +1,74 @@
+<div
+  class="pebble-scrolling-cards__heading-viewport"
+  data-heading-viewport
+  {{ block.shopify_attributes }}
+>
+  <div class="pebble-scrolling-cards__heading-track" data-heading-track>
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Headings",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "scrolling-heading"
+    }
+  ],
+  "settings": [],
+  "presets": [
+    {
+      "name": "Headings",
+      "blocks": [
+        {
+          "type": "scrolling-heading",
+          "settings": {
+            "text": "<p>Soft & playful,<br>this <em>sweet lilac</em></p>",
+            "highlight_style": "solid-background",
+            "highlight_color": "#DCD3FF",
+            "highlight_text_color": "#111111",
+            "highlight_font_style": "normal",
+            "font_size": 48,
+            "font_size_mobile": 34,
+            "font_weight": "700",
+            "line_height": 120,
+            "max_width": 18
+          }
+        },
+        {
+          "type": "scrolling-heading",
+          "settings": {
+            "text": "<p>Bright & airy,<br>this <em>light blue</em></p>",
+            "highlight_style": "solid-background",
+            "highlight_color": "#BDE6EE",
+            "highlight_text_color": "#111111",
+            "highlight_font_style": "normal",
+            "font_size": 48,
+            "font_size_mobile": 34,
+            "font_weight": "700",
+            "line_height": 120,
+            "max_width": 18
+          }
+        },
+        {
+          "type": "scrolling-heading",
+          "settings": {
+            "text": "<p>Warm & joyful,<br>this <em>sweet pink</em></p>",
+            "highlight_style": "solid-background",
+            "highlight_color": "#FFD3D3",
+            "highlight_text_color": "#111111",
+            "highlight_font_style": "normal",
+            "font_size": 48,
+            "font_size_mobile": 34,
+            "font_weight": "700",
+            "line_height": 120,
+            "max_width": 18
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

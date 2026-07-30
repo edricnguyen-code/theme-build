@@ -373,9 +373,224 @@
         "enable_animations": true,
         "custom_css": ""
       }
+    },
+    "scrolling_cards": {
+      "type": "scrolling-cards",
+      "blocks": {
+        "scrolling_card_list": {
+          "type": "scrolling-card-list",
+          "settings": {},
+          "blocks": {
+            "card_1": {
+              "type": "product-overlay-card",
+              "settings": {
+                "product_aspect_ratio": "1 / 1",
+                "aspect_ratio": "portrait-3-4",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20,
+                "enable_preload_image": false
+              },
+              "blocks": {}
+            },
+            "card_2": {
+              "type": "product-overlay-card",
+              "settings": {
+                "product_aspect_ratio": "1 / 1",
+                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20,
+                "enable_preload_image": false
+              },
+              "blocks": {}
+            },
+            "card_3": {
+              "type": "product-overlay-card",
+              "settings": {
+                "product_aspect_ratio": "1 / 1",
+                "aspect_ratio": "portrait-3-4",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20,
+                "enable_preload_image": false
+              },
+              "blocks": {}
+            },
+            "card_4": {
+              "type": "product-overlay-card",
+              "settings": {
+                "product_aspect_ratio": "1 / 1",
+                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20,
+                "enable_preload_image": false
+              },
+              "blocks": {}
+            },
+            "card_5": {
+              "type": "product-overlay-card",
+              "settings": {
+                "product_aspect_ratio": "1 / 1",
+                "aspect_ratio": "portrait-3-4",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20,
+                "enable_preload_image": false
+              },
+              "blocks": {}
+            },
+            "card_6": {
+              "type": "product-overlay-card",
+              "settings": {
+                "product_aspect_ratio": "1 / 1",
+                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20,
+                "enable_preload_image": false
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "card_1",
+            "card_2",
+            "card_3",
+            "card_4",
+            "card_5",
+            "card_6"
+          ]
+        },
+        "scrolling_content": {
+          "type": "scrolling-card-content",
+          "settings": {},
+          "blocks": {
+            "headings": {
+              "type": "scrolling-headings",
+              "settings": {},
+              "blocks": {
+                "heading_1": {
+                  "type": "scrolling-heading",
+                  "settings": {
+                    "text": "<p>Soft & playful,<br>this <em>sweet lilac</em></p>",
+                    "highlight_style": "solid-background",
+                    "highlight_font_style": "normal",
+                    "highlight_color": "#DCD3FF",
+                    "highlight_text_color": "#111111",
+                    "font_size": 48,
+                    "font_size_mobile": 34,
+                    "font_weight": "700",
+                    "line_height": 120,
+                    "max_width": 18
+                  },
+                  "blocks": {}
+                },
+                "heading_2": {
+                  "type": "scrolling-heading",
+                  "settings": {
+                    "text": "<p>Bright & airy,<br>this <em>light blue</em></p>",
+                    "highlight_style": "solid-background",
+                    "highlight_font_style": "normal",
+                    "highlight_color": "#BDE6EE",
+                    "highlight_text_color": "#111111",
+                    "font_size": 48,
+                    "font_size_mobile": 34,
+                    "font_weight": "700",
+                    "line_height": 120,
+                    "max_width": 18
+                  },
+                  "blocks": {}
+                },
+                "heading_3": {
+                  "type": "scrolling-heading",
+                  "settings": {
+                    "text": "<p>Warm & joyful,<br>this <em>sweet pink</em></p>",
+                    "highlight_style": "solid-background",
+                    "highlight_font_style": "normal",
+                    "highlight_color": "#FFD3D3",
+                    "highlight_text_color": "#111111",
+                    "font_size": 48,
+                    "font_size_mobile": 34,
+                    "font_weight": "700",
+                    "line_height": 120,
+                    "max_width": 18
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "heading_1",
+                "heading_2",
+                "heading_3"
+              ]
+            },
+            "subheading": {
+              "type": "subheading",
+              "settings": {
+                "text": "<p>New in</p>",
+                "font_size": 14,
+                "font_size_mobile": 14,
+                "max_width": 30,
+                "animation": "none"
+              },
+              "blocks": {}
+            },
+            "body": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Easy, breathable pieces designed for everyday play, made to feel light, comfy.</p>",
+                "highlight_style": "none",
+                "preset": "paragraph",
+                "color": "subtext",
+                "width": "fit",
+                "width_mobile": "fill",
+                "max_width": 42,
+                "animation": "none"
+              },
+              "blocks": {}
+            },
+            "cta": {
+              "type": "button",
+              "settings": {
+                "label": "Shop Now",
+                "link": "shopify://collections/all",
+                "style": "primary",
+                "size": "large",
+                "icon": "caret-right",
+                "icon_style": "solid",
+                "full_width_mobile": false,
+                "animation": "none"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "headings",
+            "subheading",
+            "body",
+            "cta"
+          ]
+        }
+      },
+      "block_order": [
+        "scrolling_card_list",
+        "scrolling_content"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "border": "none",
+        "corner_radius": 0,
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "mobile_card_width": 73,
+        "custom_css": ""
+      }
     }
   },
   "order": [
-    "slideshow_minimal"
+    "slideshow_minimal",
+    "scrolling_cards"
   ]
 }

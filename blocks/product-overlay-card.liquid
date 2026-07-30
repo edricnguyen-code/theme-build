@@ -1,0 +1,262 @@
+{% liquid
+  assign selected_product = block.settings.product
+  assign banner_image = block.settings.image
+  assign mobile_image = block.settings.image_mobile
+  assign card_scheme = block.settings.color_scheme
+  assign product_image = selected_product.featured_image
+  assign product_url = routes.all_products_collection_url
+  assign product_title = 'sections.scrolling_cards.product_placeholder' | t
+  assign product_price = 1999 | money
+  assign image_loading = 'lazy'
+  assign fetch_priority = 'auto'
+
+  if selected_product != blank
+    assign product_url = selected_product.url
+    assign product_title = selected_product.title
+    assign product_price = selected_product.price | money
+  endif
+
+  if banner_image == blank and selected_product != blank
+    assign banner_image = selected_product.featured_image
+  endif
+
+  if block.settings.enable_preload_image
+    assign image_loading = 'eager'
+    assign fetch_priority = 'high'
+  endif
+
+  case block.settings.aspect_ratio
+    when 'square'
+      assign desktop_ratio = '1 / 1'
+    when 'portrait-4-5'
+      assign desktop_ratio = '4 / 5'
+    when 'portrait-3-4'
+      assign desktop_ratio = '3 / 4'
+    when 'portrait-2-3'
+      assign desktop_ratio = '2 / 3'
+    when 'portrait-3-5'
+      assign desktop_ratio = '3 / 5'
+    when 'landscape-4-3'
+      assign desktop_ratio = '4 / 3'
+    else
+      if banner_image != blank
+        assign desktop_ratio = banner_image.aspect_ratio
+      else
+        assign desktop_ratio = '3 / 4'
+      endif
+  endcase
+
+  case block.settings.aspect_ratio_mobile
+    when 'square'
+      assign mobile_ratio = '1 / 1'
+    when 'portrait-4-5'
+      assign mobile_ratio = '4 / 5'
+    when 'portrait-3-4'
+      assign mobile_ratio = '3 / 4'
+    when 'portrait-2-3'
+      assign mobile_ratio = '2 / 3'
+    when 'portrait-3-5'
+      assign mobile_ratio = '3 / 5'
+    when 'landscape-4-3'
+      assign mobile_ratio = '4 / 3'
+    else
+      if mobile_image != blank
+        assign mobile_ratio = mobile_image.aspect_ratio
+      elsif banner_image != blank
+        assign mobile_ratio = banner_image.aspect_ratio
+      else
+        assign mobile_ratio = '3 / 4'
+      endif
+  endcase
+
+  assign banner_alt = banner_image.alt | default: product_title
+%}
+
+<article
+  class="pebble-product-overlay-card color-{{ card_scheme.id }}"
+  data-scrolling-card
+  style="
+    --card-ratio: {{ desktop_ratio }};
+    --card-ratio-mobile: {{ mobile_ratio }};
+    --card-radius: {{ block.settings.corner_radius }}px;
+    --card-text: {{ card_scheme.settings.text }};
+    --card-button: {{ card_scheme.settings.button }};
+    --card-button-label: {{ card_scheme.settings.button_label }};
+    --product-ratio: {{ block.settings.product_aspect_ratio }};
+  "
+  {{ block.shopify_attributes }}
+>
+  <a
+    class="pebble-product-overlay-card__media"
+    href="{{ product_url }}"
+    aria-label="{{ product_title | escape }}"
+  >
+    {% if banner_image != blank %}
+      <picture>
+        {% if mobile_image != blank %}
+          <source
+            media="(max-width: 767px)"
+            srcset="
+              {{ mobile_image | image_url: width: 400 }} 400w,
+              {{ mobile_image | image_url: width: 600 }} 600w,
+              {{ mobile_image | image_url: width: 900 }} 900w
+            "
+            sizes="{{ section.settings.mobile_card_width }}vw"
+          >
+        {% endif %}
+        {{
+          banner_image
+          | image_url: width: 1600
+          | image_tag:
+            class: 'pebble-product-overlay-card__banner',
+            widths: '400, 600, 800, 1000, 1200, 1600',
+            sizes: '(max-width: 767px) 73vw, 30vw',
+            loading: image_loading,
+            fetchpriority: fetch_priority,
+            alt: banner_alt
+        }}
+      </picture>
+    {% else %}
+      {{ 'collection-1' | placeholder_svg_tag: 'pebble-product-overlay-card__banner pebble-product-overlay-card__placeholder' }}
+    {% endif %}
+  </a>
+
+  <div class="pebble-product-overlay-card__badge">
+    <div class="pebble-product-overlay-card__product-image">
+      {% if product_image != blank %}
+        {{
+          product_image
+          | image_url: width: 180
+          | image_tag:
+            widths: '60, 90, 120, 180',
+            sizes: '60px',
+            loading: 'lazy',
+            alt: product_title
+        }}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'pebble-product-overlay-card__product-placeholder' }}
+      {% endif %}
+    </div>
+
+    <div class="pebble-product-overlay-card__details">
+      <a class="pebble-product-overlay-card__title" href="{{ product_url }}">
+        {{ product_title | escape }}
+      </a>
+      <span class="pebble-product-overlay-card__price">{{ product_price }}</span>
+    </div>
+
+    <a class="pebble-product-overlay-card__shop" href="{{ product_url }}">
+      {{ 'sections.scrolling_cards.shop' | t }}
+    </a>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Product overlay card",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "select",
+      "id": "product_aspect_ratio",
+      "label": "Product image aspect ratio",
+      "options": [
+        { "value": "auto", "label": "Auto" },
+        { "value": "1 / 1", "label": "Square (1/1)" },
+        { "value": "4 / 5", "label": "Portrait (4/5)" },
+        { "value": "3 / 4", "label": "Portrait (3/4)" }
+      ],
+      "default": "1 / 1"
+    },
+    {
+      "type": "header",
+      "content": "Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image mobile"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Aspect ratio",
+      "options": [
+        { "value": "auto", "label": "Auto" },
+        { "value": "square", "label": "Square (1/1)" },
+        { "value": "portrait-4-5", "label": "Portrait (4/5)" },
+        { "value": "portrait-3-4", "label": "Portrait (3/4)" },
+        { "value": "portrait-2-3", "label": "Portrait (2/3)" },
+        { "value": "portrait-3-5", "label": "Portrait (3/5)" },
+        { "value": "landscape-4-3", "label": "Landscape (4/3)" }
+      ],
+      "default": "portrait-3-4"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio_mobile",
+      "label": "Aspect ratio mobile",
+      "options": [
+        { "value": "auto", "label": "Auto" },
+        { "value": "square", "label": "Square (1/1)" },
+        { "value": "portrait-4-5", "label": "Portrait (4/5)" },
+        { "value": "portrait-3-4", "label": "Portrait (3/4)" },
+        { "value": "portrait-2-3", "label": "Portrait (2/3)" },
+        { "value": "portrait-3-5", "label": "Portrait (3/5)" },
+        { "value": "landscape-4-3", "label": "Landscape (4/3)" }
+      ],
+      "default": "portrait-3-4"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_preload_image",
+      "label": "Enable preload image",
+      "info": "Preload the image if this section is visible on page load to help improve LCP.",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product overlay card"
+    }
+  ]
+}
+{% endschema %}

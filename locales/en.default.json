@@ -31,6 +31,11 @@
       "previous_slide": "Previous slide",
       "next_slide": "Next slide",
       "of": "of"
+    },
+    "scrolling_cards": {
+      "shop": "Shop",
+      "product_placeholder": "Product title",
+      "gallery": "Featured products"
     }
   }
 }

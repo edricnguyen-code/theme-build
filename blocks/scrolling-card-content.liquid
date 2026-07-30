@@ -1,0 +1,79 @@
+<div
+  class="pebble-scrolling-cards__content-shell"
+  data-scrolling-content-shell
+  {{ block.shopify_attributes }}
+>
+  <div class="pebble-scrolling-cards__content" data-scrolling-content>
+    <div class="pebble-scrolling-cards__content-inner">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Content",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "scrolling-headings"
+    },
+    {
+      "type": "subheading"
+    },
+    {
+      "type": "text"
+    },
+    {
+      "type": "button"
+    }
+  ],
+  "settings": [],
+  "presets": [
+    {
+      "name": "Content",
+      "blocks": [
+        {
+          "type": "scrolling-headings"
+        },
+        {
+          "type": "subheading",
+          "settings": {
+            "text": "<p>New in</p>",
+            "font_size": 14,
+            "font_size_mobile": 14,
+            "max_width": 30,
+            "animation": "none"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "<p>Easy, breathable pieces designed for everyday play, made to feel light, comfy.</p>",
+            "highlight_style": "none",
+            "preset": "paragraph",
+            "color": "subtext",
+            "width": "fit",
+            "width_mobile": "fill",
+            "max_width": 42,
+            "animation": "none"
+          }
+        },
+        {
+          "type": "button",
+          "settings": {
+            "label": "Shop Now",
+            "link": "shopify://collections/all",
+            "style": "primary",
+            "size": "large",
+            "icon": "caret-right",
+            "icon_style": "solid",
+            "full_width_mobile": false,
+            "animation": "none"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

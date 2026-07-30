@@ -1,0 +1,1059 @@
+{% liquid
+  assign section_scheme = section.settings.color_scheme
+%}
+
+<section
+  id="PebbleScrollingCards-{{ section.id }}"
+  class="
+    pebble-scrolling-cards
+    pebble-scrolling-cards--border-{{ section.settings.border }}
+    color-{{ section_scheme.id }}
+  "
+  data-pebble-scrolling-cards
+  style="
+    --scroll-background: {{ section_scheme.settings.background_gradient | default: section_scheme.settings.background }};
+    --scroll-text: {{ section_scheme.settings.text }};
+    --scroll-button: {{ section_scheme.settings.button }};
+    --scroll-button-label: {{ section_scheme.settings.button_label }};
+    --scroll-border: {{ section_scheme.settings.text | color_modify: 'alpha', 0.16 }};
+    --scroll-radius: {{ section.settings.corner_radius }}px;
+    --scroll-padding-top: {{ section.settings.padding_top }}px;
+    --scroll-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --scroll-mobile-card-width: {{ section.settings.mobile_card_width }}vw;
+    --slide-button: {{ section_scheme.settings.button }};
+    --slide-button-label: {{ section_scheme.settings.button_label }};
+  "
+>
+  <div class="pebble-scrolling-cards__page">
+    {% content_for 'blocks' %}
+  </div>
+</section>
+
+{% style %}
+  @font-face {
+    font-display: swap;
+    font-family: 'Bricolage Grotesque';
+    font-style: normal;
+    font-weight: 500;
+    src: url('{{ 'pebble-bricolage-500.woff2' | asset_url }}') format('woff2');
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: 'Bricolage Grotesque';
+    font-style: normal;
+    font-weight: 700;
+    src: url('{{ 'pebble-bricolage-700.woff2' | asset_url }}') format('woff2');
+  }
+
+  {% if section.settings.custom_css != blank %}
+    #PebbleScrollingCards-{{ section.id }} {
+      {{ section.settings.custom_css }}
+    }
+  {% endif %}
+{% endstyle %}
+
+{% stylesheet %}
+  .pebble-scrolling-cards {
+    background: var(--scroll-background, #ffffff);
+    border: 0 solid var(--scroll-border, rgba(17, 17, 17, 0.16));
+    border-radius: var(--scroll-radius, 0);
+    color: var(--scroll-text, #111111);
+    padding-block: var(--scroll-padding-top, 6.25rem) var(--scroll-padding-bottom, 6.25rem);
+    position: relative;
+  }
+
+  .pebble-scrolling-cards--border-solid {
+    border-width: 1px;
+  }
+
+  .pebble-scrolling-cards__page {
+    margin-inline: auto;
+    position: relative;
+    width: min(calc(100% - 2rem), 90rem);
+  }
+
+  .pebble-scrolling-cards__cards {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: minmax(0, 1fr) minmax(19rem, 1.44fr) minmax(0, 1fr);
+    min-height: calc(100svh - 5rem);
+    position: relative;
+    row-gap: clamp(3rem, 4.2vw, 5rem);
+  }
+
+  .pebble-scrolling-cards__cards > .pebble-product-overlay-card:nth-of-type(odd) {
+    grid-column: 1;
+  }
+
+  .pebble-scrolling-cards__cards > .pebble-product-overlay-card:nth-of-type(even) {
+    grid-column: 3;
+  }
+
+  .pebble-scrolling-cards__content-shell {
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 2;
+  }
+
+  .pebble-scrolling-cards__content {
+    align-items: center;
+    display: flex;
+    height: calc(100svh - 5rem);
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    width: 100%;
+  }
+
+  .pebble-scrolling-cards__content-inner {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 31.4rem;
+    padding-inline: clamp(1.25rem, 3vw, 3rem);
+    pointer-events: auto;
+    text-align: center;
+    width: 41.84%;
+  }
+
+  .pebble-scrolling-cards .pebble-content-block {
+    flex: 0 0 auto;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .pebble-scrolling-cards .pebble-content-block p {
+    margin: 0;
+  }
+
+  .pebble-scrolling-cards__content-inner > .pebble-subheading {
+    color: inherit;
+    font-family: 'Bricolage Grotesque', Arial, sans-serif;
+    font-size: var(--subheading-size-fluid, var(--subheading-size, 0.875rem));
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: clamp(1.25rem, 2.2vw, 2rem);
+    max-width: var(--subheading-max-width, 30ch);
+    order: 1;
+    text-transform: uppercase;
+  }
+
+  .pebble-scrolling-cards__heading-viewport {
+    order: 2;
+    overflow: clip;
+    position: relative;
+    width: 100%;
+  }
+
+  .pebble-scrolling-cards__heading-track {
+    transform: translate3d(0, var(--heading-offset, 0px), 0);
+    will-change: transform;
+  }
+
+  .pebble-scrolling-heading {
+    align-items: center;
+    display: flex;
+    font-family: 'Bricolage Grotesque', Arial, sans-serif;
+    font-size: var(--scroll-heading-size, 3rem);
+    font-weight: var(--scroll-heading-weight, 700);
+    justify-content: center;
+    line-height: var(--scroll-heading-line-height, 1.2);
+    margin-inline: auto;
+    max-width: var(--scroll-heading-max-width, 18ch);
+    text-align: center;
+    width: 100%;
+  }
+
+  .pebble-scrolling-heading p {
+    margin: 0;
+  }
+
+  .pebble-scrolling-heading em {
+    color: var(--scroll-heading-highlight-text, currentColor);
+    font-style: var(--scroll-heading-highlight-style, normal);
+  }
+
+  .pebble-scrolling-heading--highlight-solid-background em {
+    background:
+      linear-gradient(
+        to right,
+        var(--scroll-heading-highlight),
+        var(--scroll-heading-highlight)
+      )
+      no-repeat 0 50% / 100% 92%;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding-inline: 0.04em;
+  }
+
+  .pebble-scrolling-heading--highlight-standard em {
+    text-decoration-color: var(--scroll-heading-highlight);
+    text-decoration-line: underline;
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 0.12em;
+  }
+
+  .pebble-scrolling-heading--highlight-wavy-underline em {
+    text-decoration-color: var(--scroll-heading-highlight);
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.15em;
+  }
+
+  .pebble-scrolling-cards__content-inner > .pebble-text {
+    color: inherit;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+    margin-top: clamp(1.25rem, 2.2vw, 2rem);
+    max-width: var(--text-max-width, 42ch);
+    order: 3;
+    padding:
+      var(--text-padding-top-fluid, var(--text-padding-top, 0))
+      var(--text-padding-right-fluid, var(--text-padding-right, 0))
+      var(--text-padding-bottom-fluid, var(--text-padding-bottom, 0))
+      var(--text-padding-left-fluid, var(--text-padding-left, 0));
+  }
+
+  .pebble-scrolling-cards__content-inner > .pebble-text--color-subtext {
+    opacity: 0.72;
+  }
+
+  .pebble-scrolling-cards__content-inner > .pebble-text--width-fill {
+    width: 100%;
+  }
+
+  .pebble-scrolling-cards__content-inner > .pebble-text--width-fit {
+    width: fit-content;
+  }
+
+  .pebble-scrolling-cards .pebble-button {
+    --pebble-button-end-padding: 0.625rem;
+    --pebble-icon-radius: 0.9375rem;
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: 3.75rem;
+    display: inline-flex;
+    font-family: 'Bricolage Grotesque', Arial, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    gap: 0.5rem;
+    justify-content: center;
+    line-height: 1.5rem;
+    margin-top: 2rem;
+    order: 4;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: background-color 350ms, color 350ms, border-color 350ms, opacity 350ms, transform 350ms;
+    white-space: nowrap;
+    z-index: 0;
+  }
+
+  .pebble-scrolling-cards .pebble-button--size-extra-small {
+    height: 1.875rem;
+    padding: 0.1875rem 2.25rem 0.1875rem 0.875rem;
+  }
+
+  .pebble-scrolling-cards .pebble-button--size-small {
+    height: 2.375rem;
+    padding: 0.4375rem 2.5rem 0.4375rem 1.125rem;
+  }
+
+  .pebble-scrolling-cards .pebble-button--size-medium {
+    height: 2.75rem;
+    padding: 0.625rem 2.75rem 0.625rem 1.25rem;
+  }
+
+  .pebble-scrolling-cards .pebble-button--size-large {
+    height: 3.125rem;
+    padding: 0.625rem 3rem 0.625rem 1.5rem;
+  }
+
+  .pebble-scrolling-cards .pebble-button--primary {
+    background: var(--scroll-button, #111111);
+    color: var(--scroll-button-label, #ffffff);
+  }
+
+  .pebble-scrolling-cards .pebble-button--secondary,
+  .pebble-scrolling-cards .pebble-button--outline {
+    background: transparent;
+    border-color: currentColor;
+    color: inherit;
+  }
+
+  .pebble-scrolling-cards .pebble-button--plain {
+    background: transparent;
+    border-color: transparent;
+    color: inherit;
+    padding-inline: 0;
+  }
+
+  .pebble-scrolling-cards .pebble-button--icon-default {
+    padding-inline-end: 1.5rem;
+  }
+
+  .pebble-scrolling-cards .pebble-button--icon-only {
+    aspect-ratio: 1;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .pebble-scrolling-cards .pebble-button__text,
+  .pebble-scrolling-cards .pebble-button__hover-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pebble-scrolling-cards .pebble-button__hover {
+    align-items: center;
+    background: var(--scroll-button-label, #ffffff);
+    clip-path: circle(var(--pebble-icon-radius) at calc(100% - var(--pebble-icon-radius) - var(--pebble-button-end-padding)) 50%);
+    color: var(--scroll-button, #111111);
+    display: flex;
+    gap: 0.5rem;
+    height: 100%;
+    inset: 0 auto 0 0;
+    justify-content: space-between;
+    overflow: hidden;
+    padding-inline: 1.5rem var(--pebble-button-end-padding);
+    position: absolute;
+    transition: clip-path 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    z-index: 2;
+  }
+
+  .pebble-scrolling-cards .pebble-button__icon {
+    align-items: center;
+    border-radius: 50%;
+    display: flex;
+    flex: 0 0 auto;
+    height: calc(var(--pebble-icon-radius) * 2);
+    justify-content: center;
+    overflow: hidden;
+    width: calc(var(--pebble-icon-radius) * 2);
+  }
+
+  .pebble-scrolling-cards .pebble-button__icon svg {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .pebble-scrolling-cards .pebble-button--icon-default .pebble-button__icon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .pebble-product-overlay-card {
+    aspect-ratio: var(--card-ratio, 3 / 4);
+    background: linear-gradient(145deg, #bfe5ff 0%, #f4d5da 100%);
+    border-radius: var(--card-radius, 1.25rem);
+    color: var(--card-text, #ffffff);
+    min-width: 0;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .pebble-product-overlay-card:nth-of-type(3n + 2) {
+    background: linear-gradient(145deg, #f4d1c1 0%, #9dbde9 100%);
+  }
+
+  .pebble-product-overlay-card:nth-of-type(3n) {
+    background: linear-gradient(145deg, #d9cdf7 0%, #f7d5d8 100%);
+  }
+
+  .pebble-product-overlay-card__media {
+    color: inherit;
+    inset: 0;
+    position: absolute;
+    text-decoration: none;
+  }
+
+  .pebble-product-overlay-card__media picture {
+    display: contents;
+  }
+
+  .pebble-product-overlay-card__banner,
+  .pebble-product-overlay-card__placeholder {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    scale: 1;
+    transition:
+      transform 1.3s cubic-bezier(0.16, 1, 0.3, 1),
+      scale 0.5s cubic-bezier(0.3, 1, 0.3, 1),
+      opacity 0.3s ease-in-out;
+    width: 100%;
+  }
+
+  .pebble-product-overlay-card__placeholder {
+    background: transparent;
+    color: rgba(17, 17, 17, 0.28);
+    padding: 18%;
+  }
+
+  .pebble-product-overlay-card__badge {
+    align-items: center;
+    backdrop-filter: blur(50px);
+    background:
+      linear-gradient(
+        111.49deg,
+        rgba(255, 255, 255, 0.4) -8.95%,
+        rgba(255, 255, 255, 0.01) 114%
+      );
+    border-radius: 0.625rem;
+    bottom: 1.25rem;
+    color: var(--card-text, #ffffff);
+    display: flex;
+    gap: 0.75rem;
+    left: 1.25rem;
+    min-height: 5rem;
+    padding: 0.625rem;
+    position: absolute;
+    right: 1.25rem;
+    -webkit-backdrop-filter: blur(50px);
+  }
+
+  .pebble-product-overlay-card__product-image {
+    aspect-ratio: var(--product-ratio, 1 / 1);
+    background: #ffffff;
+    border-radius: 0.625rem;
+    flex: 0 0 3.75rem;
+    overflow: hidden;
+  }
+
+  .pebble-product-overlay-card__product-image img,
+  .pebble-product-overlay-card__product-placeholder {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .pebble-product-overlay-card__product-placeholder {
+    color: rgba(17, 17, 17, 0.32);
+    padding: 0.65rem;
+  }
+
+  .pebble-product-overlay-card__details {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .pebble-product-overlay-card__title,
+  .pebble-product-overlay-card__price {
+    color: inherit;
+    font-family: 'Bricolage Grotesque', Arial, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.5rem;
+  }
+
+  .pebble-product-overlay-card__title {
+    overflow: hidden;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pebble-product-overlay-card__shop {
+    align-items: center;
+    background: var(--card-button, #ffffff);
+    border-radius: 3rem;
+    color: var(--card-button-label, #111111);
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-family: 'Bricolage Grotesque', Arial, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding-inline: 1.375rem;
+    text-decoration: none;
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .pebble-product-overlay-card:hover .pebble-product-overlay-card__banner,
+    .pebble-product-overlay-card:focus-within .pebble-product-overlay-card__banner {
+      scale: 1.05;
+    }
+
+    .pebble-product-overlay-card__shop:hover,
+    .pebble-product-overlay-card__shop:focus-visible {
+      opacity: 0.86;
+      transform: translateY(-1px);
+    }
+
+    .pebble-scrolling-cards .pebble-button:hover .pebble-button__hover,
+    .pebble-scrolling-cards .pebble-button:focus-visible .pebble-button__hover {
+      clip-path: circle(150% at calc(100% - var(--pebble-icon-radius) - var(--pebble-button-end-padding)) 50%);
+    }
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1199.98px) {
+    .pebble-scrolling-cards__cards {
+      grid-template-columns: minmax(0, 1fr) minmax(17rem, 1.44fr) minmax(0, 1fr);
+    }
+
+    .pebble-scrolling-cards__content-inner {
+      padding-inline: clamp(1rem, 2.25vw, 1.75rem);
+    }
+
+    .pebble-product-overlay-card__badge {
+      bottom: 0.75rem;
+      gap: 0.5rem;
+      left: 0.75rem;
+      min-height: 4rem;
+      padding: 0.5rem;
+      right: 0.75rem;
+    }
+
+    .pebble-product-overlay-card__product-image {
+      flex-basis: clamp(2.5rem, 5vw, 3.25rem);
+    }
+
+    .pebble-product-overlay-card__title,
+    .pebble-product-overlay-card__price,
+    .pebble-product-overlay-card__shop {
+      font-size: clamp(0.6875rem, 1.3vw, 0.875rem);
+    }
+
+    .pebble-product-overlay-card__shop {
+      min-height: 2.5rem;
+      padding-inline: clamp(0.75rem, 1.5vw, 1.125rem);
+    }
+  }
+
+  @media screen and (max-width: 767.98px) {
+    .pebble-scrolling-cards {
+      padding-block: clamp(3rem, 12vw, 4.5rem);
+    }
+
+    .pebble-scrolling-cards__page {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      width: 100%;
+    }
+
+    .pebble-scrolling-cards__content-shell {
+      inset: auto;
+      order: 1;
+      padding-inline: 1rem;
+      pointer-events: auto;
+      position: static;
+    }
+
+    .pebble-scrolling-cards__content {
+      height: auto;
+      position: static;
+    }
+
+    .pebble-scrolling-cards__content-inner {
+      max-width: 32rem;
+      padding: 0;
+      width: 100%;
+    }
+
+    .pebble-scrolling-cards__cards {
+      display: flex;
+      gap: 0.5rem;
+      min-height: 0;
+      order: 2;
+      overflow-x: auto;
+      padding-inline: 1rem;
+      row-gap: 0;
+      scroll-padding-inline: 1rem;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .pebble-scrolling-cards__cards::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pebble-scrolling-cards__cards > .pebble-product-overlay-card {
+      aspect-ratio: var(--card-ratio-mobile, 3 / 4);
+      flex: 0 0 var(--scroll-mobile-card-width, 73vw);
+      grid-column: auto;
+      scroll-snap-align: start;
+    }
+
+    .pebble-scrolling-cards__content-inner > .pebble-subheading {
+      margin-bottom: 1rem;
+    }
+
+    .pebble-scrolling-cards__heading-viewport {
+      height: auto !important;
+      overflow: visible;
+    }
+
+    .pebble-scrolling-cards__heading-track {
+      transform: none !important;
+    }
+
+    .pebble-scrolling-heading {
+      height: auto !important;
+      min-height: 0 !important;
+    }
+
+    .pebble-scrolling-heading:not(:first-child) {
+      display: none;
+    }
+
+    .pebble-scrolling-cards__content-inner > .pebble-text {
+      margin-top: 1.25rem;
+    }
+
+    .pebble-product-overlay-card__badge {
+      bottom: 0.625rem;
+      gap: 0.5rem;
+      left: 0.625rem;
+      min-height: 4rem;
+      padding: 0.5rem;
+      right: 0.625rem;
+    }
+
+    .pebble-product-overlay-card__product-image {
+      flex-basis: 2.75rem;
+    }
+
+    .pebble-product-overlay-card__title,
+    .pebble-product-overlay-card__price,
+    .pebble-product-overlay-card__shop {
+      font-size: 0.75rem;
+      line-height: 1.1rem;
+    }
+
+    .pebble-product-overlay-card__shop {
+      min-height: 2.25rem;
+      padding-inline: 0.875rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pebble-scrolling-cards__heading-track,
+    .pebble-product-overlay-card__banner,
+    .pebble-product-overlay-card__shop,
+    .pebble-scrolling-cards .pebble-button__hover {
+      transition-duration: 0.01ms !important;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (() => {
+    const sectionSelector = '[data-pebble-scrolling-cards]';
+    const desktopQuery = window.matchMedia('(min-width: 768px)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const clamp = (value, minimum, maximum) => Math.min(Math.max(value, minimum), maximum);
+
+    const initializeSection = (section) => {
+      if (!section || section.dataset.scrollingCardsInitialized === 'true') return;
+
+      const track = section.querySelector('[data-scrolling-track]');
+      const stickyContent = section.querySelector('[data-scrolling-content]');
+      const headingViewport = section.querySelector('[data-heading-viewport]');
+      const headingTrack = section.querySelector('[data-heading-track]');
+      const headings = Array.from(section.querySelectorAll('[data-scrolling-heading]'));
+
+      if (!track || !stickyContent || !headingViewport || !headingTrack || headings.length === 0) return;
+
+      section.dataset.scrollingCardsInitialized = 'true';
+      const controller = new AbortController();
+      const signal = controller.signal;
+      let animationFrame = 0;
+      let activeIndex = -1;
+      let metrics = null;
+      let resizeObserver = null;
+
+      const setActiveHeading = (index) => {
+        if (activeIndex === index) return;
+        activeIndex = index;
+
+        headings.forEach((heading, headingIndex) => {
+          heading.setAttribute('aria-hidden', String(headingIndex !== index));
+          heading.classList.toggle('is-active', headingIndex === index);
+        });
+      };
+
+      const resetMobile = () => {
+        headingTrack.style.removeProperty('--heading-offset');
+        headingViewport.style.removeProperty('height');
+        headings.forEach((heading) => heading.style.removeProperty('height'));
+        section.style.setProperty('--scroll-progress', '0');
+        setActiveHeading(0);
+        metrics = null;
+      };
+
+      const update = () => {
+        animationFrame = 0;
+
+        if (!desktopQuery.matches || !metrics) {
+          resetMobile();
+          return;
+        }
+
+        const progress = clamp((window.scrollY - metrics.start) / metrics.travel, 0, 1);
+        const position = progress * (headings.length - 1);
+        const headingIndex = Math.round(position);
+        const visualProgress = reducedMotionQuery.matches
+          ? headingIndex / Math.max(headings.length - 1, 1)
+          : progress;
+        const headingOffset = -(metrics.headingTravel * visualProgress);
+
+        headingTrack.style.setProperty('--heading-offset', `${headingOffset}px`);
+        section.style.setProperty('--scroll-progress', String(progress));
+        setActiveHeading(headingIndex);
+      };
+
+      const scheduleUpdate = () => {
+        if (animationFrame) return;
+        animationFrame = window.requestAnimationFrame(update);
+      };
+
+      const measure = () => {
+        if (!desktopQuery.matches) {
+          resetMobile();
+          return;
+        }
+
+        headingTrack.style.setProperty('--heading-offset', '0px');
+        headingViewport.style.removeProperty('height');
+        headings.forEach((heading) => heading.style.removeProperty('height'));
+
+        const headingHeight = Math.max(
+          ...headings.map((heading) => Math.ceil(heading.getBoundingClientRect().height))
+        );
+
+        headings.forEach((heading) => {
+          heading.style.height = `${headingHeight}px`;
+        });
+        headingViewport.style.height = `${headingHeight}px`;
+
+        const trackRect = track.getBoundingClientRect();
+        const stickyHeight = stickyContent.getBoundingClientRect().height;
+
+        metrics = {
+          start: trackRect.top + window.scrollY,
+          travel: Math.max(track.offsetHeight - stickyHeight, 1),
+          headingTravel: headingHeight * Math.max(headings.length - 1, 0)
+        };
+
+        scheduleUpdate();
+      };
+
+      window.addEventListener('scroll', scheduleUpdate, { passive: true, signal });
+      window.addEventListener('resize', measure, { passive: true, signal });
+      desktopQuery.addEventListener('change', measure, { signal });
+      reducedMotionQuery.addEventListener('change', scheduleUpdate, { signal });
+
+      if ('ResizeObserver' in window) {
+        resizeObserver = new ResizeObserver(measure);
+        resizeObserver.observe(track);
+      }
+
+      document.addEventListener('shopify:block:select', (event) => {
+        if (event.target instanceof Element && section.contains(event.target)) measure();
+      }, { signal });
+
+      document.addEventListener('shopify:section:unload', (event) => {
+        if (event.target instanceof Element && event.target.contains(section)) {
+          resizeObserver?.disconnect();
+          if (animationFrame) window.cancelAnimationFrame(animationFrame);
+          controller.abort();
+          section.dataset.scrollingCardsInitialized = 'false';
+        }
+      }, { signal });
+
+      measure();
+    };
+
+    const initializeWithin = (root) => {
+      if (root instanceof Element && root.matches(sectionSelector)) {
+        initializeSection(root);
+      }
+      root.querySelectorAll?.(sectionSelector).forEach(initializeSection);
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => initializeWithin(document), { once: true });
+    } else {
+      initializeWithin(document);
+    }
+
+    document.addEventListener('shopify:section:load', (event) => initializeWithin(event.target));
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Scrolling cards",
+  "tag": "section",
+  "class": "section-scrolling-cards",
+  "blocks": [
+    {
+      "type": "scrolling-card-list"
+    },
+    {
+      "type": "scrolling-card-content"
+    }
+  ],
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "border",
+      "label": "Border",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "solid", "label": "Solid" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_card_width",
+      "label": "Card width",
+      "min": 55,
+      "max": 90,
+      "step": 1,
+      "unit": "vw",
+      "default": 73
+    },
+    {
+      "type": "header",
+      "content": "Custom CSS"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "CSS"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling cards",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "border": "none",
+        "corner_radius": 0,
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "mobile_card_width": 73
+      },
+      "blocks": [
+        {
+          "type": "scrolling-card-list",
+          "blocks": [
+            {
+              "type": "product-overlay-card",
+              "settings": {
+                "aspect_ratio": "portrait-3-4",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "product_aspect_ratio": "1 / 1",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20
+              }
+            },
+            {
+              "type": "product-overlay-card",
+              "settings": {
+                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "product_aspect_ratio": "1 / 1",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20
+              }
+            },
+            {
+              "type": "product-overlay-card",
+              "settings": {
+                "aspect_ratio": "portrait-3-4",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "product_aspect_ratio": "1 / 1",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20
+              }
+            },
+            {
+              "type": "product-overlay-card",
+              "settings": {
+                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "product_aspect_ratio": "1 / 1",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20
+              }
+            },
+            {
+              "type": "product-overlay-card",
+              "settings": {
+                "aspect_ratio": "portrait-3-4",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "product_aspect_ratio": "1 / 1",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20
+              }
+            },
+            {
+              "type": "product-overlay-card",
+              "settings": {
+                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio_mobile": "portrait-3-4",
+                "product_aspect_ratio": "1 / 1",
+                "color_scheme": "scheme-2",
+                "corner_radius": 20
+              }
+            }
+          ]
+        },
+        {
+          "type": "scrolling-card-content",
+          "blocks": [
+            {
+              "type": "scrolling-headings",
+              "blocks": [
+                {
+                  "type": "scrolling-heading",
+                  "settings": {
+                    "text": "<p>Soft & playful,<br>this <em>sweet lilac</em></p>",
+                    "highlight_style": "solid-background",
+                    "highlight_color": "#DCD3FF",
+                    "highlight_text_color": "#111111",
+                    "highlight_font_style": "normal",
+                    "font_size": 48,
+                    "font_size_mobile": 34,
+                    "font_weight": "700",
+                    "line_height": 120,
+                    "max_width": 18
+                  }
+                },
+                {
+                  "type": "scrolling-heading",
+                  "settings": {
+                    "text": "<p>Bright & airy,<br>this <em>light blue</em></p>",
+                    "highlight_style": "solid-background",
+                    "highlight_color": "#BDE6EE",
+                    "highlight_text_color": "#111111",
+                    "highlight_font_style": "normal",
+                    "font_size": 48,
+                    "font_size_mobile": 34,
+                    "font_weight": "700",
+                    "line_height": 120,
+                    "max_width": 18
+                  }
+                },
+                {
+                  "type": "scrolling-heading",
+                  "settings": {
+                    "text": "<p>Warm & joyful,<br>this <em>sweet pink</em></p>",
+                    "highlight_style": "solid-background",
+                    "highlight_color": "#FFD3D3",
+                    "highlight_text_color": "#111111",
+                    "highlight_font_style": "normal",
+                    "font_size": 48,
+                    "font_size_mobile": 34,
+                    "font_weight": "700",
+                    "line_height": 120,
+                    "max_width": 18
+                  }
+                }
+              ]
+            },
+            {
+              "type": "subheading",
+              "settings": {
+                "text": "<p>New in</p>",
+                "font_size": 14,
+                "font_size_mobile": 14,
+                "max_width": 30,
+                "animation": "none"
+              }
+            },
+            {
+              "type": "text",
+              "settings": {
+                "text": "<p>Easy, breathable pieces designed for everyday play, made to feel light, comfy.</p>",
+                "highlight_style": "none",
+                "preset": "paragraph",
+                "color": "subtext",
+                "width": "fit",
+                "width_mobile": "fill",
+                "max_width": 42,
+                "animation": "none"
+              }
+            },
+            {
+              "type": "button",
+              "settings": {
+                "label": "Shop Now",
+                "link": "shopify://collections/all",
+                "style": "primary",
+                "size": "large",
+                "icon": "caret-right",
+                "icon_style": "solid",
+                "full_width_mobile": false,
+                "animation": "none"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

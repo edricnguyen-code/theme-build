@@ -1,0 +1,143 @@
+{% liquid
+  assign heading_fluid_delta = block.settings.font_size | minus: block.settings.font_size_mobile
+  assign heading_fluid_slope = heading_fluid_delta | times: 100.0 | divided_by: 512.0
+  assign heading_fluid_start_offset = heading_fluid_slope | times: 7.68
+  assign heading_fluid_intercept = block.settings.font_size_mobile | minus: heading_fluid_start_offset
+%}
+
+<div
+  class="
+    pebble-scrolling-heading
+    pebble-scrolling-heading--highlight-{{ block.settings.highlight_style }}
+  "
+  role="heading"
+  aria-level="2"
+  data-scrolling-heading
+  style="
+    --scroll-heading-size: clamp({{ block.settings.font_size_mobile }}px, calc({{ heading_fluid_intercept }}px + {{ heading_fluid_slope }}vw), {{ block.settings.font_size }}px);
+    --scroll-heading-weight: {{ block.settings.font_weight }};
+    --scroll-heading-line-height: {{ block.settings.line_height | divided_by: 100.0 }};
+    --scroll-heading-max-width: {{ block.settings.max_width }}ch;
+    --scroll-heading-highlight: {{ block.settings.highlight_color }};
+    --scroll-heading-highlight-text: {{ block.settings.highlight_text_color }};
+    --scroll-heading-highlight-style: {{ block.settings.highlight_font_style }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {{ block.settings.text }}
+</div>
+
+{% schema %}
+{
+  "name": "Heading",
+  "tag": null,
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Soft & playful,<br>this <em>sweet lilac</em></p>",
+      "info": "Italicized text uses the selected highlight style."
+    },
+    {
+      "type": "header",
+      "content": "Highlight"
+    },
+    {
+      "type": "select",
+      "id": "highlight_style",
+      "label": "Style",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "standard", "label": "Standard" },
+        { "value": "wavy-underline", "label": "Wavy underline" },
+        { "value": "solid-background", "label": "Solid background" }
+      ],
+      "default": "solid-background"
+    },
+    {
+      "type": "select",
+      "id": "highlight_font_style",
+      "label": "Font style",
+      "options": [
+        { "value": "italic", "label": "Italic" },
+        { "value": "normal", "label": "Normal" }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Shape color",
+      "default": "#DCD3FF"
+    },
+    {
+      "type": "color",
+      "id": "highlight_text_color",
+      "label": "Text color",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 28,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Font size mobile",
+      "min": 22,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "label": "Line height",
+      "min": 90,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "ch",
+      "default": 18
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heading"
+    }
+  ]
+}
+{% endschema %}

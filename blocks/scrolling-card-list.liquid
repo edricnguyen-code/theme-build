@@ -1,0 +1,47 @@
+<div
+  class="pebble-scrolling-cards__cards"
+  data-scrolling-track
+  role="region"
+  aria-label="{{ 'sections.scrolling_cards.gallery' | t }}"
+  {{ block.shopify_attributes }}
+>
+  {% content_for 'blocks' %}
+</div>
+
+{% schema %}
+{
+  "name": "Scrolling cards",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "product-overlay-card"
+    }
+  ],
+  "settings": [],
+  "presets": [
+    {
+      "name": "Scrolling cards",
+      "blocks": [
+        {
+          "type": "product-overlay-card",
+          "settings": {
+            "aspect_ratio": "portrait-3-4",
+            "aspect_ratio_mobile": "portrait-3-4",
+            "color_scheme": "scheme-2",
+            "corner_radius": 20
+          }
+        },
+        {
+          "type": "product-overlay-card",
+          "settings": {
+            "aspect_ratio": "portrait-3-5",
+            "aspect_ratio_mobile": "portrait-3-4",
+            "color_scheme": "scheme-2",
+            "corner_radius": 20
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
