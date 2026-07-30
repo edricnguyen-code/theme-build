@@ -1,9 +1,17 @@
+{% liquid
+  assign subheading_fluid_delta = block.settings.font_size | minus: block.settings.font_size_mobile
+  assign subheading_fluid_slope = subheading_fluid_delta | times: 100.0 | divided_by: 512.0
+  assign subheading_fluid_start_offset = subheading_fluid_slope | times: 7.68
+  assign subheading_fluid_intercept = block.settings.font_size_mobile | minus: subheading_fluid_start_offset
+%}
+
 <div
   class="pebble-content-block pebble-subheading"
   data-motion="{{ block.settings.animation }}"
   style="
     --subheading-size: {{ block.settings.font_size }}px;
     --subheading-size-mobile: {{ block.settings.font_size_mobile }}px;
+    --subheading-size-fluid: clamp({{ block.settings.font_size_mobile }}px, calc({{ subheading_fluid_intercept }}px + {{ subheading_fluid_slope }}vw), {{ block.settings.font_size }}px);
     --subheading-max-width: {{ block.settings.max_width }}ch;
     --motion-delay: {{ block.settings.animation_delay }}ms;
   "

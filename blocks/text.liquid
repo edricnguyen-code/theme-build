@@ -12,8 +12,33 @@
   endif
 
   assign text_fluid_delta = block.settings.font_size | minus: block.settings.font_size_mobile
-  assign text_fluid_slope = text_fluid_delta | times: 100.0 | divided_by: 1152.0
-  assign text_fluid_intercept = block.settings.font_size_mobile | minus: text_fluid_slope | times: 7.68
+  assign text_fluid_slope = text_fluid_delta | times: 100.0 | divided_by: 512.0
+  assign text_fluid_start_offset = text_fluid_slope | times: 7.68
+  assign text_fluid_intercept = block.settings.font_size_mobile | minus: text_fluid_start_offset
+
+  assign text_padding_top_mobile = block.settings.padding_top | times: block.settings.mobile_scale | divided_by: 100.0
+  assign text_padding_top_delta = block.settings.padding_top | minus: text_padding_top_mobile
+  assign text_padding_top_slope = text_padding_top_delta | times: 100.0 | divided_by: 512.0
+  assign text_padding_top_offset = text_padding_top_slope | times: 7.68
+  assign text_padding_top_intercept = text_padding_top_mobile | minus: text_padding_top_offset
+
+  assign text_padding_bottom_mobile = block.settings.padding_bottom | times: block.settings.mobile_scale | divided_by: 100.0
+  assign text_padding_bottom_delta = block.settings.padding_bottom | minus: text_padding_bottom_mobile
+  assign text_padding_bottom_slope = text_padding_bottom_delta | times: 100.0 | divided_by: 512.0
+  assign text_padding_bottom_offset = text_padding_bottom_slope | times: 7.68
+  assign text_padding_bottom_intercept = text_padding_bottom_mobile | minus: text_padding_bottom_offset
+
+  assign text_padding_left_mobile = block.settings.padding_left | times: block.settings.mobile_scale | divided_by: 100.0
+  assign text_padding_left_delta = block.settings.padding_left | minus: text_padding_left_mobile
+  assign text_padding_left_slope = text_padding_left_delta | times: 100.0 | divided_by: 512.0
+  assign text_padding_left_offset = text_padding_left_slope | times: 7.68
+  assign text_padding_left_intercept = text_padding_left_mobile | minus: text_padding_left_offset
+
+  assign text_padding_right_mobile = block.settings.padding_right | times: block.settings.mobile_scale | divided_by: 100.0
+  assign text_padding_right_delta = block.settings.padding_right | minus: text_padding_right_mobile
+  assign text_padding_right_slope = text_padding_right_delta | times: 100.0 | divided_by: 512.0
+  assign text_padding_right_offset = text_padding_right_slope | times: 7.68
+  assign text_padding_right_intercept = text_padding_right_mobile | minus: text_padding_right_offset
 %}
 
 <div
@@ -40,6 +65,10 @@
     --text-padding-bottom: {{ block.settings.padding_bottom }}px;
     --text-padding-left: {{ block.settings.padding_left }}px;
     --text-padding-right: {{ block.settings.padding_right }}px;
+    --text-padding-top-fluid: clamp({{ text_padding_top_mobile }}px, calc({{ text_padding_top_intercept }}px + {{ text_padding_top_slope }}vw), {{ block.settings.padding_top }}px);
+    --text-padding-bottom-fluid: clamp({{ text_padding_bottom_mobile }}px, calc({{ text_padding_bottom_intercept }}px + {{ text_padding_bottom_slope }}vw), {{ block.settings.padding_bottom }}px);
+    --text-padding-left-fluid: clamp({{ text_padding_left_mobile }}px, calc({{ text_padding_left_intercept }}px + {{ text_padding_left_slope }}vw), {{ block.settings.padding_left }}px);
+    --text-padding-right-fluid: clamp({{ text_padding_right_mobile }}px, calc({{ text_padding_right_intercept }}px + {{ text_padding_right_slope }}vw), {{ block.settings.padding_right }}px);
     --text-mobile-scale: {{ block.settings.mobile_scale | divided_by: 100.0 }};
     --motion-delay: {{ block.settings.animation_delay }}ms;
   "

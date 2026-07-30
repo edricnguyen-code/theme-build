@@ -1,6 +1,17 @@
+{% liquid
+  assign spacer_fluid_delta = block.settings.height | minus: block.settings.height_mobile
+  assign spacer_fluid_slope = spacer_fluid_delta | times: 100.0 | divided_by: 512.0
+  assign spacer_fluid_start_offset = spacer_fluid_slope | times: 7.68
+  assign spacer_fluid_intercept = block.settings.height_mobile | minus: spacer_fluid_start_offset
+%}
+
 <div
   class="pebble-content-block pebble-spacer"
-  style="--spacer-height: {{ block.settings.height }}px; --spacer-height-mobile: {{ block.settings.height_mobile }}px;"
+  style="
+    --spacer-height: {{ block.settings.height }}px;
+    --spacer-height-mobile: {{ block.settings.height_mobile }}px;
+    --spacer-height-fluid: clamp({{ block.settings.height_mobile }}px, calc({{ spacer_fluid_intercept }}px + {{ spacer_fluid_slope }}vw), {{ block.settings.height }}px);
+  "
   aria-hidden="true"
   {{ block.shopify_attributes }}
 ></div>

@@ -1,3 +1,10 @@
+{% liquid
+  assign content_gap_fluid_delta = block.settings.row_gap | minus: block.settings.row_gap_mobile
+  assign content_gap_fluid_slope = content_gap_fluid_delta | times: 100.0 | divided_by: 512.0
+  assign content_gap_fluid_start_offset = content_gap_fluid_slope | times: 7.68
+  assign content_gap_fluid_intercept = block.settings.row_gap_mobile | minus: content_gap_fluid_start_offset
+%}
+
 <div
   class="
     pebble-slide-content
@@ -13,6 +20,7 @@
   style="
     --content-row-gap: {{ block.settings.row_gap }}px;
     --content-row-gap-mobile: {{ block.settings.row_gap_mobile }}px;
+    --content-row-gap-fluid: clamp({{ block.settings.row_gap_mobile }}px, calc({{ content_gap_fluid_intercept }}px + {{ content_gap_fluid_slope }}vw), {{ block.settings.row_gap }}px);
     --content-custom-width: {{ block.settings.custom_width }}%;
     --content-radius: {{ block.settings.corner_radius }}px;
     --content-padding-top: {{ block.settings.padding_top }}px;
