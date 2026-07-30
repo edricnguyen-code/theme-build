@@ -3,26 +3,62 @@
   if block.settings.link != blank
     assign button_tag = 'a'
   endif
+
+  capture button_icon
+    case block.settings.icon
+      when 'caret-left'
+        echo '<svg viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M12.5 3.75 6.25 10l6.25 6.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>'
+      when 'caret-down'
+        echo '<svg viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="m3.75 7.5 6.25 6.25 6.25-6.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>'
+      when 'plus'
+        echo '<svg viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M10 3.75v12.5M3.75 10h12.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg>'
+      when 'minus'
+        echo '<svg viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M3.75 10h12.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg>'
+      when 'close'
+        echo '<svg viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="m4.5 4.5 11 11m0-11-11 11" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg>'
+      when 'check'
+        echo '<svg viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="m3.75 10 4.25 4.25 8.25-8.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>'
+      else
+        echo '<svg viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M7.5 3.75 13.75 10 7.5 16.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>'
+    endcase
+  endcapture
 %}
 
 <{{ button_tag }}
-  class="pebble-content-block pebble-button pebble-button--{{ block.settings.style }} pebble-button--width-{{ block.settings.width }}"
+  class="
+    pebble-content-block
+    pebble-button
+    pebble-button--{{ block.settings.style }}
+    pebble-button--size-{{ block.settings.size }}
+    pebble-button--icon-{{ block.settings.icon_style }}
+    {% if block.settings.icon_only %}pebble-button--icon-only{% endif %}
+    {% if block.settings.full_width_mobile %}pebble-button--full-mobile{% endif %}
+  "
+  data-motion="{{ block.settings.animation }}"
+  style="--motion-delay: {{ block.settings.animation_delay }}ms;"
   {% if block.settings.link != blank %}
     href="{{ block.settings.link }}"
-    {% if block.settings.open_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+  {% endif %}
+  {% if block.settings.icon_only %}
+    aria-label="{{ block.settings.label | escape }}"
   {% endif %}
   {{ block.shopify_attributes }}
 >
-  <span class="pebble-button__text">{{ block.settings.label | escape }}</span>
-  {% if block.settings.show_arrow %}
-    <span class="pebble-button__hover" aria-hidden="true">
-      <span class="pebble-button__hover-text">{{ block.settings.label | escape }}</span>
-      <span class="pebble-button__icon">
-        <svg viewBox="0 0 20 20" focusable="false">
-          <path d="M7.5 3.75 13.75 10 7.5 16.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-        </svg>
+  {% unless block.settings.icon_only %}
+    <span class="pebble-button__text">{{ block.settings.label | escape }}</span>
+  {% endunless %}
+
+  {% if block.settings.icon != 'none' %}
+    {% if block.settings.icon_style == 'solid' %}
+      <span class="pebble-button__hover" aria-hidden="true">
+        {% unless block.settings.icon_only %}
+          <span class="pebble-button__hover-text">{{ block.settings.label | escape }}</span>
+        {% endunless %}
+        <span class="pebble-button__icon">{{ button_icon }}</span>
       </span>
-    </span>
+    {% else %}
+      <span class="pebble-button__icon" aria-hidden="true">{{ button_icon }}</span>
+    {% endif %}
   {% endif %}
 </{{ button_tag }}>
 
@@ -34,7 +70,7 @@
     {
       "type": "text",
       "id": "label",
-      "label": "Button label",
+      "label": "Label",
       "default": "Button label"
     },
     {
@@ -49,36 +85,106 @@
       "options": [
         { "value": "primary", "label": "Primary" },
         { "value": "secondary", "label": "Secondary" },
-        { "value": "text", "label": "Text" }
+        { "value": "outline", "label": "Outline" },
+        { "value": "plain", "label": "Plain" }
       ],
       "default": "primary"
     },
     {
       "type": "select",
-      "id": "width",
-      "label": "Width",
+      "id": "size",
+      "label": "Size",
       "options": [
-        { "value": "fit", "label": "Fit" },
-        { "value": "fill", "label": "Fill" }
+        { "value": "extra-small", "label": "Extra small" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
       ],
-      "default": "fit"
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "caret-left", "label": "Caret left" },
+        { "value": "caret-right", "label": "Caret right" },
+        { "value": "caret-down", "label": "Caret down" },
+        { "value": "plus", "label": "Plus" },
+        { "value": "minus", "label": "Minus" },
+        { "value": "close", "label": "Close" },
+        { "value": "check", "label": "Check" }
+      ],
+      "default": "caret-right"
     },
     {
       "type": "checkbox",
-      "id": "show_arrow",
-      "label": "Show arrow",
+      "id": "icon_only",
+      "label": "Icon only",
+      "default": false,
+      "visible_if": "{{ block.settings.icon != 'none' }}"
+    },
+    {
+      "type": "select",
+      "id": "icon_style",
+      "label": "Icon style",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "solid", "label": "Solid" }
+      ],
+      "default": "solid",
+      "visible_if": "{{ block.settings.icon != 'none' }}"
+    },
+    {
+      "type": "header",
+      "content": "Mobile settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width_mobile",
+      "label": "Enable full wide on mobile",
       "default": true
     },
     {
-      "type": "checkbox",
-      "id": "open_new_tab",
-      "label": "Open in a new tab",
-      "default": false
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "select",
+      "id": "animation",
+      "label": "Type",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "fade-in", "label": "Fade in" },
+        { "value": "fade-up", "label": "Fade up" },
+        { "value": "slide-left", "label": "Slide in (left)" },
+        { "value": "slide-right", "label": "Slide in (right)" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "animation_delay",
+      "label": "Delay",
+      "min": 0,
+      "max": 1000,
+      "step": 50,
+      "unit": "ms",
+      "default": 0,
+      "visible_if": "{{ block.settings.animation != 'none' }}"
     }
   ],
   "presets": [
     {
-      "name": "Button"
+      "name": "Button",
+      "settings": {
+        "style": "primary",
+        "size": "large",
+        "icon": "caret-right",
+        "icon_style": "solid",
+        "full_width_mobile": true
+      }
     }
   ]
 }

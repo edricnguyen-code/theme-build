@@ -1,5 +1,6 @@
 <{{ block.settings.heading_tag }}
   class="pebble-content-block pebble-heading"
+  data-motion="{{ block.settings.animation }}"
   style="
     --heading-size: {{ block.settings.font_size }}px;
     --heading-size-mobile: {{ block.settings.font_size_mobile }}px;
@@ -7,6 +8,7 @@
     --heading-line-height: {{ block.settings.line_height | divided_by: 100.0 }};
     --heading-letter-spacing: {{ block.settings.letter_spacing | divided_by: 100.0 }}em;
     --heading-max-width: {{ block.settings.max_width }}ch;
+    --motion-delay: {{ block.settings.animation_delay }}ms;
   "
   {{ block.shopify_attributes }}
 >
@@ -43,7 +45,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 72
+      "default": 68
     },
     {
       "type": "range",
@@ -53,7 +55,7 @@
       "max": 64,
       "step": 2,
       "unit": "px",
-      "default": 42
+      "default": 38
     },
     {
       "type": "select",
@@ -62,7 +64,7 @@
       "options": [
         { "value": "400", "label": "Regular" },
         { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semibold" },
+        { "value": "600", "label": "Semi bold" },
         { "value": "700", "label": "Bold" }
       ],
       "default": "700"
@@ -75,7 +77,7 @@
       "max": 150,
       "step": 5,
       "unit": "%",
-      "default": 95
+      "default": 120
     },
     {
       "type": "range",
@@ -85,7 +87,7 @@
       "max": 10,
       "step": 1,
       "unit": "%",
-      "default": -6
+      "default": 0
     },
     {
       "type": "range",
@@ -96,6 +98,34 @@
       "step": 2,
       "unit": "ch",
       "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "select",
+      "id": "animation",
+      "label": "Type",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "fade-in", "label": "Fade in" },
+        { "value": "fade-up", "label": "Fade up" },
+        { "value": "slide-left", "label": "Slide in (left)" },
+        { "value": "slide-right", "label": "Slide in (right)" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "animation_delay",
+      "label": "Delay",
+      "min": 0,
+      "max": 1000,
+      "step": 50,
+      "unit": "ms",
+      "default": 0,
+      "visible_if": "{{ block.settings.animation != 'none' }}"
     }
   ],
   "presets": [

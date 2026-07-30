@@ -21,7 +21,7 @@
           "type": "image-slide",
           "settings": {
             "default_media": "pebble-1",
-            "media_overlay": false,
+            "media_overlay": true,
             "overlay_color": "#000000",
             "position": "middle-left",
             "position_mobile": "bottom",
@@ -46,43 +46,66 @@
                 "padding_bottom": 0,
                 "padding_left": 0,
                 "padding_right": 0,
-                "animation": "fade-up"
+                "animation": "none"
               },
               "blocks": {
                 "eyebrow_1": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>New campaign</p>",
-                    "style": "eyebrow",
-                    "font_size": 15,
-                    "font_size_mobile": 15,
-                    "font_weight": "700",
-                    "line_height": 160,
-                    "letter_spacing": 0,
-                    "max_width": 30
+                    "text": "<p>New Campaign</p>",
+                    "highlight_style": "none",
+                    "preset": "subheading",
+                    "color": "text",
+                    "disable_line_break_mobile": false,
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 30,
+                    "padding_top": 0,
+                    "padding_bottom": 16,
+                    "padding_left": 0,
+                    "padding_right": 0,
+                    "mobile_scale": 100,
+                    "animation": "fade-up",
+                    "animation_delay": 50
                   }
                 },
                 "display_1": {
                   "type": "text",
                   "settings": {
                     "text": "<p>Softness<br>in Comfort</p>",
-                    "style": "display",
+                    "highlight_style": "none",
+                    "preset": "custom",
+                    "font_family": "heading",
+                    "font_weight": "inherit",
                     "font_size": 68,
                     "font_size_mobile": 38,
-                    "font_weight": "700",
-                    "line_height": 120,
-                    "letter_spacing": 0,
-                    "max_width": 18
+                    "line_height": "loose",
+                    "color": "text",
+                    "disable_line_break_mobile": false,
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 18,
+                    "padding_top": 0,
+                    "padding_bottom": 32,
+                    "padding_left": 0,
+                    "padding_right": 0,
+                    "mobile_scale": 75,
+                    "animation": "fade-up",
+                    "animation_delay": 150
                   }
                 },
                 "button_1": {
                   "type": "button",
                   "settings": {
-                    "label": "Shop collection",
+                    "label": "Shop Collection",
                     "style": "primary",
-                    "width": "fit",
-                    "show_arrow": true,
-                    "open_new_tab": false
+                    "size": "large",
+                    "icon": "caret-right",
+                    "icon_only": false,
+                    "icon_style": "solid",
+                    "full_width_mobile": true,
+                    "animation": "fade-up",
+                    "animation_delay": 250
                   }
                 }
               },
@@ -95,7 +118,7 @@
           "type": "image-slide",
           "settings": {
             "default_media": "pebble-2",
-            "media_overlay": false,
+            "media_overlay": true,
             "overlay_color": "#000000",
             "position": "middle-left",
             "position_mobile": "bottom",
@@ -120,43 +143,66 @@
                 "padding_bottom": 0,
                 "padding_left": 0,
                 "padding_right": 0,
-                "animation": "fade-up"
+                "animation": "none"
               },
               "blocks": {
                 "eyebrow_2": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Little moments</p>",
-                    "style": "eyebrow",
-                    "font_size": 15,
-                    "font_size_mobile": 15,
-                    "font_weight": "700",
-                    "line_height": 160,
-                    "letter_spacing": 0,
-                    "max_width": 30
+                    "text": "<p>Little Moments</p>",
+                    "highlight_style": "none",
+                    "preset": "subheading",
+                    "color": "text",
+                    "disable_line_break_mobile": false,
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 30,
+                    "padding_top": 0,
+                    "padding_bottom": 16,
+                    "padding_left": 0,
+                    "padding_right": 0,
+                    "mobile_scale": 100,
+                    "animation": "fade-up",
+                    "animation_delay": 50
                   }
                 },
                 "display_2": {
                   "type": "text",
                   "settings": {
                     "text": "<p>Wrapped<br>in Warmth</p>",
-                    "style": "display",
+                    "highlight_style": "none",
+                    "preset": "custom",
+                    "font_family": "heading",
+                    "font_weight": "inherit",
                     "font_size": 68,
                     "font_size_mobile": 38,
-                    "font_weight": "700",
-                    "line_height": 120,
-                    "letter_spacing": 0,
-                    "max_width": 18
+                    "line_height": "loose",
+                    "color": "text",
+                    "disable_line_break_mobile": false,
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 18,
+                    "padding_top": 0,
+                    "padding_bottom": 32,
+                    "padding_left": 0,
+                    "padding_right": 0,
+                    "mobile_scale": 75,
+                    "animation": "fade-up",
+                    "animation_delay": 150
                   }
                 },
                 "button_2": {
                   "type": "button",
                   "settings": {
-                    "label": "Shop collection",
+                    "label": "Shop Collection",
                     "style": "primary",
-                    "width": "fit",
-                    "show_arrow": true,
-                    "open_new_tab": false
+                    "size": "large",
+                    "icon": "caret-right",
+                    "icon_only": false,
+                    "icon_style": "solid",
+                    "full_width_mobile": true,
+                    "animation": "fade-up",
+                    "animation_delay": 250
                   }
                 }
               },
@@ -167,9 +213,10 @@
         },
         "image_slide_3": {
           "type": "image-slide",
+          "disabled": true,
           "settings": {
             "default_media": "pebble-1",
-            "media_overlay": false,
+            "media_overlay": true,
             "overlay_color": "#000000",
             "position": "middle-left",
             "position_mobile": "bottom",
@@ -194,43 +241,66 @@
                 "padding_bottom": 0,
                 "padding_left": 0,
                 "padding_right": 0,
-                "animation": "fade-up"
+                "animation": "none"
               },
               "blocks": {
                 "eyebrow_3": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Made for play</p>",
-                    "style": "eyebrow",
-                    "font_size": 15,
-                    "font_size_mobile": 15,
-                    "font_weight": "700",
-                    "line_height": 160,
-                    "letter_spacing": 0,
-                    "max_width": 30
+                    "text": "<p>Chilly Day</p>",
+                    "highlight_style": "none",
+                    "preset": "subheading",
+                    "color": "text",
+                    "disable_line_break_mobile": false,
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 30,
+                    "padding_top": 0,
+                    "padding_bottom": 16,
+                    "padding_left": 0,
+                    "padding_right": 0,
+                    "mobile_scale": 100,
+                    "animation": "fade-up",
+                    "animation_delay": 50
                   }
                 },
                 "display_3": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Every layer<br>tells a story</p>",
-                    "style": "display",
+                    "text": "<p>Tiny Cold<br>Adventures</p>",
+                    "highlight_style": "none",
+                    "preset": "custom",
+                    "font_family": "heading",
+                    "font_weight": "inherit",
                     "font_size": 68,
                     "font_size_mobile": 38,
-                    "font_weight": "700",
-                    "line_height": 120,
-                    "letter_spacing": 0,
-                    "max_width": 18
+                    "line_height": "loose",
+                    "color": "text",
+                    "disable_line_break_mobile": false,
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 18,
+                    "padding_top": 0,
+                    "padding_bottom": 32,
+                    "padding_left": 0,
+                    "padding_right": 0,
+                    "mobile_scale": 75,
+                    "animation": "fade-up",
+                    "animation_delay": 150
                   }
                 },
                 "button_3": {
                   "type": "button",
                   "settings": {
-                    "label": "Discover more",
+                    "label": "Shop Collection",
                     "style": "primary",
-                    "width": "fit",
-                    "show_arrow": true,
-                    "open_new_tab": false
+                    "size": "large",
+                    "icon": "caret-right",
+                    "icon_only": false,
+                    "icon_style": "solid",
+                    "full_width_mobile": true,
+                    "animation": "fade-up",
+                    "animation_delay": 250
                   }
                 }
               },

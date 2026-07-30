@@ -5,11 +5,11 @@
     pebble-slide-content--mobile-align-{{ block.settings.alignment_mobile }}
     pebble-slide-content--width-{{ block.settings.width }}
     pebble-slide-content--border-{{ block.settings.border }}
-    pebble-slide-content--animation-{{ block.settings.animation }}
     {% if block.settings.transparent_background %}pebble-slide-content--transparent{% endif %}
     {% if block.settings.inherit_color_scheme %}pebble-slide-content--inherit{% endif %}
     color-{{ block.settings.color_scheme.id }}
   "
+  data-motion="{{ block.settings.animation }}"
   style="
     --content-row-gap: {{ block.settings.row_gap }}px;
     --content-row-gap-mobile: {{ block.settings.row_gap_mobile }}px;
@@ -21,6 +21,7 @@
     --content-padding-right: {{ block.settings.padding_right }}px;
     --content-background: {{ block.settings.color_scheme.settings.background }};
     --content-text: {{ block.settings.color_scheme.settings.text }};
+    --motion-delay: 0ms;
   "
   {{ block.shopify_attributes }}
 >
@@ -63,7 +64,7 @@
       "max": 48,
       "step": 2,
       "unit": "px",
-      "default": 12
+      "default": 0
     },
     {
       "type": "range",
@@ -73,7 +74,7 @@
       "max": 48,
       "step": 2,
       "unit": "px",
-      "default": 8
+      "default": 0
     },
     {
       "type": "header",
@@ -200,35 +201,66 @@
         { "value": "none", "label": "None" },
         { "value": "fade-in", "label": "Fade in" },
         { "value": "fade-up", "label": "Fade up" },
-        { "value": "slide-left", "label": "Slide left" },
-        { "value": "slide-right", "label": "Slide right" }
+        { "value": "slide-left", "label": "Slide in (left)" },
+        { "value": "slide-right", "label": "Slide in (right)" }
       ],
-      "default": "fade-up"
+      "default": "none"
     }
   ],
   "presets": [
     {
       "name": "Slide content",
+      "settings": {
+        "alignment": "left",
+        "alignment_mobile": "center",
+        "row_gap": 0,
+        "row_gap_mobile": 0,
+        "width": "fit",
+        "inherit_color_scheme": true,
+        "transparent_background": true,
+        "border": "none",
+        "corner_radius": 0,
+        "animation": "none"
+      },
       "blocks": [
         {
           "type": "text",
           "settings": {
-            "text": "<p>New campaign</p>",
-            "style": "eyebrow"
+            "text": "<p>New Campaign</p>",
+            "preset": "subheading",
+            "padding_bottom": 16,
+            "mobile_scale": 100,
+            "animation": "fade-up",
+            "animation_delay": 50
           }
         },
         {
           "type": "text",
           "settings": {
             "text": "<p>Softness<br>in Comfort</p>",
-            "style": "display"
+            "preset": "custom",
+            "font_family": "heading",
+            "font_weight": "inherit",
+            "font_size": 68,
+            "font_size_mobile": 38,
+            "line_height": "loose",
+            "padding_bottom": 32,
+            "mobile_scale": 75,
+            "animation": "fade-up",
+            "animation_delay": 150
           }
         },
         {
           "type": "button",
           "settings": {
-            "label": "Shop collection",
-            "show_arrow": true
+            "label": "Shop Collection",
+            "style": "primary",
+            "size": "large",
+            "icon": "caret-right",
+            "icon_style": "solid",
+            "full_width_mobile": true,
+            "animation": "fade-up",
+            "animation_delay": 250
           }
         }
       ]

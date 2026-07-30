@@ -1,9 +1,11 @@
 <div
   class="pebble-content-block pebble-subheading"
+  data-motion="{{ block.settings.animation }}"
   style="
     --subheading-size: {{ block.settings.font_size }}px;
     --subheading-size-mobile: {{ block.settings.font_size_mobile }}px;
     --subheading-max-width: {{ block.settings.max_width }}ch;
+    --motion-delay: {{ block.settings.animation_delay }}ms;
   "
   {{ block.shopify_attributes }}
 >
@@ -50,6 +52,34 @@
       "step": 2,
       "unit": "ch",
       "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "select",
+      "id": "animation",
+      "label": "Type",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "fade-in", "label": "Fade in" },
+        { "value": "fade-up", "label": "Fade up" },
+        { "value": "slide-left", "label": "Slide in (left)" },
+        { "value": "slide-right", "label": "Slide in (right)" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "animation_delay",
+      "label": "Delay",
+      "min": 0,
+      "max": 1000,
+      "step": 50,
+      "unit": "ms",
+      "default": 0,
+      "visible_if": "{{ block.settings.animation != 'none' }}"
     }
   ],
   "presets": [

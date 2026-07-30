@@ -105,15 +105,21 @@
     src: url('{{ 'pebble-bricolage-700.woff2' | asset_url }}') format('woff2');
   }
 
+  #shopify-section-{{ section.id }}:has(.pebble-slider--next-overlap) {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+  }
+
   #shopify-section-{{ section.id }}:has(.pebble-slider--next-overlap) + .shopify-section {
     border-radius: 1.25rem 1.25rem 0 0;
-    margin-top: -1.5rem;
+    margin-top: clamp(-3.4rem, calc(-6.226vw + 2.975rem), -1.8rem);
     overflow: hidden;
     position: relative;
     z-index: 3;
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 768px) {
     body:has(#MainContent > #shopify-section-{{ section.id }}:first-child .pebble-slider--header-overlay) .site-header {
       background: #ffffff;
       border: 0;
@@ -121,16 +127,20 @@
       color: #111111;
       left: 50%;
       min-height: 5rem;
+      padding: 0;
       position: absolute;
       top: 1.875rem;
       transform: translateX(-50%);
-      width: min(calc(100% - 2rem), 77.375rem);
+      width: min(calc(100% - 2rem), 90rem);
       z-index: 20;
     }
 
     body:has(#MainContent > #shopify-section-{{ section.id }}:first-child .pebble-slider--header-overlay) .site-header__inner {
+      margin: 0;
+      max-width: none;
       min-height: 5rem;
       padding-inline: 1.875rem;
+      width: 100%;
     }
   }
 
@@ -141,8 +151,8 @@
 
 {% stylesheet %}
   .pebble-slider {
-    --pebble-content-width: 78.1875rem;
-    --pebble-page-padding: max(2.5rem, calc((100% - var(--pebble-content-width)) / 2));
+    --pebble-content-width: 90rem;
+    --pebble-page-padding: 1rem;
     color: #ffffff;
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 0.9375rem;
@@ -169,7 +179,7 @@
 
   .pebble-slider--container-fixed .pebble-slider__frame {
     border-radius: 0.5rem;
-    max-width: 77.375rem;
+    max-width: 90rem;
     width: calc(100% - 2rem);
   }
 
@@ -189,10 +199,6 @@
 
   .pebble-slider--height-large .pebble-slider__frame {
     height: 46.875rem;
-  }
-
-  .pebble-slider--height-full .pebble-slider__frame {
-    height: 100svh;
   }
 
   .pebble-slider__swiper,
@@ -239,7 +245,7 @@
 
   .pebble-slider__overlay {
     background: var(--slide-overlay-color, #000000);
-    opacity: 0.18;
+    opacity: 0.1;
     pointer-events: none;
     z-index: 1;
   }
@@ -368,21 +374,103 @@
   }
 
   .pebble-text {
-    font-size: var(--text-size);
-    font-weight: var(--text-weight);
-    letter-spacing: var(--text-letter-spacing);
-    line-height: var(--text-line-height);
     max-width: var(--text-max-width);
+    padding: var(--text-padding-top) var(--text-padding-right) var(--text-padding-bottom) var(--text-padding-left);
   }
 
-  .pebble-text--eyebrow {
-    margin-bottom: 1rem;
+  .pebble-text--preset-default,
+  .pebble-text--preset-paragraph {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+  }
+
+  .pebble-text--preset-subheading {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.5rem;
     text-transform: uppercase;
   }
 
-  .pebble-text--display {
+  .pebble-text--preset-heading-1 {
+    font-size: 4.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .pebble-text--preset-heading-2 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .pebble-text--preset-heading-3 {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .pebble-text--preset-heading-4 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .pebble-text--preset-heading-5 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .pebble-text--preset-heading-6 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .pebble-text--preset-custom {
     font-family: 'Bricolage Grotesque', sans-serif;
-    margin-bottom: 2rem;
+    font-size: var(--text-size);
+    font-weight: var(--text-weight);
+    line-height: var(--text-line-height);
+  }
+
+  .pebble-text--width-fit {
+    width: fit-content;
+  }
+
+  .pebble-text--width-fill {
+    width: 100%;
+  }
+
+  .pebble-text--color-subtext {
+    opacity: 0.75;
+  }
+
+  .pebble-text--color-gradient {
+    background: linear-gradient(90deg, currentColor, rgb(255 255 255 / 55%));
+    background-clip: text;
+    color: transparent;
+  }
+
+  .pebble-text--highlight-standard em {
+    text-decoration: underline;
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 0.12em;
+  }
+
+  .pebble-text--highlight-wavy-underline em {
+    text-decoration: underline wavy;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.15em;
+  }
+
+  .pebble-text--highlight-solid-background em {
+    background: currentColor;
+    border-radius: 0.2em;
+    color: var(--slide-background, #111111);
+    padding-inline: 0.12em;
   }
 
   .pebble-heading {
@@ -412,17 +500,35 @@
     font-size: 0.9375rem;
     font-weight: 700;
     gap: 0.5rem;
-    height: 3.125rem;
     justify-content: center;
     line-height: 1.5rem;
     overflow: hidden;
-    padding: 0.625rem 3rem 0.625rem 1.5rem;
     position: relative;
     text-decoration: none;
     text-transform: capitalize;
     transition: background-color 350ms, color 350ms, border-color 350ms, opacity 350ms, transform 350ms;
     white-space: nowrap;
     z-index: 0;
+  }
+
+  .pebble-button--size-extra-small {
+    height: 1.875rem;
+    padding: 0.1875rem 2.25rem 0.1875rem 0.875rem;
+  }
+
+  .pebble-button--size-small {
+    height: 2.375rem;
+    padding: 0.4375rem 2.5rem 0.4375rem 1.125rem;
+  }
+
+  .pebble-button--size-medium {
+    height: 2.75rem;
+    padding: 0.625rem 2.75rem 0.625rem 1.25rem;
+  }
+
+  .pebble-button--size-large {
+    height: 3.125rem;
+    padding: 0.625rem 3rem 0.625rem 1.5rem;
   }
 
   .pebble-button--primary {
@@ -436,14 +542,32 @@
     color: inherit;
   }
 
-  .pebble-button--text {
+  .pebble-button--outline {
     background: transparent;
+    border-color: currentColor;
     color: inherit;
-    padding-left: 0;
   }
 
-  .pebble-button--width-fill {
-    width: 100%;
+  .pebble-button--plain {
+    background: transparent;
+    border-color: transparent;
+    color: inherit;
+    padding-inline: 0;
+  }
+
+  .pebble-button--icon-default {
+    padding-inline-end: 1.5rem;
+  }
+
+  .pebble-button--icon-only {
+    aspect-ratio: 1;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .pebble-button--icon-only .pebble-button__hover {
+    justify-content: center;
+    padding: 0;
   }
 
   .pebble-button__text,
@@ -483,6 +607,11 @@
   }
 
   .pebble-button__icon svg {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .pebble-button--icon-default .pebble-button__icon {
     height: 1.25rem;
     width: 1.25rem;
   }
@@ -597,40 +726,40 @@
     display: none;
   }
 
+  @media screen and (min-width: 1200px) {
+    .pebble-slider {
+      --pebble-page-padding: 3.125rem;
+    }
+  }
+
+  @media screen and (min-width: 1536px) {
+    .pebble-slider {
+      --pebble-page-padding: max(8.4375rem, calc((100% - var(--pebble-content-width)) / 2));
+    }
+  }
+
   .pebble-slider--animations .swiper-slide-active .pebble-slider__media {
     animation: pebble-media-enter 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
-  .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-fade-in > .pebble-content-block {
+  .pebble-slider--animations .swiper-slide-active [data-motion='fade-in'] {
     animation: pebble-fade-in 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--motion-delay, 0ms);
   }
 
-  .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-fade-up > .pebble-content-block {
+  .pebble-slider--animations .swiper-slide-active [data-motion='fade-up'] {
     animation: pebble-fade-up 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--motion-delay, 0ms);
   }
 
-  .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-slide-left > .pebble-content-block {
+  .pebble-slider--animations .swiper-slide-active [data-motion='slide-left'] {
     animation: pebble-slide-left 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--motion-delay, 0ms);
   }
 
-  .pebble-slider--animations .swiper-slide-active .pebble-slide-content--animation-slide-right > .pebble-content-block {
+  .pebble-slider--animations .swiper-slide-active [data-motion='slide-right'] {
     animation: pebble-slide-right 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-
-  .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block:nth-child(1) {
-    animation-delay: 50ms;
-  }
-
-  .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block:nth-child(2) {
-    animation-delay: 150ms;
-  }
-
-  .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block:nth-child(3) {
-    animation-delay: 250ms;
-  }
-
-  .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block:nth-child(4) {
-    animation-delay: 350ms;
+    animation-delay: var(--motion-delay, 0ms);
   }
 
   @keyframes pebble-media-enter {
@@ -737,6 +866,10 @@
       max-width: 100%;
     }
 
+    .pebble-slide-content:has(.pebble-button--full-mobile) {
+      width: 100%;
+    }
+
     .pebble-slide-content--mobile-align-left {
       align-items: flex-start;
       text-align: left;
@@ -752,16 +885,28 @@
       text-align: right;
     }
 
-    .pebble-text {
+    .pebble-text--preset-custom {
       font-size: var(--text-size-mobile);
     }
 
-    .pebble-text--eyebrow {
-      margin-bottom: 1rem;
+    .pebble-text {
+      padding:
+        calc(var(--text-padding-top) * var(--text-mobile-scale))
+        calc(var(--text-padding-right) * var(--text-mobile-scale))
+        calc(var(--text-padding-bottom) * var(--text-mobile-scale))
+        calc(var(--text-padding-left) * var(--text-mobile-scale));
     }
 
-    .pebble-text--display {
-      margin-bottom: 1.5rem;
+    .pebble-text--mobile-width-fit {
+      width: fit-content;
+    }
+
+    .pebble-text--mobile-width-fill {
+      width: 100%;
+    }
+
+    .pebble-text--single-line-mobile br {
+      display: none;
     }
 
     .pebble-heading {
@@ -772,7 +917,7 @@
       font-size: var(--subheading-size-mobile);
     }
 
-    .pebble-button {
+    .pebble-button--full-mobile {
       width: 100%;
     }
 
@@ -799,7 +944,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .pebble-slider--animations .swiper-slide-active .pebble-slider__media,
-    .pebble-slider--animations .swiper-slide-active .pebble-slide-content > .pebble-content-block,
+    .pebble-slider--animations .swiper-slide-active [data-motion],
     .pebble-button__hover,
     .pebble-button__icon svg {
       animation: none;
@@ -990,8 +1135,7 @@
         { "value": "adapt", "label": "Adapt to image" },
         { "value": "small", "label": "Small" },
         { "value": "medium", "label": "Medium" },
-        { "value": "large", "label": "Large" },
-        { "value": "full", "label": "Full screen" }
+        { "value": "large", "label": "Large" }
       ],
       "default": "adapt"
     },
@@ -1105,6 +1249,8 @@
           "type": "image-slide",
           "settings": {
             "default_media": "pebble-1",
+            "media_overlay": true,
+            "overlay_color": "#000000",
             "position": "middle-left",
             "position_mobile": "bottom",
             "color_scheme": "scheme-2"
@@ -1120,42 +1266,57 @@
                 "width": "fit",
                 "inherit_color_scheme": true,
                 "transparent_background": true,
-                "animation": "fade-up"
+                "animation": "none"
               },
               "blocks": [
                 {
                   "type": "text",
                   "settings": {
-                    "text": "<p>New campaign</p>",
-                    "style": "eyebrow",
-                    "font_size": 15,
-                    "font_size_mobile": 15,
-                    "font_weight": "700",
-                    "line_height": 160,
-                    "letter_spacing": 0,
-                    "max_width": 30
+                    "text": "<p>New Campaign</p>",
+                    "highlight_style": "none",
+                    "preset": "subheading",
+                    "color": "text",
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 30,
+                    "padding_bottom": 16,
+                    "mobile_scale": 100,
+                    "animation": "fade-up",
+                    "animation_delay": 50
                   }
                 },
                 {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Softness<br>in Comfort</p>",
-                    "style": "display",
+                    "text": "<p>Softness in Comfort</p>",
+                    "highlight_style": "none",
+                    "preset": "custom",
+                    "font_family": "heading",
+                    "font_weight": "inherit",
                     "font_size": 68,
                     "font_size_mobile": 38,
-                    "font_weight": "700",
-                    "line_height": 120,
-                    "letter_spacing": 0,
-                    "max_width": 18
+                    "line_height": "loose",
+                    "color": "text",
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 18,
+                    "padding_bottom": 32,
+                    "mobile_scale": 75,
+                    "animation": "fade-up",
+                    "animation_delay": 150
                   }
                 },
                 {
                   "type": "button",
                   "settings": {
-                    "label": "Shop collection",
+                    "label": "Shop Collection",
                     "style": "primary",
-                    "width": "fit",
-                    "show_arrow": true
+                    "size": "large",
+                    "icon": "caret-right",
+                    "icon_style": "solid",
+                    "full_width_mobile": true,
+                    "animation": "fade-up",
+                    "animation_delay": 250
                   }
                 }
               ]
@@ -1166,6 +1327,8 @@
           "type": "image-slide",
           "settings": {
             "default_media": "pebble-2",
+            "media_overlay": true,
+            "overlay_color": "#000000",
             "position": "middle-left",
             "position_mobile": "bottom",
             "color_scheme": "scheme-2"
@@ -1181,42 +1344,57 @@
                 "width": "fit",
                 "inherit_color_scheme": true,
                 "transparent_background": true,
-                "animation": "fade-up"
+                "animation": "none"
               },
               "blocks": [
                 {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Little moments</p>",
-                    "style": "eyebrow",
-                    "font_size": 15,
-                    "font_size_mobile": 15,
-                    "font_weight": "700",
-                    "line_height": 160,
-                    "letter_spacing": 0,
-                    "max_width": 30
+                    "text": "<p>Little Moments</p>",
+                    "highlight_style": "none",
+                    "preset": "subheading",
+                    "color": "text",
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 30,
+                    "padding_bottom": 16,
+                    "mobile_scale": 100,
+                    "animation": "fade-up",
+                    "animation_delay": 50
                   }
                 },
                 {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Wrapped<br>in Warmth</p>",
-                    "style": "display",
+                    "text": "<p>Wrapped in Warmth</p>",
+                    "highlight_style": "none",
+                    "preset": "custom",
+                    "font_family": "heading",
+                    "font_weight": "inherit",
                     "font_size": 68,
                     "font_size_mobile": 38,
-                    "font_weight": "700",
-                    "line_height": 120,
-                    "letter_spacing": 0,
-                    "max_width": 18
+                    "line_height": "loose",
+                    "color": "text",
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 18,
+                    "padding_bottom": 32,
+                    "mobile_scale": 75,
+                    "animation": "fade-up",
+                    "animation_delay": 150
                   }
                 },
                 {
                   "type": "button",
                   "settings": {
-                    "label": "Shop collection",
+                    "label": "Shop Collection",
                     "style": "primary",
-                    "width": "fit",
-                    "show_arrow": true
+                    "size": "large",
+                    "icon": "caret-right",
+                    "icon_style": "solid",
+                    "full_width_mobile": true,
+                    "animation": "fade-up",
+                    "animation_delay": 250
                   }
                 }
               ]
@@ -1227,6 +1405,8 @@
           "type": "image-slide",
           "settings": {
             "default_media": "pebble-1",
+            "media_overlay": true,
+            "overlay_color": "#000000",
             "position": "middle-left",
             "position_mobile": "bottom",
             "color_scheme": "scheme-2"
@@ -1242,42 +1422,57 @@
                 "width": "fit",
                 "inherit_color_scheme": true,
                 "transparent_background": true,
-                "animation": "fade-up"
+                "animation": "none"
               },
               "blocks": [
                 {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Made for play</p>",
-                    "style": "eyebrow",
-                    "font_size": 15,
-                    "font_size_mobile": 15,
-                    "font_weight": "700",
-                    "line_height": 160,
-                    "letter_spacing": 0,
-                    "max_width": 30
+                    "text": "<p>Chilly Day</p>",
+                    "highlight_style": "none",
+                    "preset": "subheading",
+                    "color": "text",
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 30,
+                    "padding_bottom": 16,
+                    "mobile_scale": 100,
+                    "animation": "fade-up",
+                    "animation_delay": 50
                   }
                 },
                 {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Every layer<br>tells a story</p>",
-                    "style": "display",
+                    "text": "<p>Tiny Cold Adventures</p>",
+                    "highlight_style": "none",
+                    "preset": "custom",
+                    "font_family": "heading",
+                    "font_weight": "inherit",
                     "font_size": 68,
                     "font_size_mobile": 38,
-                    "font_weight": "700",
-                    "line_height": 120,
-                    "letter_spacing": 0,
-                    "max_width": 18
+                    "line_height": "loose",
+                    "color": "text",
+                    "width": "fit",
+                    "width_mobile": "fit",
+                    "max_width": 18,
+                    "padding_bottom": 32,
+                    "mobile_scale": 75,
+                    "animation": "fade-up",
+                    "animation_delay": 150
                   }
                 },
                 {
                   "type": "button",
                   "settings": {
-                    "label": "Discover more",
+                    "label": "Shop Collection",
                     "style": "primary",
-                    "width": "fit",
-                    "show_arrow": true
+                    "size": "large",
+                    "icon": "caret-right",
+                    "icon_style": "solid",
+                    "full_width_mobile": true,
+                    "animation": "fade-up",
+                    "animation_delay": 250
                   }
                 }
               ]

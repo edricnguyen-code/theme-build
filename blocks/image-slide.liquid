@@ -104,7 +104,7 @@
     {
       "type": "select",
       "id": "default_media",
-      "label": "Placeholder media",
+      "label": "Demo placeholder",
       "info": "Used until custom desktop and mobile images are selected.",
       "options": [
         { "value": "pebble-1", "label": "Pebble pink" },
@@ -116,7 +116,7 @@
       "type": "checkbox",
       "id": "media_overlay",
       "label": "Media overlay",
-      "default": false
+      "default": true
     },
     {
       "type": "color",
@@ -172,47 +172,67 @@
     {
       "name": "Image slide",
       "settings": {
-        "default_media": "pebble-1"
+        "default_media": "pebble-1",
+        "media_overlay": true,
+        "overlay_color": "#000000",
+        "position": "middle-left",
+        "position_mobile": "bottom",
+        "color_scheme": "scheme-2"
       },
       "blocks": [
         {
           "type": "slide-content",
           "settings": {
+            "alignment": "left",
+            "alignment_mobile": "center",
             "row_gap": 0,
-            "row_gap_mobile": 0
+            "row_gap_mobile": 0,
+            "width": "fit",
+            "inherit_color_scheme": true,
+            "transparent_background": true,
+            "border": "none",
+            "corner_radius": 0,
+            "animation": "none"
           },
           "blocks": [
             {
               "type": "text",
               "settings": {
-                "text": "<p>New campaign</p>",
-                "style": "eyebrow",
-                "font_size": 15,
-                "font_size_mobile": 15,
-                "font_weight": "700",
-                "line_height": 160,
-                "letter_spacing": 0,
-                "max_width": 30
+                "text": "<p>New Campaign</p>",
+                "preset": "subheading",
+                "padding_bottom": 16,
+                "mobile_scale": 100,
+                "animation": "fade-up",
+                "animation_delay": 50
               }
             },
             {
               "type": "text",
               "settings": {
                 "text": "<p>Softness<br>in Comfort</p>",
-                "style": "display",
+                "preset": "custom",
+                "font_family": "heading",
+                "font_weight": "inherit",
                 "font_size": 68,
                 "font_size_mobile": 38,
-                "font_weight": "700",
-                "line_height": 120,
-                "letter_spacing": 0,
-                "max_width": 18
+                "line_height": "loose",
+                "padding_bottom": 32,
+                "mobile_scale": 75,
+                "animation": "fade-up",
+                "animation_delay": 150
               }
             },
             {
               "type": "button",
               "settings": {
-                "label": "Shop collection",
-                "show_arrow": true
+                "label": "Shop Collection",
+                "style": "primary",
+                "size": "large",
+                "icon": "caret-right",
+                "icon_style": "solid",
+                "full_width_mobile": true,
+                "animation": "fade-up",
+                "animation_delay": 250
               }
             }
           ]
