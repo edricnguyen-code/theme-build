@@ -643,6 +643,8 @@
         updateScrollState();
       };
 
+      header.pebbleRefreshLayout = detectOverlayHeader;
+
       toggle.addEventListener('click', () => {
         setMenuState(toggle.getAttribute('aria-expanded') !== 'true');
       }, { signal });
@@ -665,6 +667,7 @@
       document.addEventListener('shopify:section:unload', (event) => {
         if (event.target instanceof Element && event.target.contains(header)) {
           setMenuState(false);
+          delete header.pebbleRefreshLayout;
           controller.abort();
         }
       }, { signal });
@@ -687,9 +690,18 @@
       initializeAll();
     }
 
+    const refreshAllHeaders = () => {
+      document.querySelectorAll('[data-site-header]').forEach((header) => {
+        header.pebbleRefreshLayout?.();
+      });
+    };
+
     document.addEventListener('shopify:section:load', (event) => {
       initializeWithin(event.target);
+      refreshAllHeaders();
     });
+
+    window.addEventListener('load', refreshAllHeaders);
   })();
 {% endjavascript %}
 
