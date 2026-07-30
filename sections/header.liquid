@@ -110,6 +110,16 @@
   </div>
 </header>
 
+{% if section.settings.enable_sticky_header %}
+  {% style %}
+    #shopify-section-{{ section.id }} {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+  {% endstyle %}
+{% endif %}
+
 {% stylesheet %}
   .site-header {
     --header-border: rgba(17, 17, 17, 0.12);
@@ -122,8 +132,7 @@
   }
 
   .site-header--sticky {
-    position: sticky;
-    top: 0;
+    position: relative;
   }
 
   .site-header--sticky .site-header__inner {
@@ -137,22 +146,6 @@
     width: 100%;
   }
 
-  .site-header.site-header--sticky.site-header--overlay.is-scrolled {
-    background: transparent;
-    left: 0;
-    padding: clamp(0.5rem, 1vw, 0.75rem) 0;
-    position: fixed;
-    right: 0;
-    top: 0;
-    transform: none;
-    width: 100%;
-  }
-
-  .site-header.site-header--sticky.site-header--overlay.is-scrolled .site-header__inner {
-    margin-inline: auto;
-    min-height: 5rem;
-    width: 100%;
-  }
 
   body.site-header-menu-open {
     overflow: hidden;
@@ -377,6 +370,25 @@
     display: none;
   }
 
+  @media screen and (min-width: 1200px) {
+    .site-header.site-header--sticky.site-header--overlay.is-scrolled {
+      background: transparent;
+      left: 0;
+      padding: clamp(0.5rem, 1vw, 0.75rem) 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+      transform: none;
+      width: 100%;
+    }
+
+    .site-header.site-header--sticky.site-header--overlay.is-scrolled .site-header__inner {
+      margin-inline: auto;
+      min-height: 5rem;
+      width: 100%;
+    }
+  }
+
   @media screen and (max-width: 767.98px) {
     .site-header.site-header--sticky.site-header--overlay.is-scrolled {
       padding: 0;
@@ -598,56 +610,82 @@
 
 {% javascript %}
   (() => {
-    const header = document.querySelector('[data-site-header]');
-    if (!header || header.dataset.initialized === 'true') return;
+    const initializeHeader = (header) => {
+      if (!header || header.dataset.initialized === 'true') return;
 
-    header.dataset.initialized = 'true';
-    const toggle = header.querySelector('[data-header-menu-toggle]');
-    const menu = header.querySelector('[data-header-menu]');
-    if (!toggle || !menu) return;
+      const toggle = header.querySelector('[data-header-menu-toggle]');
+      const menu = header.querySelector('[data-header-menu]');
+      if (!toggle || !menu) return;
 
-    const setMenuState = (isOpen) => {
-      menu.classList.toggle('is-open', isOpen);
-      toggle.setAttribute('aria-expanded', String(isOpen));
-      document.body.classList.toggle('site-header-menu-open', isOpen);
-    };
+      header.dataset.initialized = 'true';
+      const controller = new AbortController();
+      const signal = controller.signal;
 
-    const updateScrollState = () => {
-      if (!header.classList.contains('site-header--sticky')) return;
-      header.classList.toggle('is-scrolled', window.scrollY > 8);
-    };
+      const setMenuState = (isOpen) => {
+        menu.classList.toggle('is-open', isOpen);
+        toggle.setAttribute('aria-expanded', String(isOpen));
+        document.body.classList.toggle('site-header-menu-open', isOpen);
+      };
 
-    const detectOverlayHeader = () => {
-      const firstSection = document.querySelector('#MainContent > .shopify-section:first-child');
-      const overlayHero = firstSection?.querySelector('.pebble-slider--header-overlay');
-      header.classList.toggle('site-header--overlay', Boolean(overlayHero));
-      updateScrollState();
-    };
+      const updateScrollState = () => {
+        if (!header.classList.contains('site-header--sticky')) return;
+        header.classList.toggle('is-scrolled', window.scrollY > 8);
+      };
 
-    toggle.addEventListener('click', () => {
-      setMenuState(toggle.getAttribute('aria-expanded') !== 'true');
-    });
+      const detectOverlayHeader = () => {
+        const firstSection = document.querySelector('#MainContent > .shopify-section');
+        const overlayHero = firstSection?.querySelector('.pebble-slider--header-overlay');
+        header.classList.toggle('site-header--overlay', Boolean(overlayHero));
+        updateScrollState();
+      };
 
-    menu.addEventListener('click', (event) => {
-      if (event.target.closest('a')) setMenuState(false);
-    });
+      toggle.addEventListener('click', () => {
+        setMenuState(toggle.getAttribute('aria-expanded') !== 'true');
+      }, { signal });
 
-    document.addEventListener('click', (event) => {
-      if (!header.contains(event.target)) setMenuState(false);
-    });
+      menu.addEventListener('click', (event) => {
+        if (event.target.closest('a')) setMenuState(false);
+      }, { signal });
 
-    window.addEventListener('scroll', updateScrollState, { passive: true });
+      document.addEventListener('click', (event) => {
+        if (!header.contains(event.target)) setMenuState(false);
+      }, { signal });
 
-    window.addEventListener('resize', () => {
-      if (window.matchMedia('(min-width: 1200px)').matches) setMenuState(false);
+      window.addEventListener('scroll', updateScrollState, { passive: true, signal });
+
+      window.addEventListener('resize', () => {
+        if (window.matchMedia('(min-width: 1200px)').matches) setMenuState(false);
+        detectOverlayHeader();
+      }, { signal });
+
+      document.addEventListener('shopify:section:unload', (event) => {
+        if (event.target instanceof Element && event.target.contains(header)) {
+          setMenuState(false);
+          controller.abort();
+        }
+      }, { signal });
+
       detectOverlayHeader();
-    });
+    };
+
+    const initializeWithin = (root) => {
+      if (root instanceof Element && root.matches('[data-site-header]')) {
+        initializeHeader(root);
+      }
+      root.querySelectorAll?.('[data-site-header]').forEach(initializeHeader);
+    };
+
+    const initializeAll = () => initializeWithin(document);
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', detectOverlayHeader, { once: true });
+      document.addEventListener('DOMContentLoaded', initializeAll, { once: true });
     } else {
-      detectOverlayHeader();
+      initializeAll();
     }
+
+    document.addEventListener('shopify:section:load', (event) => {
+      initializeWithin(event.target);
+    });
   })();
 {% endjavascript %}
 
