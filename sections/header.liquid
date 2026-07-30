@@ -5,7 +5,7 @@
   endif
 %}
 
-<header class="site-header" data-site-header="{{ section.id }}">
+<header class="site-header{% if section.settings.enable_sticky_header %} site-header--sticky{% endif %}" data-site-header="{{ section.id }}">
   <div class="site-header__inner">
     <button
       class="site-header__icon-button site-header__menu-toggle"
@@ -119,6 +119,41 @@
     padding: 0;
     position: relative;
     z-index: 20;
+  }
+
+  .site-header--sticky {
+    position: sticky;
+    top: 0;
+  }
+
+  .site-header--sticky .site-header__inner {
+    transition: box-shadow 180ms ease, border-color 180ms ease, transform 180ms ease;
+  }
+
+  .site-header--sticky.is-scrolled .site-header__inner {
+    border-color: rgba(17, 17, 17, 0.18);
+    box-shadow: 0 0.6rem 1.75rem rgba(17, 17, 17, 0.14);
+  }
+
+  .site-header.site-header--sticky.site-header--overlay.is-scrolled {
+    background: transparent;
+    left: 0;
+    padding: clamp(0.5rem, 1vw, 0.75rem) 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transform: none;
+    width: 100%;
+  }
+
+  .site-header.site-header--sticky.site-header--overlay.is-scrolled .site-header__inner {
+    margin-inline: auto;
+    min-height: 5rem;
+    width: min(calc(100% - 2rem), 90rem);
+  }
+
+  body.site-header-menu-open {
+    overflow: hidden;
   }
 
   .site-header__inner {
@@ -329,6 +364,15 @@
   }
 
   @media screen and (max-width: 767.98px) {
+    .site-header.site-header--sticky.site-header--overlay.is-scrolled {
+      padding: 0;
+    }
+
+    .site-header.site-header--sticky.site-header--overlay.is-scrolled .site-header__inner {
+      border-radius: 0;
+      width: 100%;
+    }
+
     .site-header__inner {
       border-radius: 0;
       border-inline: 0;
@@ -461,6 +505,18 @@
       document.body.classList.toggle('site-header-menu-open', isOpen);
     };
 
+    const updateScrollState = () => {
+      if (!header.classList.contains('site-header--sticky')) return;
+      header.classList.toggle('is-scrolled', window.scrollY > 8);
+    };
+
+    const detectOverlayHeader = () => {
+      const firstSection = document.querySelector('#MainContent > .shopify-section:first-child');
+      const overlayHero = firstSection?.querySelector('.pebble-slider--header-overlay');
+      header.classList.toggle('site-header--overlay', Boolean(overlayHero));
+      updateScrollState();
+    };
+
     toggle.addEventListener('click', () => {
       setMenuState(toggle.getAttribute('aria-expanded') !== 'true');
     });
@@ -473,9 +529,18 @@
       if (!header.contains(event.target)) setMenuState(false);
     });
 
+    window.addEventListener('scroll', updateScrollState, { passive: true });
+
     window.addEventListener('resize', () => {
       if (window.matchMedia('(min-width: 768px)').matches) setMenuState(false);
+      detectOverlayHeader();
     });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', detectOverlayHeader, { once: true });
+    } else {
+      detectOverlayHeader();
+    }
   })();
 {% endjavascript %}
 
@@ -483,6 +548,12 @@
 {
   "name": "Header",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "label": "Enable sticky header",
+      "default": true
+    },
     {
       "type": "image_picker",
       "id": "logo",
