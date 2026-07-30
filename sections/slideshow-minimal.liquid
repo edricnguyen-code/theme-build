@@ -119,7 +119,7 @@
     z-index: 3;
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1200px) {
     body:has(#MainContent > #shopify-section-{{ section.id }}:first-child .pebble-slider--header-overlay) .site-header {
       background: #ffffff;
       border: 0;
@@ -825,7 +825,7 @@
     .pebble-slider--header-overlay .pebble-slider__content-position {
       bottom: clamp(2rem, calc(8vw - 2.5rem), 3.75rem);
       padding-block: clamp(1.25rem, 3vw, 2.5rem);
-      top: clamp(7.5rem, 13vw, 8.5rem);
+      top: 0;
     }
 
     .pebble-slider--header-overlay .pebble-slider__content-position--middle-left,
