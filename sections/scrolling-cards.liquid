@@ -54,12 +54,18 @@
 {% endstyle %}
 
 {% stylesheet %}
+  html.pebble-scrolling-cards-smoothing {
+    scroll-behavior: auto !important;
+  }
+
   .pebble-scrolling-cards {
     background: var(--scroll-background, #ffffff);
     border: 0 solid var(--scroll-border, rgba(17, 17, 17, 0.16));
     border-radius: var(--scroll-radius, 0);
     color: var(--scroll-text, #111111);
-    padding-block: var(--scroll-padding-top, 6.25rem) var(--scroll-padding-bottom, 6.25rem);
+    padding-block:
+      min(var(--scroll-padding-top, 100px), clamp(48px, calc(7.558vw - 9.97px), 100px))
+      min(var(--scroll-padding-bottom, 100px), clamp(48px, calc(7.558vw - 9.97px), 100px));
     position: relative;
   }
 
@@ -70,24 +76,33 @@
   .pebble-scrolling-cards__page {
     margin-inline: auto;
     position: relative;
-    width: min(calc(100% - 2rem), 90rem);
+    width: min(calc(100% - 100px), 1440px);
   }
 
   .pebble-scrolling-cards__cards {
+    column-gap: 50px;
     display: grid;
     grid-auto-flow: row;
-    grid-template-columns: minmax(0, 1fr) minmax(19rem, 1.44fr) minmax(0, 1fr);
-    min-height: calc(100svh - 5rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr);
     position: relative;
-    row-gap: clamp(3rem, 4.2vw, 5rem);
+    row-gap: 80px;
   }
 
-  .pebble-scrolling-cards__cards > .pebble-product-overlay-card:nth-of-type(odd) {
+  .pebble-scrolling-cards__card-cell {
+    align-items: flex-start;
+    contain: layout;
+    display: flex;
+    min-width: 0;
+  }
+
+  .pebble-scrolling-cards__card-cell:nth-child(odd) {
     grid-column: 1;
   }
 
-  .pebble-scrolling-cards__cards > .pebble-product-overlay-card:nth-of-type(even) {
+  .pebble-scrolling-cards__card-cell:nth-child(even) {
+    align-items: flex-end;
     grid-column: 3;
+    padding-top: 140px;
   }
 
   .pebble-scrolling-cards__content-shell {
@@ -99,9 +114,10 @@
 
   .pebble-scrolling-cards__content {
     align-items: center;
-    display: flex;
-    height: calc(100svh - 5rem);
-    justify-content: center;
+    column-gap: 50px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr);
+    height: min(100%, calc(100dvh - var(--scroll-header-height, 80px)));
     position: sticky;
     top: 0;
     width: 100%;
@@ -111,12 +127,13 @@
     align-items: center;
     display: flex;
     flex-direction: column;
+    grid-column: 2;
     justify-content: center;
-    max-width: 31.4rem;
-    padding-inline: clamp(1.25rem, 3vw, 3rem);
+    max-width: none;
+    padding-inline: 0;
     pointer-events: auto;
     text-align: center;
-    width: 41.84%;
+    width: 100%;
   }
 
   .pebble-scrolling-cards .pebble-content-block {
@@ -149,6 +166,7 @@
   }
 
   .pebble-scrolling-cards__heading-track {
+    backface-visibility: hidden;
     transform: translate3d(0, var(--heading-offset, 0px), 0);
     will-change: transform;
   }
@@ -355,17 +373,18 @@
     background: linear-gradient(145deg, #bfe5ff 0%, #f4d5da 100%);
     border-radius: var(--card-radius, 1.25rem);
     color: var(--card-text, #ffffff);
+    container-type: inline-size;
     min-width: 0;
     overflow: hidden;
     position: relative;
     width: 100%;
   }
 
-  .pebble-product-overlay-card:nth-of-type(3n + 2) {
+  .pebble-scrolling-cards__card-cell:nth-child(3n + 2) .pebble-product-overlay-card {
     background: linear-gradient(145deg, #f4d1c1 0%, #9dbde9 100%);
   }
 
-  .pebble-product-overlay-card:nth-of-type(3n) {
+  .pebble-scrolling-cards__card-cell:nth-child(3n) .pebble-product-overlay-card {
     background: linear-gradient(145deg, #d9cdf7 0%, #f7d5d8 100%);
   }
 
@@ -388,7 +407,7 @@
     scale: 1;
     transition:
       transform 1.3s cubic-bezier(0.16, 1, 0.3, 1),
-      scale 0.5s cubic-bezier(0.3, 1, 0.3, 1),
+      scale 1.3s cubic-bezier(0.16, 1, 0.3, 1),
       opacity 0.3s ease-in-out;
     width: 100%;
   }
@@ -409,23 +428,47 @@
         rgba(255, 255, 255, 0.01) 114%
       );
     border-radius: 0.625rem;
-    bottom: 1.25rem;
+    bottom: 10px;
     color: var(--card-text, #ffffff);
     display: flex;
     gap: 0.75rem;
-    left: 1.25rem;
-    min-height: 5rem;
-    padding: 0.625rem;
+    left: 12px;
+    min-height: 72px;
+    padding: 10px;
     position: absolute;
-    right: 1.25rem;
+    right: 12px;
     -webkit-backdrop-filter: blur(50px);
+    z-index: 1;
+  }
+
+  .pebble-product-overlay-card__badge::before {
+    background: linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.5)
+    );
+    border-radius: inherit;
+    content: '';
+    inset: 0;
+    mask:
+      linear-gradient(#000 0 0) exclude,
+      linear-gradient(#000 0 0) content-box;
+    padding: 1px;
+    pointer-events: none;
+    position: absolute;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    z-index: -1;
   }
 
   .pebble-product-overlay-card__product-image {
     aspect-ratio: var(--product-ratio, 1 / 1);
     background: #ffffff;
     border-radius: 0.625rem;
-    flex: 0 0 3.75rem;
+    flex: 0 0 50px;
     overflow: hidden;
   }
 
@@ -470,7 +513,7 @@
     background: var(--card-button, #ffffff);
     border-radius: 3rem;
     color: var(--card-button-label, #111111);
-    display: inline-flex;
+    display: none;
     flex: 0 0 auto;
     font-family: 'Bricolage Grotesque', Arial, sans-serif;
     font-size: 0.9375rem;
@@ -480,6 +523,24 @@
     padding-inline: 1.375rem;
     text-decoration: none;
     transition: opacity 220ms ease, transform 220ms ease;
+  }
+
+  @container (min-width: 301px) {
+    .pebble-product-overlay-card__shop {
+      display: inline-flex;
+    }
+  }
+
+  @container (min-width: 341px) {
+    .pebble-product-overlay-card__badge {
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+    }
+
+    .pebble-product-overlay-card__product-image {
+      flex-basis: 60px;
+    }
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -500,43 +561,26 @@
     }
   }
 
-  @media screen and (min-width: 768px) and (max-width: 1199.98px) {
-    .pebble-scrolling-cards__cards {
-      grid-template-columns: minmax(0, 1fr) minmax(17rem, 1.44fr) minmax(0, 1fr);
+  @media screen and (min-width: 768px) and (max-width: 1023.98px) {
+    .pebble-scrolling-cards__page {
+      width: calc(100% - 48px);
     }
 
-    .pebble-scrolling-cards__content-inner {
-      padding-inline: clamp(1rem, 2.25vw, 1.75rem);
+    .pebble-scrolling-cards__cards,
+    .pebble-scrolling-cards__content {
+      column-gap: 30px;
     }
 
-    .pebble-product-overlay-card__badge {
-      bottom: 0.75rem;
-      gap: 0.5rem;
-      left: 0.75rem;
-      min-height: 4rem;
-      padding: 0.5rem;
-      right: 0.75rem;
-    }
-
-    .pebble-product-overlay-card__product-image {
-      flex-basis: clamp(2.5rem, 5vw, 3.25rem);
-    }
-
-    .pebble-product-overlay-card__title,
-    .pebble-product-overlay-card__price,
-    .pebble-product-overlay-card__shop {
-      font-size: clamp(0.6875rem, 1.3vw, 0.875rem);
-    }
-
-    .pebble-product-overlay-card__shop {
-      min-height: 2.5rem;
-      padding-inline: clamp(0.75rem, 1.5vw, 1.125rem);
+    .pebble-scrolling-cards__card-cell:nth-child(even) {
+      padding-top: 80px;
     }
   }
 
   @media screen and (max-width: 767.98px) {
     .pebble-scrolling-cards {
-      padding-block: clamp(3rem, 12vw, 4.5rem);
+      padding-block:
+        min(var(--scroll-padding-top, 48px), 48px)
+        min(var(--scroll-padding-bottom, 48px), 48px);
     }
 
     .pebble-scrolling-cards__page {
@@ -555,7 +599,9 @@
     }
 
     .pebble-scrolling-cards__content {
+      display: flex;
       height: auto;
+      justify-content: center;
       position: static;
     }
 
@@ -567,7 +613,7 @@
 
     .pebble-scrolling-cards__cards {
       display: flex;
-      gap: 0.5rem;
+      gap: 8px;
       min-height: 0;
       order: 2;
       overflow-x: auto;
@@ -582,11 +628,15 @@
       display: none;
     }
 
-    .pebble-scrolling-cards__cards > .pebble-product-overlay-card {
-      aspect-ratio: var(--card-ratio-mobile, 3 / 4);
+    .pebble-scrolling-cards__card-cell {
       flex: 0 0 var(--scroll-mobile-card-width, 73vw);
       grid-column: auto;
+      padding-top: 0 !important;
       scroll-snap-align: start;
+    }
+
+    .pebble-scrolling-cards__card-cell > .pebble-product-overlay-card {
+      aspect-ratio: var(--card-ratio-mobile, 3 / 4);
     }
 
     .pebble-scrolling-cards__content-inner > .pebble-subheading {
@@ -615,29 +665,16 @@
       margin-top: 1.25rem;
     }
 
-    .pebble-product-overlay-card__badge {
-      bottom: 0.625rem;
-      gap: 0.5rem;
-      left: 0.625rem;
-      min-height: 4rem;
-      padding: 0.5rem;
-      right: 0.625rem;
-    }
-
-    .pebble-product-overlay-card__product-image {
-      flex-basis: 2.75rem;
-    }
-
     .pebble-product-overlay-card__title,
     .pebble-product-overlay-card__price,
     .pebble-product-overlay-card__shop {
-      font-size: 0.75rem;
-      line-height: 1.1rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
     }
 
     .pebble-product-overlay-card__shop {
-      min-height: 2.25rem;
-      padding-inline: 0.875rem;
+      min-height: 2.5rem;
+      padding-inline: 1rem;
     }
   }
 
@@ -657,6 +694,7 @@
     const desktopQuery = window.matchMedia('(min-width: 768px)');
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const clamp = (value, minimum, maximum) => Math.min(Math.max(value, minimum), maximum);
+    const smoothingClass = 'pebble-scrolling-cards-smoothing';
 
     const initializeSection = (section) => {
       if (!section || section.dataset.scrollingCardsInitialized === 'true') return;
@@ -676,6 +714,8 @@
       let activeIndex = -1;
       let metrics = null;
       let resizeObserver = null;
+      let targetScroll = window.scrollY;
+      let isSmoothing = false;
 
       const setActiveHeading = (index) => {
         if (activeIndex === index) return;
@@ -687,24 +727,27 @@
         });
       };
 
+      const stopSmoothing = () => {
+        isSmoothing = false;
+        targetScroll = window.scrollY;
+        document.documentElement.classList.remove(smoothingClass);
+      };
+
       const resetMobile = () => {
+        stopSmoothing();
         headingTrack.style.removeProperty('--heading-offset');
         headingViewport.style.removeProperty('height');
         headings.forEach((heading) => heading.style.removeProperty('height'));
         section.style.setProperty('--scroll-progress', '0');
+        section.classList.remove('is-pinned');
         setActiveHeading(0);
         metrics = null;
       };
 
-      const update = () => {
-        animationFrame = 0;
+      const updateHeading = (scrollTop) => {
+        if (!desktopQuery.matches || !metrics) return;
 
-        if (!desktopQuery.matches || !metrics) {
-          resetMobile();
-          return;
-        }
-
-        const progress = clamp((window.scrollY - metrics.start) / metrics.travel, 0, 1);
+        const progress = clamp((scrollTop - metrics.start) / metrics.travel, 0, 1);
         const position = progress * (headings.length - 1);
         const headingIndex = Math.round(position);
         const visualProgress = reducedMotionQuery.matches
@@ -714,12 +757,42 @@
 
         headingTrack.style.setProperty('--heading-offset', `${headingOffset}px`);
         section.style.setProperty('--scroll-progress', String(progress));
+        section.classList.toggle(
+          'is-pinned',
+          scrollTop >= metrics.start && scrollTop <= metrics.end
+        );
         setActiveHeading(headingIndex);
       };
 
-      const scheduleUpdate = () => {
+      const render = () => {
+        animationFrame = 0;
+
+        if (!desktopQuery.matches || !metrics) {
+          resetMobile();
+          return;
+        }
+
+        if (isSmoothing) {
+          const distance = targetScroll - window.scrollY;
+
+          if (Math.abs(distance) <= 0.5) {
+            window.scrollTo(0, targetScroll);
+            stopSmoothing();
+          } else {
+            window.scrollTo(0, window.scrollY + distance * 0.16);
+          }
+        }
+
+        updateHeading(window.scrollY);
+
+        if (isSmoothing) {
+          animationFrame = window.requestAnimationFrame(render);
+        }
+      };
+
+      const scheduleRender = () => {
         if (animationFrame) return;
-        animationFrame = window.requestAnimationFrame(update);
+        animationFrame = window.requestAnimationFrame(render);
       };
 
       const measure = () => {
@@ -741,22 +814,87 @@
         });
         headingViewport.style.height = `${headingHeight}px`;
 
+        const header = document.querySelector('[data-site-header] .site-header__inner');
+        const headerHeight = header
+          ? Math.round(header.getBoundingClientRect().height)
+          : 80;
         const trackRect = track.getBoundingClientRect();
-        const stickyHeight = stickyContent.getBoundingClientRect().height;
+        const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
+
+        section.style.setProperty('--scroll-header-height', `${headerHeight}px`);
 
         metrics = {
           start: trackRect.top + window.scrollY,
-          travel: Math.max(track.offsetHeight - stickyHeight, 1),
-          headingTravel: headingHeight * Math.max(headings.length - 1, 0)
+          travel,
+          end: trackRect.top + window.scrollY + travel,
+          headingTravel: Math.max(headingTrack.scrollHeight - headingHeight, 0)
         };
 
-        scheduleUpdate();
+        targetScroll = clamp(window.scrollY, metrics.start, metrics.end);
+        scheduleRender();
       };
 
-      window.addEventListener('scroll', scheduleUpdate, { passive: true, signal });
+      const normalizeWheelDelta = (event) => {
+        if (event.deltaMode === 1) return event.deltaY * 16;
+        if (event.deltaMode === 2) return event.deltaY * window.innerHeight;
+        return event.deltaY;
+      };
+
+      const handleWheel = (event) => {
+        if (
+          !desktopQuery.matches ||
+          reducedMotionQuery.matches ||
+          !metrics ||
+          event.ctrlKey
+        ) {
+          return;
+        }
+
+        const delta = normalizeWheelDelta(event);
+        if (Math.abs(delta) < 0.01) return;
+
+        const scrollTop = window.scrollY;
+        const movingDown = delta > 0;
+        const movingUp = delta < 0;
+        const currentTarget = isSmoothing ? targetScroll : scrollTop;
+        const projectedTarget = currentTarget + delta;
+        const insideRange = scrollTop >= metrics.start - 1 && scrollTop <= metrics.end + 1;
+        const enteringFromTop = movingDown && scrollTop < metrics.start && projectedTarget >= metrics.start;
+        const enteringFromBottom = movingUp && scrollTop > metrics.end && projectedTarget <= metrics.end;
+        const releasingAtBottom =
+          movingDown &&
+          scrollTop >= metrics.end - 1 &&
+          (!isSmoothing || targetScroll >= metrics.end - 0.5);
+        const releasingAtTop =
+          movingUp &&
+          scrollTop <= metrics.start + 1 &&
+          (!isSmoothing || targetScroll <= metrics.start + 0.5);
+
+        if (releasingAtBottom || releasingAtTop) {
+          stopSmoothing();
+          return;
+        }
+
+        if (!insideRange && !enteringFromTop && !enteringFromBottom) return;
+
+        event.preventDefault();
+        targetScroll = clamp(projectedTarget, metrics.start, metrics.end);
+        isSmoothing = true;
+        document.documentElement.classList.add(smoothingClass);
+        scheduleRender();
+      };
+
+      window.addEventListener('wheel', handleWheel, { passive: false, signal });
+      window.addEventListener('scroll', () => {
+        if (!isSmoothing) targetScroll = window.scrollY;
+        scheduleRender();
+      }, { passive: true, signal });
       window.addEventListener('resize', measure, { passive: true, signal });
       desktopQuery.addEventListener('change', measure, { signal });
-      reducedMotionQuery.addEventListener('change', scheduleUpdate, { signal });
+      reducedMotionQuery.addEventListener('change', () => {
+        stopSmoothing();
+        scheduleRender();
+      }, { signal });
 
       if ('ResizeObserver' in window) {
         resizeObserver = new ResizeObserver(measure);
@@ -764,19 +902,43 @@
       }
 
       document.addEventListener('shopify:block:select', (event) => {
-        if (event.target instanceof Element && section.contains(event.target)) measure();
+        if (!(event.target instanceof Element) || !section.contains(event.target)) return;
+
+        measure();
+
+        const selectedHeading = event.target.closest('[data-scrolling-heading]');
+        const selectedCard = event.target.closest('[data-scrolling-card]');
+        let selectedIndex = -1;
+        let itemCount = 1;
+
+        if (selectedHeading) {
+          selectedIndex = headings.indexOf(selectedHeading);
+          itemCount = headings.length;
+        } else if (selectedCard) {
+          const cards = Array.from(section.querySelectorAll('[data-scrolling-card]'));
+          selectedIndex = Math.floor(cards.indexOf(selectedCard) / 2);
+          itemCount = Math.ceil(cards.length / 2);
+        }
+
+        if (selectedIndex < 0 || !metrics || !desktopQuery.matches) return;
+
+        const selectedProgress = selectedIndex / Math.max(itemCount - 1, 1);
+        window.scrollTo(0, metrics.start + metrics.travel * selectedProgress);
+        scheduleRender();
       }, { signal });
 
       document.addEventListener('shopify:section:unload', (event) => {
         if (event.target instanceof Element && event.target.contains(section)) {
           resizeObserver?.disconnect();
           if (animationFrame) window.cancelAnimationFrame(animationFrame);
+          stopSmoothing();
           controller.abort();
           section.dataset.scrollingCardsInitialized = 'false';
         }
       }, { signal });
 
       measure();
+      document.fonts?.ready.then(measure);
     };
 
     const initializeWithin = (root) => {
@@ -912,7 +1074,7 @@
             {
               "type": "product-overlay-card",
               "settings": {
-                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "product_aspect_ratio": "1 / 1",
                 "color_scheme": "scheme-2",
@@ -932,7 +1094,7 @@
             {
               "type": "product-overlay-card",
               "settings": {
-                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "product_aspect_ratio": "1 / 1",
                 "color_scheme": "scheme-2",
@@ -952,7 +1114,7 @@
             {
               "type": "product-overlay-card",
               "settings": {
-                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "product_aspect_ratio": "1 / 1",
                 "color_scheme": "scheme-2",

@@ -397,7 +397,7 @@
               "type": "product-overlay-card",
               "settings": {
                 "product_aspect_ratio": "1 / 1",
-                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "color_scheme": "scheme-2",
                 "corner_radius": 20,
@@ -421,7 +421,7 @@
               "type": "product-overlay-card",
               "settings": {
                 "product_aspect_ratio": "1 / 1",
-                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "color_scheme": "scheme-2",
                 "corner_radius": 20,
@@ -445,7 +445,7 @@
               "type": "product-overlay-card",
               "settings": {
                 "product_aspect_ratio": "1 / 1",
-                "aspect_ratio": "portrait-3-5",
+                "aspect_ratio": "portrait-3-4",
                 "aspect_ratio_mobile": "portrait-3-4",
                 "color_scheme": "scheme-2",
                 "corner_radius": 20,

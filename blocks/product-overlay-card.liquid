@@ -72,20 +72,23 @@
   assign banner_alt = banner_image.alt | default: product_title
 %}
 
-<article
-  class="pebble-product-overlay-card color-{{ card_scheme.id }}"
+<div
+  class="pebble-scrolling-cards__card-cell"
   data-scrolling-card
-  style="
-    --card-ratio: {{ desktop_ratio }};
-    --card-ratio-mobile: {{ mobile_ratio }};
-    --card-radius: {{ block.settings.corner_radius }}px;
-    --card-text: {{ card_scheme.settings.text }};
-    --card-button: {{ card_scheme.settings.button }};
-    --card-button-label: {{ card_scheme.settings.button_label }};
-    --product-ratio: {{ block.settings.product_aspect_ratio }};
-  "
   {{ block.shopify_attributes }}
 >
+  <article
+    class="pebble-product-overlay-card color-{{ card_scheme.id }}"
+    style="
+      --card-ratio: {{ desktop_ratio }};
+      --card-ratio-mobile: {{ mobile_ratio }};
+      --card-radius: {{ block.settings.corner_radius }}px;
+      --card-text: {{ card_scheme.settings.text }};
+      --card-button: {{ card_scheme.settings.button }};
+      --card-button-label: {{ card_scheme.settings.button_label }};
+      --product-ratio: {{ block.settings.product_aspect_ratio }};
+    "
+  >
   <a
     class="pebble-product-overlay-card__media"
     href="{{ product_url }}"
@@ -149,7 +152,8 @@
       {{ 'sections.scrolling_cards.shop' | t }}
     </a>
   </div>
-</article>
+  </article>
+</div>
 
 {% schema %}
 {
