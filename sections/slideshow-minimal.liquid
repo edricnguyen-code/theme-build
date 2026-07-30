@@ -131,7 +131,14 @@
       position: absolute;
       top: 1.875rem;
       transform: translateX(-50%);
+      transition:
+        left 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        padding 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        top 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        width 420ms cubic-bezier(0.22, 1, 0.36, 1);
       width: min(calc(100% - 2rem), 90rem);
+      will-change: left, transform, width;
       z-index: 20;
     }
 
@@ -146,7 +153,7 @@
     body:has(#MainContent > #shopify-section-{{ section.id }}:first-child .pebble-slider--header-overlay) .site-header.site-header--sticky.site-header--overlay.is-scrolled {
       background: transparent;
       left: 0;
-      padding: clamp(0.5rem, 1vw, 0.75rem) 0;
+      padding: 0;
       position: fixed;
       right: 0;
       top: 0;
