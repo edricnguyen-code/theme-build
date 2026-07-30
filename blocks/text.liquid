@@ -10,6 +10,10 @@
   if text_weight == 'inherit'
     assign text_weight = 'var(--pebble-heading-weight, 700)'
   endif
+
+  assign text_fluid_delta = block.settings.font_size | minus: block.settings.font_size_mobile
+  assign text_fluid_slope = text_fluid_delta | times: 100.0 | divided_by: 1152.0
+  assign text_fluid_intercept = block.settings.font_size_mobile | minus: text_fluid_slope | times: 7.68
 %}
 
 <div
@@ -28,6 +32,7 @@
   style="
     --text-size: {{ block.settings.font_size }}px;
     --text-size-mobile: {{ block.settings.font_size_mobile }}px;
+    --text-size-fluid: clamp({{ block.settings.font_size_mobile }}px, calc({{ text_fluid_intercept }}px + {{ text_fluid_slope }}vw), {{ block.settings.font_size }}px);
     --text-weight: {{ text_weight }};
     --text-line-height: {{ text_line_height }};
     --text-max-width: {{ block.settings.max_width }}ch;
