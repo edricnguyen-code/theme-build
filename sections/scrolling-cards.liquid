@@ -515,18 +515,36 @@
   .pebble-product-overlay-card__shop {
     align-items: center;
     background: var(--card-button, #ffffff);
-    border-radius: 3rem;
+    border-radius: 3.75rem;
     color: var(--card-button-label, #111111);
     display: none;
     flex: 0 0 auto;
     font-family: 'Bricolage Grotesque', Arial, sans-serif;
     font-size: 0.9375rem;
     font-weight: 700;
+    isolation: isolate;
     justify-content: center;
+    line-height: 1.5rem;
     min-height: 2.75rem;
-    padding-inline: 1.375rem;
+    overflow: hidden;
+    padding-inline: 1.25rem;
+    position: relative;
     text-decoration: none;
-    transition: opacity 220ms ease, transform 220ms ease;
+    transition: color 300ms ease-in-out;
+    z-index: 0;
+  }
+
+  .pebble-product-overlay-card__shop::before {
+    background: var(--card-button-label, #111111);
+    border-radius: inherit;
+    bottom: -1px;
+    content: '';
+    left: -1px;
+    position: absolute;
+    top: -1px;
+    transition: width 300ms ease-in-out;
+    width: 0;
+    z-index: -1;
   }
 
   @container (min-width: 301px) {
@@ -555,8 +573,12 @@
 
     .pebble-product-overlay-card__shop:hover,
     .pebble-product-overlay-card__shop:focus-visible {
-      opacity: 0.86;
-      transform: translateY(-1px);
+      color: var(--card-button, #ffffff);
+    }
+
+    .pebble-product-overlay-card__shop:hover::before,
+    .pebble-product-overlay-card__shop:focus-visible::before {
+      width: calc(100% + 2px);
     }
 
     .pebble-scrolling-cards .pebble-button:hover .pebble-button__hover,
@@ -565,18 +587,38 @@
     }
   }
 
-  @media screen and (min-width: 768px) and (max-width: 1023.98px) {
+  @media screen and (min-width: 768px) {
+    .pebble-scrolling-cards__content-inner > .pebble-subheading {
+      font-size: 0.9375rem;
+      line-height: 1.5rem;
+      margin-bottom: 0;
+      padding-bottom: 1.25rem;
+    }
+
+    .pebble-scrolling-cards__content-inner > .pebble-text {
+      margin-top: 1.5rem;
+      max-width: min(var(--text-max-width, 42ch), 19.5rem);
+    }
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1199.98px) {
     .pebble-scrolling-cards__page {
-      width: calc(100% - 48px);
+      width: calc(100% - 2rem);
     }
 
     .pebble-scrolling-cards__cards,
     .pebble-scrolling-cards__content {
-      column-gap: 30px;
+      column-gap: 50px;
     }
 
     .pebble-scrolling-cards__card-cell:nth-child(even) {
-      padding-top: 80px;
+      padding-top: 140px;
+    }
+  }
+
+  @media screen and (min-width: 1440px) {
+    .pebble-scrolling-cards__page {
+      width: min(calc(100% - 16.875rem), 90rem);
     }
   }
 
