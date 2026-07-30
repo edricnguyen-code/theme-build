@@ -779,7 +779,7 @@
         if (isSmoothing) {
           const distance = targetScroll - window.scrollY;
 
-          if (Math.abs(distance) <= 0.5) {
+          if (Math.abs(distance) <= 1) {
             window.scrollTo(0, targetScroll);
             stopSmoothing();
           } else {
