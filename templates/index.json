@@ -1,25 +1,22 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "slideshow_minimal": {
       "type": "slideshow-minimal",
-      "settings": {
-        "container": "full",
-        "height": "adapt",
-        "content_position": "inside",
-        "enable_header_overlay": true,
-        "next_section_overlap": true,
-        "auto_rotate": true,
-        "change_slides_every": 5,
-        "control_type": "default",
-        "control_alignment": "right",
-        "padding_top": 0,
-        "enable_animations": true,
-        "custom_css": ""
-      },
       "blocks": {
         "image_slide_1": {
           "type": "image-slide",
           "settings": {
+            "image": "shopify://shop_images/slide-1-v2.webp",
+            "image_mobile": "shopify://shop_images/slide-1-v2--mb.webp",
             "default_media": "pebble-1",
             "media_overlay": true,
             "overlay_color": "#000000",
@@ -55,6 +52,11 @@
                     "text": "<p>New Campaign</p>",
                     "highlight_style": "none",
                     "preset": "subheading",
+                    "font_family": "heading",
+                    "font_weight": "inherit",
+                    "font_size": 68,
+                    "font_size_mobile": 38,
+                    "line_height": "loose",
                     "color": "text",
                     "disable_line_break_mobile": false,
                     "width": "fit",
@@ -67,7 +69,8 @@
                     "mobile_scale": 100,
                     "animation": "fade-up",
                     "animation_delay": 50
-                  }
+                  },
+                  "blocks": {}
                 },
                 "display_1": {
                   "type": "text",
@@ -92,12 +95,14 @@
                     "mobile_scale": 75,
                     "animation": "fade-up",
                     "animation_delay": 150
-                  }
+                  },
+                  "blocks": {}
                 },
                 "button_1": {
                   "type": "button",
                   "settings": {
                     "label": "Shop Collection",
+                    "link": "",
                     "style": "primary",
                     "size": "large",
                     "icon": "caret-right",
@@ -106,17 +111,26 @@
                     "full_width_mobile": true,
                     "animation": "fade-up",
                     "animation_delay": 250
-                  }
+                  },
+                  "blocks": {}
                 }
               },
-              "block_order": ["eyebrow_1", "display_1", "button_1"]
+              "block_order": [
+                "eyebrow_1",
+                "display_1",
+                "button_1"
+              ]
             }
           },
-          "block_order": ["slide_content_1"]
+          "block_order": [
+            "slide_content_1"
+          ]
         },
         "image_slide_2": {
           "type": "image-slide",
           "settings": {
+            "image": "shopify://shop_images/slide-2-v2.webp",
+            "image_mobile": "shopify://shop_images/slide-2-v2--mb.webp",
             "default_media": "pebble-2",
             "media_overlay": true,
             "overlay_color": "#000000",
@@ -152,6 +166,11 @@
                     "text": "<p>Little Moments</p>",
                     "highlight_style": "none",
                     "preset": "subheading",
+                    "font_family": "heading",
+                    "font_weight": "inherit",
+                    "font_size": 68,
+                    "font_size_mobile": 38,
+                    "line_height": "loose",
                     "color": "text",
                     "disable_line_break_mobile": false,
                     "width": "fit",
@@ -164,7 +183,8 @@
                     "mobile_scale": 100,
                     "animation": "fade-up",
                     "animation_delay": 50
-                  }
+                  },
+                  "blocks": {}
                 },
                 "display_2": {
                   "type": "text",
@@ -189,12 +209,14 @@
                     "mobile_scale": 75,
                     "animation": "fade-up",
                     "animation_delay": 150
-                  }
+                  },
+                  "blocks": {}
                 },
                 "button_2": {
                   "type": "button",
                   "settings": {
                     "label": "Shop Collection",
+                    "link": "",
                     "style": "primary",
                     "size": "large",
                     "icon": "caret-right",
@@ -203,13 +225,20 @@
                     "full_width_mobile": true,
                     "animation": "fade-up",
                     "animation_delay": 250
-                  }
+                  },
+                  "blocks": {}
                 }
               },
-              "block_order": ["eyebrow_2", "display_2", "button_2"]
+              "block_order": [
+                "eyebrow_2",
+                "display_2",
+                "button_2"
+              ]
             }
           },
-          "block_order": ["slide_content_2"]
+          "block_order": [
+            "slide_content_2"
+          ]
         },
         "image_slide_3": {
           "type": "image-slide",
@@ -250,6 +279,11 @@
                     "text": "<p>Chilly Day</p>",
                     "highlight_style": "none",
                     "preset": "subheading",
+                    "font_family": "heading",
+                    "font_weight": "inherit",
+                    "font_size": 68,
+                    "font_size_mobile": 38,
+                    "line_height": "loose",
                     "color": "text",
                     "disable_line_break_mobile": false,
                     "width": "fit",
@@ -262,7 +296,8 @@
                     "mobile_scale": 100,
                     "animation": "fade-up",
                     "animation_delay": 50
-                  }
+                  },
+                  "blocks": {}
                 },
                 "display_3": {
                   "type": "text",
@@ -287,12 +322,14 @@
                     "mobile_scale": 75,
                     "animation": "fade-up",
                     "animation_delay": 150
-                  }
+                  },
+                  "blocks": {}
                 },
                 "button_3": {
                   "type": "button",
                   "settings": {
                     "label": "Shop Collection",
+                    "link": "",
                     "style": "primary",
                     "size": "large",
                     "icon": "caret-right",
@@ -301,17 +338,44 @@
                     "full_width_mobile": true,
                     "animation": "fade-up",
                     "animation_delay": 250
-                  }
+                  },
+                  "blocks": {}
                 }
               },
-              "block_order": ["eyebrow_3", "display_3", "button_3"]
+              "block_order": [
+                "eyebrow_3",
+                "display_3",
+                "button_3"
+              ]
             }
           },
-          "block_order": ["slide_content_3"]
+          "block_order": [
+            "slide_content_3"
+          ]
         }
       },
-      "block_order": ["image_slide_1", "image_slide_2", "image_slide_3"]
+      "block_order": [
+        "image_slide_1",
+        "image_slide_2",
+        "image_slide_3"
+      ],
+      "settings": {
+        "container": "full",
+        "height": "adapt",
+        "content_position": "inside",
+        "enable_header_overlay": true,
+        "next_section_overlap": true,
+        "auto_rotate": true,
+        "change_slides_every": 5,
+        "control_type": "default",
+        "control_alignment": "right",
+        "padding_top": 0,
+        "enable_animations": true,
+        "custom_css": ""
+      }
     }
   },
-  "order": ["slideshow_minimal"]
+  "order": [
+    "slideshow_minimal"
+  ]
 }
