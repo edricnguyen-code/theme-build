@@ -142,6 +142,24 @@
       padding-inline: 1.875rem;
       width: 100%;
     }
+
+    body:has(#MainContent > #shopify-section-{{ section.id }}:first-child .pebble-slider--header-overlay) .site-header.site-header--sticky.site-header--overlay.is-scrolled {
+      background: transparent;
+      left: 0;
+      padding: clamp(0.5rem, 1vw, 0.75rem) 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+      transform: none;
+      width: 100%;
+    }
+
+    body:has(#MainContent > #shopify-section-{{ section.id }}:first-child .pebble-slider--header-overlay) .site-header.site-header--sticky.site-header--overlay.is-scrolled .site-header__inner {
+      margin-inline: auto;
+      min-height: 5rem;
+      padding-inline: clamp(1rem, 2.5vw, 1.875rem);
+      width: 100%;
+    }
   }
 
   #PebbleSlider-{{ section.id }} {
