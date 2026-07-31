@@ -668,7 +668,7 @@
 
         updateScrollMetrics(scrollTop);
 
-        if (scrollTop < stickyThreshold) {
+        if (scrollTop <= stickyThreshold) {
           clearStickyState();
           currentScrollTop = scrollTop;
           return;
