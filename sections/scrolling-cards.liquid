@@ -512,6 +512,13 @@
     white-space: nowrap;
   }
 
+  .pebble-product-overlay-card__title-text {
+    background:
+      linear-gradient(currentColor, currentColor)
+      no-repeat 100% 100% / 0 1px;
+    transition: background-size 350ms cubic-bezier(0.3, 1, 0.3, 1);
+  }
+
   .pebble-product-overlay-card__shop {
     align-items: center;
     background: var(--card-button, #ffffff);
@@ -581,6 +588,12 @@
       width: calc(100% + 2px);
     }
 
+    .pebble-product-overlay-card__title:hover .pebble-product-overlay-card__title-text,
+    .pebble-product-overlay-card__title:focus-visible .pebble-product-overlay-card__title-text {
+      background-position: 0 100%;
+      background-size: 100% 1px;
+    }
+
     .pebble-scrolling-cards .pebble-button:hover .pebble-button__hover,
     .pebble-scrolling-cards .pebble-button:focus-visible .pebble-button__hover {
       clip-path: circle(150% at calc(100% - var(--pebble-icon-radius) - var(--pebble-button-end-padding)) 50%);
@@ -630,38 +643,28 @@
     }
 
     .pebble-scrolling-cards__page {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
+      display: grid;
+      gap: 0;
+      grid-template-columns: minmax(0, 1fr);
       width: 100%;
+    }
+
+    .pebble-scrolling-cards__content-shell,
+    .pebble-scrolling-cards__content,
+    .pebble-scrolling-cards__content-inner {
+      display: contents;
     }
 
     .pebble-scrolling-cards__content-shell {
-      inset: auto;
-      order: 1;
-      padding-inline: 1rem;
       pointer-events: auto;
-      position: static;
-    }
-
-    .pebble-scrolling-cards__content {
-      display: flex;
-      height: auto;
-      justify-content: center;
-      position: static;
-    }
-
-    .pebble-scrolling-cards__content-inner {
-      max-width: 32rem;
-      padding: 0;
-      width: 100%;
     }
 
     .pebble-scrolling-cards__cards {
       display: flex;
       gap: 8px;
+      margin-top: 1.5rem;
       min-height: 0;
-      order: 2;
+      order: 4;
       overflow-x: auto;
       padding-inline: 1rem;
       row-gap: 0;
@@ -686,29 +689,34 @@
     }
 
     .pebble-scrolling-cards__content-inner > .pebble-subheading {
-      margin-bottom: 1rem;
+      justify-self: center;
+      margin-bottom: 1.3125rem;
+      width: calc(100% - 2rem);
     }
 
     .pebble-scrolling-cards__heading-viewport {
-      height: auto !important;
-      overflow: visible;
-    }
-
-    .pebble-scrolling-cards__heading-track {
-      transform: none !important;
+      justify-self: center;
+      overflow: clip;
+      width: calc(100% - 2rem);
     }
 
     .pebble-scrolling-heading {
-      height: auto !important;
       min-height: 0 !important;
     }
 
-    .pebble-scrolling-heading:not(:first-child) {
-      display: none;
+    .pebble-scrolling-cards__content-inner > .pebble-text {
+      justify-self: center;
+      margin-top: 1.25rem;
+      max-width: min(var(--text-max-width, 42ch), calc(100% - 2rem));
+      width: calc(100% - 2rem);
     }
 
-    .pebble-scrolling-cards__content-inner > .pebble-text {
-      margin-top: 1.25rem;
+    .pebble-scrolling-cards .pebble-button {
+      justify-self: stretch;
+      margin: 1.5rem 1rem 0;
+      max-width: none;
+      order: 5;
+      width: auto;
     }
 
     .pebble-product-overlay-card__title,
@@ -759,6 +767,7 @@
       let animationFrame = 0;
       let activeIndex = -1;
       let metrics = null;
+      let mobileMetrics = null;
       let resizeObserver = null;
       let targetScroll = window.scrollY;
       let isSmoothing = false;
@@ -779,15 +788,55 @@
         document.documentElement.classList.remove(smoothingClass);
       };
 
-      const resetMobile = () => {
-        stopSmoothing();
+      const prepareHeadings = () => {
         headingTrack.style.removeProperty('--heading-offset');
         headingViewport.style.removeProperty('height');
         headings.forEach((heading) => heading.style.removeProperty('height'));
-        section.style.setProperty('--scroll-progress', '0');
+
+        const headingHeight = Math.max(
+          ...headings.map((heading) => Math.ceil(heading.getBoundingClientRect().height))
+        );
+
+        headings.forEach((heading) => {
+          heading.style.height = `${headingHeight}px`;
+        });
+        headingViewport.style.height = `${headingHeight}px`;
+
+        return {
+          headingHeight,
+          headingTravel: Math.max(headingTrack.scrollHeight - headingHeight, 0)
+        };
+      };
+
+      const updateMobileHeading = () => {
+        if (desktopQuery.matches || !mobileMetrics) return;
+
+        const scrollTravel = Math.max(track.scrollWidth - track.clientWidth, 0);
+        const progress = scrollTravel > 0
+          ? clamp(Math.abs(track.scrollLeft) / scrollTravel, 0, 1)
+          : 0;
+        const position = progress * (headings.length - 1);
+        const headingIndex = Math.round(position);
+        const visualProgress = reducedMotionQuery.matches
+          ? headingIndex / Math.max(headings.length - 1, 1)
+          : progress;
+        const headingOffset = -(mobileMetrics.headingTravel * visualProgress);
+
+        headingTrack.style.setProperty('--heading-offset', `${headingOffset}px`);
+        section.style.setProperty('--scroll-progress', String(progress));
         section.classList.remove('is-pinned');
-        setActiveHeading(0);
+        setActiveHeading(headingIndex);
+      };
+
+      const measureMobile = () => {
+        stopSmoothing();
+        const headingMetrics = prepareHeadings();
+
+        mobileMetrics = {
+          headingTravel: headingMetrics.headingTravel
+        };
         metrics = null;
+        updateMobileHeading();
       };
 
       const updateHeading = (scrollTop) => {
@@ -813,8 +862,12 @@
       const render = () => {
         animationFrame = 0;
 
-        if (!desktopQuery.matches || !metrics) {
-          resetMobile();
+        if (!desktopQuery.matches) {
+          updateMobileHeading();
+          return;
+        }
+
+        if (!metrics) {
           return;
         }
 
@@ -845,22 +898,13 @@
 
       const measure = () => {
         if (!desktopQuery.matches) {
-          resetMobile();
+          measureMobile();
           return;
         }
 
-        headingTrack.style.setProperty('--heading-offset', '0px');
-        headingViewport.style.removeProperty('height');
-        headings.forEach((heading) => heading.style.removeProperty('height'));
-
-        const headingHeight = Math.max(
-          ...headings.map((heading) => Math.ceil(heading.getBoundingClientRect().height))
-        );
-
-        headings.forEach((heading) => {
-          heading.style.height = `${headingHeight}px`;
-        });
-        headingViewport.style.height = `${headingHeight}px`;
+        mobileMetrics = null;
+        const headingMetrics = prepareHeadings();
+        const headingHeight = headingMetrics.headingHeight;
 
         const header = document.querySelector('[data-site-header] .site-header__inner');
         const headerHeight = header
@@ -875,7 +919,7 @@
           start: trackRect.top + window.scrollY,
           travel,
           end: trackRect.top + window.scrollY + travel,
-          headingTravel: Math.max(headingTrack.scrollHeight - headingHeight, 0)
+          headingTravel: headingMetrics.headingTravel
         };
 
         targetScroll = clamp(window.scrollY, metrics.start, metrics.end);
@@ -936,6 +980,9 @@
       window.addEventListener('scroll', () => {
         if (!isSmoothing) targetScroll = window.scrollY;
         scheduleRender();
+      }, { passive: true, signal });
+      track.addEventListener('scroll', () => {
+        if (!desktopQuery.matches) scheduleRender();
       }, { passive: true, signal });
       window.addEventListener('resize', measure, { passive: true, signal });
       desktopQuery.addEventListener('change', measure, { signal });
