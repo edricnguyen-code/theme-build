@@ -1,11 +1,16 @@
 {% liquid
   assign menu_links = section.settings.menu.links
+  assign sticky_type = section.settings.sticky_type | default: 'on-scroll-up'
   if menu_links == blank
     assign menu_links = linklists.main-menu.links
   endif
 %}
 
-<header class="site-header{% if section.settings.enable_sticky_header %} site-header--sticky{% endif %}" data-site-header="{{ section.id }}">
+<header
+  class="site-header{% unless sticky_type == 'none' %} site-header--sticky{% endunless %}"
+  data-site-header="{{ section.id }}"
+  data-sticky-type="{{ sticky_type }}"
+>
   <div class="site-header__inner">
     <button
       class="site-header__icon-button site-header__menu-toggle"
@@ -129,7 +134,16 @@
   }
 
   .site-header--sticky {
+    --header-sticky-translate-y: 0%;
     position: relative;
+    transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .site-header--sticky.is-scrolled.is-hidden {
+    --header-sticky-translate-y: -100%;
+    pointer-events: none;
+    transform: translateY(var(--header-sticky-translate-y));
+    will-change: transform;
   }
 
   .site-header--sticky .site-header__inner {
@@ -606,8 +620,15 @@
       header.dataset.initialized = 'true';
       const controller = new AbortController();
       const signal = controller.signal;
+      const stickyType = header.dataset.stickyType || 'on-scroll-up';
+      const stickyEnabled = stickyType !== 'none';
+      const stickyHideDistance = 200;
+      const stickyNearDistance = 100;
       let stickyThreshold = 8;
       let overlayStickyThreshold = null;
+      let currentScrollTop = window.scrollY;
+      let scrollDirection = 'none';
+      let scrollDistance = 0;
 
       const setMenuState = (isOpen) => {
         menu.classList.toggle('is-open', isOpen);
@@ -615,9 +636,61 @@
         document.body.classList.toggle('site-header-menu-open', isOpen);
       };
 
+      const setPinnedState = (isPinned) => {
+        header.classList.toggle('is-pinned', isPinned);
+        header.classList.toggle('is-hidden', header.classList.contains('is-scrolled') && !isPinned);
+      };
+
+      const clearStickyState = () => {
+        header.classList.remove('is-scrolled', 'is-pinned', 'is-hidden');
+      };
+
+      const updateScrollMetrics = (scrollTop) => {
+        if (scrollTop === currentScrollTop) return;
+
+        const nextDirection = scrollTop > currentScrollTop ? 'down' : 'up';
+        if (nextDirection !== scrollDirection) {
+          scrollDirection = nextDirection;
+          scrollDistance = 0;
+        } else {
+          scrollDistance += Math.abs(scrollTop - currentScrollTop);
+        }
+      };
+
       const updateScrollState = () => {
-        if (!header.classList.contains('site-header--sticky')) return;
-        header.classList.toggle('is-scrolled', window.scrollY >= stickyThreshold);
+        const scrollTop = window.scrollY;
+
+        if (!stickyEnabled || !header.classList.contains('site-header--sticky')) {
+          clearStickyState();
+          currentScrollTop = scrollTop;
+          return;
+        }
+
+        updateScrollMetrics(scrollTop);
+
+        if (scrollTop < stickyThreshold) {
+          clearStickyState();
+          currentScrollTop = scrollTop;
+          return;
+        }
+
+        header.classList.add('is-scrolled');
+
+        if (stickyType === 'always') {
+          setPinnedState(true);
+        } else {
+          setPinnedState(header.classList.contains('is-pinned'));
+          const isScrollingUp = scrollDirection === 'up';
+          const isNearHeader = scrollTop < stickyThreshold + header.offsetHeight + stickyNearDistance;
+
+          if (isScrollingUp || isNearHeader) {
+            setPinnedState(true);
+          } else if (scrollDistance >= stickyHideDistance) {
+            setPinnedState(false);
+          }
+        }
+
+        currentScrollTop = scrollTop;
       };
 
       const detectOverlayHeader = () => {
@@ -638,7 +711,7 @@
         header.classList.toggle('site-header--overlay', Boolean(overlayHero));
         wrapper?.classList.toggle(
           'site-header-wrapper--sticky',
-          header.classList.contains('site-header--sticky') && !desktopOverlay
+          stickyEnabled && header.classList.contains('site-header--sticky') && !desktopOverlay
         );
         updateScrollState();
       };
@@ -710,10 +783,24 @@
   "name": "Header",
   "settings": [
     {
-      "type": "checkbox",
-      "id": "enable_sticky_header",
-      "label": "Enable sticky header",
-      "default": true
+      "type": "select",
+      "id": "sticky_type",
+      "label": "Header sticky",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "always",
+          "label": "Always"
+        },
+        {
+          "value": "on-scroll-up",
+          "label": "On scroll up"
+        }
+      ],
+      "default": "on-scroll-up"
     },
     {
       "type": "image_picker",
