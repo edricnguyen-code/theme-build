@@ -1,6 +1,6 @@
 {% liquid
   assign menu_links = section.settings.menu.links
-  assign sticky_type = section.settings.sticky_type | default: 'on-scroll-up'
+  assign sticky_type = section.settings.sticky_type | default: 'always'
   if menu_links == blank
     assign menu_links = linklists.main-menu.links
   endif
@@ -620,7 +620,7 @@
       header.dataset.initialized = 'true';
       const controller = new AbortController();
       const signal = controller.signal;
-      const stickyType = header.dataset.stickyType || 'on-scroll-up';
+      const stickyType = header.dataset.stickyType || 'always';
       const stickyEnabled = stickyType !== 'none';
       const stickyHideDistance = 200;
       const stickyNearDistance = 100;
@@ -800,7 +800,7 @@
           "label": "On scroll up"
         }
       ],
-      "default": "on-scroll-up"
+      "default": "always"
     },
     {
       "type": "image_picker",

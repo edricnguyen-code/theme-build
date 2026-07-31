@@ -14,7 +14,7 @@
     "header": {
       "type": "header",
       "settings": {
-        "sticky_type": "on-scroll-up",
+        "sticky_type": "always",
         "menu": "pebble-demo"
       }
     }
